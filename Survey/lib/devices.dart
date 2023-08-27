@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:survey/widgets/customtextfield.dart';
-import 'package:survey/sight.dart';
 
 class Devices extends StatefulWidget {
   const Devices({super.key});
@@ -80,13 +79,15 @@ class DevicesState extends State<Devices>
 
   sublistlength()
   {
+    int count=0;
     for(int i =0;i<deviceList.length;)
       {
-        if(deviceList[i]['sight'] == 1)
+        if(deviceList[i]['sight'] == (i+1))
           {
-
+            count++;
           }
       }
+
 
   }
 
@@ -273,7 +274,7 @@ class DevicesState extends State<Devices>
                   )),
               // margin: const EdgeInsets.only(bottom: 200),
               child: Text(
-                "$index",
+                "${index+2}",
                 style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

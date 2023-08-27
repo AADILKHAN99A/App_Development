@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/cstmr.dart';
 import 'package:survey/devices.dart';
-import 'package:survey/info.dart';
 
 class Sight extends StatefulWidget {
   const Sight({super.key});
@@ -43,6 +42,40 @@ class SightState extends State<Sight>
   buttoncall(int index) {
     if (index == 0) {
       setState(() {
+        DevicesState.deviceList.addAll([
+          {
+            "sight": sights.length,
+            "label": "Panel information",
+            "type": "panel",
+            "image": "",
+            "information": "",
+            "checked": false
+          },
+          {
+            "sight": sights.length + 1,
+            "label": "AC",
+            "type": "panel",
+            "image": "",
+            "information": "",
+            "checked": false
+          },
+          {
+            "sight": sights.length + 1,
+            "label": "Heater information",
+            "type": "panel",
+            "image": "",
+            "information": "",
+            "checked": false
+          },
+          {
+            "sight": sights.length + 1,
+            "label": "PowerX setup",
+            "type": "panel",
+            "image": "",
+            "information": "",
+            "checked": false
+          }
+        ]);
         sights.insert(sights.length, {
           "label": "${sights.length + 1}",
           "name": "",
@@ -51,58 +84,14 @@ class SightState extends State<Sight>
           "phone": "",
           "copy": false
         });
-        devicesightadder(DevicesState.deviceList);
         print("widget Added $sights");
       });
     } else {
       setState(() {
         sights.removeAt(index);
-        devicesightremover(DevicesState.deviceList);
         print("widget removed $sights");
       });
     }
-  }
-
-  devicesightadder(List temp) {
-   List templist =[
-     {
-       "sight": sights.length,
-       "label": "Panel information",
-       "type": "panel",
-       "image": "",
-       "information": "",
-       "checked": false
-     },
-     {
-       "sight": sights.length,
-       "label": "AC",
-       "type": "panel",
-       "image": "",
-       "information": "",
-       "checked": false
-     },
-     {
-       "sight": sights.length,
-       "label": "Heater information",
-       "type": "panel",
-       "image": "",
-       "information": "",
-       "checked": false
-     },
-     {
-       "sight": sights.length,
-       "label": "PowerX setup",
-       "type": "panel",
-       "image": "",
-       "information": "",
-       "checked": false
-     },
-   ];
-    DevicesState.deviceList = temp+templist;
-  }
-  devicesightremover(List temp)
-  {
-
   }
 
   @override
