@@ -1,0 +1,29 @@
+Container(
+          margin: EdgeInsets.all(10),
+          width: 400,
+          height: 400,
+          color: Colors.grey,
+          child: Column(
+            children: [
+              Container(
+                  margin: EdgeInsets.only(left: 5),
+                  width: 400,
+                  height: 200,
+                  color: Colors.blue,
+                  child: Image.asset('assets/images/android.png')),
+              Container(
+                width: 200,
+                height: 200,
+                color: Colors.amber,
+                child: Column(
+                  children: [
+                    Container(),
+                    Container(),
+                    Container(),
+                    Container()
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
