@@ -6,23 +6,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:survey/widgets/customtextfield.dart';
+import 'package:survey/sight.dart';
 
 class Devices extends StatefulWidget {
   const Devices({super.key});
 
   @override
-  State<Devices> createState() => devices();
+  State<Devices> createState() => DevicesState();
 }
 
-class devices extends State<Devices>
+class DevicesState extends State<Devices>
     with AutomaticKeepAliveClientMixin<Devices> {
 //...........................Controller & Functions......................
 
   @override
   bool get wantKeepAlive => true;
 
-  List deviceList = [
+  static List deviceList = [
     {
+      "sight": 1,
       "label": "Panel information",
       "type": "panel",
       "image": "",
@@ -30,6 +32,7 @@ class devices extends State<Devices>
       "checked": false
     },
     {
+      "sight": 1,
       "label": "AC",
       "type": "panel",
       "image": "",
@@ -37,6 +40,7 @@ class devices extends State<Devices>
       "checked": false
     },
     {
+      "sight": 1,
       "label": "Heater information",
       "type": "panel",
       "image": "",
@@ -44,6 +48,7 @@ class devices extends State<Devices>
       "checked": false
     },
     {
+      "sight": 1,
       "label": "PowerX setup",
       "type": "panel",
       "image": "",
@@ -52,10 +57,11 @@ class devices extends State<Devices>
     },
   ];
 
-  callback(index, panelName) {
+  callback(index, panelName, sightnumber) {
     if (deviceList[index]['type'] == "panel") {
       setState(() {
         deviceList.insert(index + 1, {
+          "sight": sightnumber,
           "label": panelName,
           "type": "temppanel",
           "image": "",
@@ -70,6 +76,18 @@ class devices extends State<Devices>
         print("Widget Removed $deviceList");
       });
     }
+  }
+
+  sublistlength()
+  {
+    for(int i =0;i<deviceList.length;)
+      {
+        if(deviceList[i]['sight'] == 1)
+          {
+
+          }
+      }
+
   }
 
   File? image;
@@ -90,151 +108,179 @@ class devices extends State<Devices>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: deviceList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                      height: 35,
-                      margin: const EdgeInsets.only(left: 20),
-                      alignment: Alignment.center,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width: 38,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, right: 15),
-                                    child: Checkbox(
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          color: Colors.grey,
+    return ListView.separated(
+        itemCount: deviceList.length ~/ 4,
+        itemBuilder: (BuildContext context, int index) {
+          return SingleChildScrollView(
+            child: ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: deviceList.length,
+              itemBuilder: (BuildContext context, int subindex) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                        height: 35,
+                        margin: const EdgeInsets.only(left: 20),
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Stack(
+                                children: [
+                                  SizedBox(
+                                    width: 38,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5, right: 15),
+                                      child: Checkbox(
+                                        shape: RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                            color: Colors.grey,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(3),
                                         ),
-                                        borderRadius: BorderRadius.circular(3),
+                                        value: deviceList[subindex]["checked"],
+                                        onChanged: (value) {
+                                          setState(() {
+                                            deviceList[subindex]["checked"] =
+                                                value;
+                                          });
+                                        },
+                                        activeColor: Colors.black,
                                       ),
-                                      value: deviceList[index]["checked"],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          deviceList[index]["checked"] = value;
-                                        });
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 35,
+                                    top: 5,
+                                    child: Text(
+                                      deviceList[subindex]["label"],
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black
+                                              .withOpacity(0.6000000238418579)),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 20,
+                                    top: 5,
+                                    child: InkWell(
+                                      onTap: () {
+                                        callback(
+                                            subindex,
+                                            deviceList[subindex]['label'],
+                                            deviceList[subindex]['sight']);
                                       },
-                                      activeColor: Colors.black,
+                                      child: Row(
+                                        children: [
+                                          deviceList[subindex]['type'] == "panel"
+                                              ? const Icon(
+                                                  Icons.add,
+                                                  color: Color(0x991D19DA),
+                                                  size: 17,
+                                                )
+                                              : const Icon(Icons.remove,
+                                                  color: Color(0x991D19DA),
+                                                  size: 17),
+                                          Text(
+                                              deviceList[subindex]['type'] ==
+                                                      "panel"
+                                                  ? "Add"
+                                                  : "",
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
+                                                  color:
+                                                      const Color(0x991D19DA)))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 35,
-                                  top: 5,
-                                  child: Text(
-                                    deviceList[index]["label"],
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black
-                                            .withOpacity(0.6000000238418579)),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 20,
-                                  top: 5,
-                                  child: InkWell(
-                                    onTap: () {
-                                      callback(
-                                          index, deviceList[index]['label']);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        deviceList[index]['type'] == "panel"
-                                            ? const Icon(
-                                                Icons.add,
-                                                color: Color(0x991D19DA),
-                                                size: 17,
-                                              )
-                                            : const Icon(Icons.remove,
-                                                color: Color(0x991D19DA),
-                                                size: 17),
-                                        Text(
-                                            deviceList[index]['type'] == "panel"
-                                                ? "Add"
-                                                : "",
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w400,
-                                                color: const Color(0x991D19DA)))
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      )),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.only(
-                                top: 3, left: 55, right: 7),
-                            height: 45,
-                            decoration: ShapeDecoration(
-                                color: Colors.black
+                          ],
+                        )),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                              margin: const EdgeInsets.only(
+                                  top: 3, left: 55, right: 7),
+                              height: 45,
+                              decoration: ShapeDecoration(
+                                  color: Colors.black
+                                      .withOpacity(0.05000000074505806),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                              child: CustomTextField(
+                                  onChange: (value) {
+                                    setState(() {
+                                      deviceList[subindex]["information"] = value;
+                                    });
+                                    log("Value: ${deviceList.toString()}");
+                                  },
+                                  enable: deviceList[subindex]["checked"],
+                                  hintText: "information")),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 20),
+                          width: 45,
+                          height: 45,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(10),
+                                elevation: 0,
+                                backgroundColor: Colors.black
                                     .withOpacity(0.05000000074505806),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
-                            child: CustomTextField(
-                                onChange: (value) {
-                                  setState(() {
-                                    deviceList[index]["information"] = value;
-                                  });
-                                  log("Value: ${deviceList.toString()}");
-                                },
-                                enable: deviceList[index]["checked"],
-                                hintText: "information")),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 20),
-                        width: 45,
-                        height: 45,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(10),
-                              elevation: 0,
-                              backgroundColor:
-                                  Colors.black.withOpacity(0.05000000074505806),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),
-                            onPressed: () => pickImage(index),
-                            child: deviceList[index]['image'] != ""
-                                ? Image.file(File(deviceList[index]['image']))
-                                : SvgPicture.asset('assets/icons/camera.svg')),
-                      )
-                    ],
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(
-                height: 10,
-                width: 8,
-              );
-            },
-          ),
-        ],
-      ),
-    );
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                              onPressed: () => pickImage(subindex),
+                              child: deviceList[subindex]['image'] != ""
+                                  ? Image.file(File(deviceList[subindex]['image']))
+                                  : SvgPicture.asset(
+                                      'assets/icons/camera.svg')),
+                        )
+                      ],
+                    ),
+                  ],
+                );
+              },
+              separatorBuilder: (BuildContext context, int subindex) {
+                return const SizedBox(
+                  height: 10,
+                  width: 8,
+                );
+              },
+            ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Center(
+            child: Container(
+              alignment: Alignment.center,
+              width: 30,
+              decoration: ShapeDecoration(
+                  color: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+              // margin: const EdgeInsets.only(bottom: 200),
+              child: Text(
+                "$index",
+                style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+            ),
+          );
+        });
   }
 }

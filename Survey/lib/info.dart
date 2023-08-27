@@ -50,9 +50,6 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     });
   }
 
-
-
-
   onTap() {
     if (tabdisable[tabController!.index]) {
       int index = tabController!.previousIndex;
@@ -181,8 +178,8 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                         controller: tabController,
                         children: [
                           Form(key: _custformkey, child: const Customer()),
-                          Form(key: sghtformkey, child: const Sight()),
-                          const Devices()
+                          Form(key: sghtformkey, child: Sight()),
+                          Devices()
                         ]),
                   ),
                   Container(
@@ -200,20 +197,22 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                   });
                                   tabController
                                       ?.animateTo(tabController!.index);
-                                  print("Current tab index : ${tabController!.index}");
+                                  print(
+                                      "Current tab index : ${tabController!.index}");
                                 }
                               }
                               break;
                             case 1:
                               {
-                                if (sight.validate()) {
+                                if (trysubmit(temp: sghtformkey)) {
                                   setState(() {
                                     tabController!.index = 2;
                                     tabdisable[tabController!.index] = false;
                                   });
                                   tabController
                                       ?.animateTo(tabController!.index);
-                                  print("Current tab index : ${tabController!.index}");
+                                  print(
+                                      "Current tab index : ${tabController!.index}");
                                   butStatus = 'Submit';
                                 }
                               }

@@ -14,7 +14,6 @@ class Sight extends StatefulWidget {
 class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
   //......................Variable and Key Declaration................
 
-  sight? stateObject = context.
 
   static bool validation = false;
 
@@ -39,37 +38,8 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
   }
 
 
-  errorgen(int i)
-  {
-    setState(() {
-      sights[i]['name'] =="" ? validation = true : validation = false;
-    });
 
-  }
-  static validate() {
-    for (int i = 0; i < sights.length; i++) {
-      if (sights[i]['name'] == "" ||
-          sights[i]['address'] == "" ||
-          sights[i]['email'] == "" ||
-          sights[i]['phone'] == "") {
-        print("error");
 
-        if (sights[i]['name']=="") {
-          ;
-        }
-
-        // if (sights[i]['address']) {}
-        //
-        // if (sights[i]['email']) {}
-        //
-        // if (sights[i]['phone']) {}
-
-        return false;
-      }
-    }
-    print("$sights");
-    return true;
-  }
 
   buttoncall(int index) {
     if (index == 0) {

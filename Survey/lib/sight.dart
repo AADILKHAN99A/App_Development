@@ -1,33 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/cstmr.dart';
+import 'package:survey/devices.dart';
+import 'package:survey/info.dart';
 
 class Sight extends StatefulWidget {
   const Sight({super.key});
 
   @override
-  State<Sight> createState() => sight();
+  State<Sight> createState() => SightState();
 }
 
-class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
+class SightState extends State<Sight>
+    with AutomaticKeepAliveClientMixin<Sight> {
   //......................Variable and Key Declaration................
+
+  static late int len;
+
   List sights = [
-    {"lable": "Sight1", "name": "", "address": "", "email": "", "phone": "","copy":false}
+    {
+      "label": "1",
+      "name": "",
+      "address": "",
+      "email": "",
+      "phone": "",
+      "copy": false,
+    }
   ];
-  String sightName = '';
-  String sightAddress = '';
-  String sightEmail = '';
-  String sightNumber = '';
-  List<bool> chkboxvaluelist = [true];
-  List<TextEditingController> namecontrollerlist = [TextEditingController()];
-  List<TextEditingController> addcontrollerlist = [TextEditingController()];
-  List<TextEditingController> emailcontrollerlist = [TextEditingController()];
-  List<TextEditingController> phonecontrollerlist = [TextEditingController()];
+  TextEditingController namecontroller = TextEditingController();
+  TextEditingController addcontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController phonecontroller = TextEditingController();
 
   //.....................FUNCTIONS.........................................
   @override
   bool get wantKeepAlive => true;
-
   ScrollController scrollController = ScrollController();
   scrollToBottom() {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
@@ -36,33 +43,66 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
   buttoncall(int index) {
     if (index == 0) {
       setState(() {
-        namecontrollerlist.add(TextEditingController());
-        addcontrollerlist.add(TextEditingController());
-        emailcontrollerlist.add(TextEditingController());
-        phonecontrollerlist.add(TextEditingController());
-        chkboxvaluelist.add(true);
+        sights.insert(sights.length, {
+          "label": "${sights.length + 1}",
+          "name": "",
+          "address": "",
+          "email": "",
+          "phone": "",
+          "copy": false
+        });
+        devicesightadder(DevicesState.deviceList);
+        print("widget Added $sights");
       });
     } else {
       setState(() {
-        namecontrollerlist[index].clear();
-        namecontrollerlist[index].dispose();
-        namecontrollerlist.removeAt(index);
-
-        addcontrollerlist[index].clear();
-        addcontrollerlist[index].dispose();
-        addcontrollerlist.removeAt(index);
-
-        emailcontrollerlist[index].clear();
-        emailcontrollerlist[index].dispose();
-        emailcontrollerlist.removeAt(index);
-
-        phonecontrollerlist[index].clear();
-        phonecontrollerlist[index].dispose();
-        phonecontrollerlist.removeAt(index);
-
-        chkboxvaluelist.removeAt(index);
+        sights.removeAt(index);
+        devicesightremover(DevicesState.deviceList);
+        print("widget removed $sights");
       });
     }
+  }
+
+  devicesightadder(List temp) {
+   List templist =[
+     {
+       "sight": sights.length,
+       "label": "Panel information",
+       "type": "panel",
+       "image": "",
+       "information": "",
+       "checked": false
+     },
+     {
+       "sight": sights.length,
+       "label": "AC",
+       "type": "panel",
+       "image": "",
+       "information": "",
+       "checked": false
+     },
+     {
+       "sight": sights.length,
+       "label": "Heater information",
+       "type": "panel",
+       "image": "",
+       "information": "",
+       "checked": false
+     },
+     {
+       "sight": sights.length,
+       "label": "PowerX setup",
+       "type": "panel",
+       "image": "",
+       "information": "",
+       "checked": false
+     },
+   ];
+    DevicesState.deviceList = temp+templist;
+  }
+  devicesightremover(List temp)
+  {
+
   }
 
   @override
@@ -75,17 +115,36 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
         separatorBuilder: (BuildContext context, int index) {
           return const SizedBox(
             height: 10,
-            width: 10,
           );
         },
-        itemCount: namecontrollerlist.length,
+        itemCount: sights.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 30,
+                  decoration: ShapeDecoration(
+                      color: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                  // margin: const EdgeInsets.only(bottom: 200),
+                  child: Text(
+                    sights[index]['label'],
+                    style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
               Container(
                   margin: const EdgeInsets.only(top: 15, right: 21, left: 280),
                   height: 35,
+                  width: 89,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.only(
@@ -102,13 +161,13 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                       children: [
                         index == 0
                             ? const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        )
+                                Icons.add,
+                                color: Colors.white,
+                              )
                             : const Icon(
-                          Icons.remove,
-                          color: Colors.white,
-                        ),
+                                Icons.remove,
+                                color: Colors.white,
+                              ),
                         Text(
                           index == 0 ? "Add" : "Rem",
                           style: GoogleFonts.poppins(
@@ -140,8 +199,8 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: TextFormField(
-                    controller: namecontrollerlist[index],
-                    enabled: chkboxvaluelist[index],
+                    controller: namecontroller,
+                    enabled: !sights[index]['copy'],
                     key: const ValueKey('Name'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -151,7 +210,7 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                       }
                     },
                     onSaved: (value) {
-                      sightName = value.toString();
+                      sights[index]['name'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter name",
@@ -187,8 +246,8 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: TextFormField(
-                    controller: addcontrollerlist[index],
-                    enabled: chkboxvaluelist[index],
+                    controller: addcontroller,
+                    enabled: !sights[index]['copy'],
                     key: const ValueKey('Address'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -198,7 +257,7 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                       }
                     },
                     onSaved: (value) {
-                      sightAddress = value.toString();
+                      sights[index]['address'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter address",
@@ -234,8 +293,8 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: TextFormField(
-                    controller: emailcontrollerlist[index],
-                    enabled: chkboxvaluelist[index],
+                    controller: emailcontroller,
+                    enabled: !sights[index]['copy'],
                     key: const ValueKey('Email'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -245,7 +304,7 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                       }
                     },
                     onSaved: (value) {
-                      sightEmail = value.toString();
+                      sights[index]['email'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter email",
@@ -280,8 +339,8 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                 Padding(
                   padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
                   child: TextFormField(
-                    controller: phonecontrollerlist[index],
-                    enabled: chkboxvaluelist[index],
+                    controller: phonecontroller,
+                    enabled: !sights[index]['copy'],
                     key: const ValueKey('Number'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -291,7 +350,7 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                       }
                     },
                     onSaved: (value) {
-                      sightNumber = value.toString();
+                      sights[index]['phone'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter Phone number",
@@ -306,7 +365,7 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                 ),
               ]),
               Container(
-                  margin: const EdgeInsets.only(left: 30, top: 110, right: 20),
+                  margin: const EdgeInsets.only(left: 30, top: 100, right: 20),
                   alignment: Alignment.center,
                   child: Row(
                     children: [
@@ -321,20 +380,20 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                               ),
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            value: !chkboxvaluelist[index],
+                            value: sights[index]['copy'],
                             onChanged: (value) {
                               setState(() {
-                                chkboxvaluelist[index] =
-                                !chkboxvaluelist[index];
+                                sights[index]['copy'] = value;
                                 if (value == true) {
-                                  namecontrollerlist[index].text =
-                                      sightName = CustomerState.name;
-                                  addcontrollerlist[index].text =
-                                      sightAddress = CustomerState.address;
-                                  emailcontrollerlist[index].text =
-                                      sightEmail = CustomerState.email;
-                                  phonecontrollerlist[index].text =
-                                      sightNumber = CustomerState.number;
+                                  namecontroller.text = sights[index]['name'] =
+                                      CustomerState.name;
+                                  addcontroller.text = sights[index]
+                                      ['address'] = CustomerState.address;
+                                  emailcontroller.text = sights[index]
+                                      ['email'] = CustomerState.email;
+                                  phonecontroller.text = sights[index]
+                                      ['phone'] = CustomerState.number;
+                                  print(sights);
                                 }
                               });
                             },
@@ -348,7 +407,7 @@ class sight extends State<Sight> with AutomaticKeepAliveClientMixin<Sight> {
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             color:
-                            Colors.black.withOpacity(0.6000000238418579)),
+                                Colors.black.withOpacity(0.6000000238418579)),
                       )
                     ],
                   ))
