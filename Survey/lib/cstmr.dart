@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:survey/info.dart';
 
 class Customer extends StatefulWidget {
   const Customer({super.key});
@@ -13,13 +14,7 @@ class CustomerState extends State<Customer>
   @override
   bool get wantKeepAlive => true;
 
-  static String name = '';
 
-  static String address = '';
-
-  static String email = '';
-
-  static String number = '';
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +54,7 @@ class CustomerState extends State<Customer>
                   }
                 },
                 onSaved: (value) {
-                  name = value.toString();
+                  InfoState.name = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),
@@ -105,7 +100,7 @@ class CustomerState extends State<Customer>
                   }
                 },
                 onSaved: (value) {
-                  address = value.toString();
+                  InfoState.address = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),
@@ -143,7 +138,6 @@ class CustomerState extends State<Customer>
               child: TextFormField(
                 key: const ValueKey('email'),
                 validator: (value) {
-                  email = value!;
                   if (value.toString().isEmpty) {
                     return 'Required';
                   } else {
@@ -151,7 +145,7 @@ class CustomerState extends State<Customer>
                   }
                 },
                 onSaved: (value) {
-                  email = value.toString();
+                  InfoState.email = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),
@@ -198,7 +192,7 @@ class CustomerState extends State<Customer>
                   }
                 },
                 onSaved: (value) {
-                  number = value.toString();
+                  InfoState.number = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),

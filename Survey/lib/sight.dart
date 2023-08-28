@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:survey/cstmr.dart';
-import 'package:survey/devices.dart';
+import 'package:survey/info.dart';
 
 class Sight extends StatefulWidget {
   const Sight({super.key});
@@ -16,16 +15,6 @@ class SightState extends State<Sight>
 
   static late int len;
 
-  List sights = [
-    {
-      "label": "1",
-      "name": "",
-      "address": "",
-      "email": "",
-      "phone": "",
-      "copy": false,
-    }
-  ];
   TextEditingController namecontroller = TextEditingController();
   TextEditingController addcontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
@@ -42,9 +31,9 @@ class SightState extends State<Sight>
   buttoncall(int index) {
     if (index == 0) {
       setState(() {
-        DevicesState.deviceList.addAll([
+        InfoState.deviceList.addAll([
           {
-            "sight": sights.length,
+            "sight": InfoState.sights.length,
             "label": "Panel information",
             "type": "panel",
             "image": "",
@@ -52,7 +41,7 @@ class SightState extends State<Sight>
             "checked": false
           },
           {
-            "sight": sights.length + 1,
+            "sight": InfoState.sights.length + 1,
             "label": "AC",
             "type": "panel",
             "image": "",
@@ -60,7 +49,7 @@ class SightState extends State<Sight>
             "checked": false
           },
           {
-            "sight": sights.length + 1,
+            "sight": InfoState.sights.length + 1,
             "label": "Heater information",
             "type": "panel",
             "image": "",
@@ -68,7 +57,7 @@ class SightState extends State<Sight>
             "checked": false
           },
           {
-            "sight": sights.length + 1,
+            "sight": InfoState.sights.length + 1,
             "label": "PowerX setup",
             "type": "panel",
             "image": "",
@@ -76,20 +65,20 @@ class SightState extends State<Sight>
             "checked": false
           }
         ]);
-        sights.insert(sights.length, {
-          "label": "${sights.length + 1}",
+        InfoState.sights.insert(InfoState.sights.length, {
+          "label": "${InfoState.sights.length + 1}",
           "name": "",
           "address": "",
           "email": "",
           "phone": "",
           "copy": false
         });
-        print("widget Added $sights");
+        print("widget Added $InfoState.sights");
       });
     } else {
       setState(() {
-        sights.removeAt(index);
-        print("widget removed $sights");
+        InfoState.sights.removeAt(index);
+        print("widget removed $InfoState.sights");
       });
     }
   }
@@ -106,7 +95,7 @@ class SightState extends State<Sight>
             height: 10,
           );
         },
-        itemCount: sights.length,
+        itemCount: InfoState.sights.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -122,7 +111,7 @@ class SightState extends State<Sight>
                       )),
                   // margin: const EdgeInsets.only(bottom: 200),
                   child: Text(
-                    sights[index]['label'],
+                    InfoState.sights[index]['label'],
                     style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -189,7 +178,7 @@ class SightState extends State<Sight>
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: TextFormField(
                     controller: namecontroller,
-                    enabled: !sights[index]['copy'],
+                    enabled: !InfoState.sights[index]['copy'],
                     key: const ValueKey('Name'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -199,7 +188,7 @@ class SightState extends State<Sight>
                       }
                     },
                     onSaved: (value) {
-                      sights[index]['name'] = value.toString();
+                      InfoState.sights[index]['name'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter name",
@@ -236,7 +225,7 @@ class SightState extends State<Sight>
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: TextFormField(
                     controller: addcontroller,
-                    enabled: !sights[index]['copy'],
+                    enabled: !InfoState.sights[index]['copy'],
                     key: const ValueKey('Address'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -246,7 +235,7 @@ class SightState extends State<Sight>
                       }
                     },
                     onSaved: (value) {
-                      sights[index]['address'] = value.toString();
+                      InfoState.sights[index]['address'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter address",
@@ -283,7 +272,7 @@ class SightState extends State<Sight>
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: TextFormField(
                     controller: emailcontroller,
-                    enabled: !sights[index]['copy'],
+                    enabled: !InfoState.sights[index]['copy'],
                     key: const ValueKey('Email'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -293,7 +282,7 @@ class SightState extends State<Sight>
                       }
                     },
                     onSaved: (value) {
-                      sights[index]['email'] = value.toString();
+                      InfoState.sights[index]['email'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter email",
@@ -329,7 +318,7 @@ class SightState extends State<Sight>
                   padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
                   child: TextFormField(
                     controller: phonecontroller,
-                    enabled: !sights[index]['copy'],
+                    enabled: !InfoState.sights[index]['copy'],
                     key: const ValueKey('Number'),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -339,7 +328,7 @@ class SightState extends State<Sight>
                       }
                     },
                     onSaved: (value) {
-                      sights[index]['phone'] = value.toString();
+                      InfoState.sights[index]['phone'] = value.toString();
                     },
                     decoration: InputDecoration(
                       hintText: "Enter Phone number",
@@ -369,20 +358,20 @@ class SightState extends State<Sight>
                               ),
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            value: sights[index]['copy'],
+                            value: InfoState.sights[index]['copy'],
                             onChanged: (value) {
                               setState(() {
-                                sights[index]['copy'] = value;
+                                InfoState.sights[index]['copy'] = value;
                                 if (value == true) {
-                                  namecontroller.text = sights[index]['name'] =
-                                      CustomerState.name;
-                                  addcontroller.text = sights[index]
-                                      ['address'] = CustomerState.address;
-                                  emailcontroller.text = sights[index]
-                                      ['email'] = CustomerState.email;
-                                  phonecontroller.text = sights[index]
-                                      ['phone'] = CustomerState.number;
-                                  print(sights);
+                                  namecontroller.text = InfoState.sights[index]
+                                      ['name'] = InfoState.name;
+                                  addcontroller.text = InfoState.sights[index]
+                                      ['address'] = InfoState.address;
+                                  emailcontroller.text = InfoState.sights[index]
+                                      ['email'] = InfoState.email;
+                                  phonecontroller.text = InfoState.sights[index]
+                                      ['phone'] = InfoState.number;
+                                  print(InfoState.sights);
                                 }
                               });
                             },

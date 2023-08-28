@@ -16,12 +16,13 @@ class Info extends StatefulWidget {
 class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   //......................Variable and Key Declaration................
 
+  //                                       **-info-**
+
   final _custformkey = GlobalKey<FormState>();
   final sghtformkey = GlobalKey<FormState>();
   final devformkey = GlobalKey<FormState>();
 
   var butStatus = 'Next';
-
   TabController? tabController;
 
   List<bool> tabdisable = [false, true, true];
@@ -31,15 +32,68 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     true
   ]; // false = next , true = submit
 
+  //                                       **-cstmr-**
+  static String name = '';
+
+  static String address = '';
+
+  static String email = '';
+
+  static String number = '';
+
+  //                                       **-sight-**
+  static List sights = [
+    {
+      "label": "1",
+      "name": "",
+      "address": "",
+      "email": "",
+      "phone": "",
+      "copy": false,
+    }
+  ];
+
+  //                                       **-devices-**
+  static List deviceList = [
+    {
+      "sight": 1,
+      "label": "Panel information",
+      "type": "panel",
+      "image": "",
+      "information": "",
+      "checked": false
+    },
+    {
+      "sight": 1,
+      "label": "AC",
+      "type": "panel",
+      "image": "",
+      "information": "",
+      "checked": false
+    },
+    {
+      "sight": 1,
+      "label": "Heater information",
+      "type": "panel",
+      "image": "",
+      "information": "",
+      "checked": false
+    },
+    {
+      "sight": 1,
+      "label": "PowerX setup",
+      "type": "panel",
+      "image": "",
+      "information": "",
+      "checked": false
+    },
+  ];
   //..............................FUNCTIONS.....................................
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this, initialIndex: 0);
-    // tabController!.addListener(() {
-    //   onTap();
-    // });
   }
 
   @override
@@ -50,6 +104,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     });
   }
 
+  //                                       **-info-**
   onTap() {
     if (tabdisable[tabController!.index]) {
       int index = tabController!.previousIndex;
@@ -82,12 +137,16 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   }
 
   submitform() {
-    print(CustomerState.name);
-    print(CustomerState.email);
-    print(CustomerState.address);
-    print(CustomerState.number);
+    print(name);
+    print(email);
+    print(address);
+    print(number);
     return true;
   }
+
+  //                                       **-devices-**
+
+  //                                       **-sight-**
 
 //..................................Information Page.............................
 
