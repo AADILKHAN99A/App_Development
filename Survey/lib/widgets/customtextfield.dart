@@ -5,8 +5,16 @@ class CustomTextField extends StatefulWidget {
   final bool? enable;
   final String? hintText;
   final String? errorText;
+  final String? copydata;
+  final String type;
   const CustomTextField(
-      {super.key, required this.onChange, this.enable, this.hintText, this.errorText});
+      {super.key,
+      required this.onChange,
+      this.enable,
+      this.hintText,
+      this.errorText,
+      this.copydata,
+      required this.type});
 
   @override
   State<StatefulWidget> createState() => CustomText();
@@ -15,16 +23,33 @@ class CustomTextField extends StatefulWidget {
 class CustomText extends State<CustomTextField> {
   TextEditingController controller = TextEditingController();
 
-  // void onChange(String value) {
-  //   controller.text = value;
+  // validate()
+  // {
+  //   if(controller.text=="")
+  //     {
+  //       return "Field Empty";
+  //     }
+  //   else {
+  //     return null;
+  //   }
   // }
+
+  datacopy() {
+    if (widget.enable == false) {
+      setState(() {
+        controller.text = widget.copydata!;
+      });
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      key: widget.key,
+    return TextField(
       controller: controller,
-      enabled: widget.enable,
+      enabled: widget.type == "sight" ? datacopy() : widget.enable,
       onChanged: (value) => widget.onChange(value),
       decoration: InputDecoration(
         errorText: widget.errorText,

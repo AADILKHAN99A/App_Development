@@ -14,8 +14,6 @@ class CustomerState extends State<Customer>
   @override
   bool get wantKeepAlive => true;
 
-
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -211,5 +209,4 @@ class CustomerState extends State<Customer>
       ),
     );
   }
-
 }

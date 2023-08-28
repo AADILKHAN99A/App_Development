@@ -25,6 +25,8 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   var butStatus = 'Next';
   TabController? tabController;
 
+  int count = 1;
+
   List<bool> tabdisable = [false, true, true];
   List<bool> buttonstatus = [
     false,
@@ -42,21 +44,11 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   static String number = '';
 
   //                                       **-sight-**
-  static List sights = [
-    {
-      "label": "1",
-      "name": "",
-      "address": "",
-      "email": "",
-      "phone": "",
-      "copy": false,
-    }
-  ];
 
   //                                       **-devices-**
   static List deviceList = [
     {
-      "sight": 1,
+      "sight": "Sight 1",
       "label": "Panel information",
       "type": "panel",
       "image": "",
@@ -64,7 +56,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
       "checked": false
     },
     {
-      "sight": 1,
+      "sight": "Sight 1",
       "label": "AC",
       "type": "panel",
       "image": "",
@@ -72,7 +64,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
       "checked": false
     },
     {
-      "sight": 1,
+      "sight": "Sight 1",
       "label": "Heater information",
       "type": "panel",
       "image": "",
@@ -80,7 +72,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
       "checked": false
     },
     {
-      "sight": 1,
+      "sight": "Sight 1",
       "label": "PowerX setup",
       "type": "panel",
       "image": "",
@@ -88,6 +80,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
       "checked": false
     },
   ];
+
   //..............................FUNCTIONS.....................................
 
   @override
@@ -144,9 +137,9 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     return true;
   }
 
-  //                                       **-devices-**
-
   //                                       **-sight-**
+
+  //                                       **-devices-**
 
 //..................................Information Page.............................
 
@@ -238,7 +231,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                         children: [
                           Form(key: _custformkey, child: const Customer()),
                           Form(key: sghtformkey, child: Sight()),
-                          Devices()
+                          const Devices()
                         ]),
                   ),
                   Container(
@@ -272,6 +265,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                       ?.animateTo(tabController!.index);
                                   print(
                                       "Current tab index : ${tabController!.index}");
+
                                   butStatus = 'Submit';
                                 }
                               }

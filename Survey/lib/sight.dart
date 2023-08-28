@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/info.dart';
+import 'package:survey/widgets/customtextfield.dart';
 
 class Sight extends StatefulWidget {
   const Sight({super.key});
@@ -13,12 +14,71 @@ class SightState extends State<Sight>
     with AutomaticKeepAliveClientMixin<Sight> {
   //......................Variable and Key Declaration................
 
-  static late int len;
+  List sights = [
+    {
+      "label": "Sight 1",
+      "name": "",
+      "address": "",
+      "email": "",
+      "phone": "",
+      "check": false,
+    }
+  ];
 
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController addcontroller = TextEditingController();
-  TextEditingController emailcontroller = TextEditingController();
-  TextEditingController phonecontroller = TextEditingController();
+  sightbuttoncall(index) {
+    if (index == 0) {
+      setState(() {
+        // deviceList.addAll([
+        //   {
+        //     "sight": "Sight ${sights.length + 1}",
+        //     "label": "Panel information",
+        //     "type": "panel",
+        //     "image": "",
+        //     "information": "",
+        //     "checked": false
+        //   },
+        //   {
+        //     "sight": "Sight ${sights.length + 1}",
+        //     "label": "AC",
+        //     "type": "panel",
+        //     "image": "",
+        //     "information": "",
+        //     "checked": false
+        //   },
+        //   {
+        //     "sight": "Sight ${sights.length + 1}",
+        //     "label": "Heater information",
+        //     "type": "panel",
+        //     "image": "",
+        //     "information": "",
+        //     "checked": false
+        //   },
+        //   {
+        //     "sight": "Sight ${sights.length + 1}",
+        //     "label": "PowerX setup",
+        //     "type": "panel",
+        //     "image": "",
+        //     "information": "",
+        //     "checked": false
+        //   }
+        // ]);
+        sights.insert(sights.length, {
+          "label": "Sight ${sights.length + 1}",
+          "name": "",
+          "address": "",
+          "email": "",
+          "phone": "",
+          "check": false
+        });
+        print("widget Added ${sights}");
+      });
+    } else {
+      setState(() {
+        sights.removeAt(index);
+        print("widget removed ${sights}");
+      });
+    }
+  }
 
   //.....................FUNCTIONS.........................................
   @override
@@ -26,61 +86,6 @@ class SightState extends State<Sight>
   ScrollController scrollController = ScrollController();
   scrollToBottom() {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
-  }
-
-  buttoncall(int index) {
-    if (index == 0) {
-      setState(() {
-        InfoState.deviceList.addAll([
-          {
-            "sight": InfoState.sights.length,
-            "label": "Panel information",
-            "type": "panel",
-            "image": "",
-            "information": "",
-            "checked": false
-          },
-          {
-            "sight": InfoState.sights.length + 1,
-            "label": "AC",
-            "type": "panel",
-            "image": "",
-            "information": "",
-            "checked": false
-          },
-          {
-            "sight": InfoState.sights.length + 1,
-            "label": "Heater information",
-            "type": "panel",
-            "image": "",
-            "information": "",
-            "checked": false
-          },
-          {
-            "sight": InfoState.sights.length + 1,
-            "label": "PowerX setup",
-            "type": "panel",
-            "image": "",
-            "information": "",
-            "checked": false
-          }
-        ]);
-        InfoState.sights.insert(InfoState.sights.length, {
-          "label": "${InfoState.sights.length + 1}",
-          "name": "",
-          "address": "",
-          "email": "",
-          "phone": "",
-          "copy": false
-        });
-        print("widget Added $InfoState.sights");
-      });
-    } else {
-      setState(() {
-        InfoState.sights.removeAt(index);
-        print("widget removed $InfoState.sights");
-      });
-    }
   }
 
   @override
@@ -95,7 +100,7 @@ class SightState extends State<Sight>
             height: 10,
           );
         },
-        itemCount: InfoState.sights.length,
+        itemCount: sights.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -103,15 +108,16 @@ class SightState extends State<Sight>
               Center(
                 child: Container(
                   alignment: Alignment.center,
-                  width: 30,
+                  height: 30,
+                  width: 80,
                   decoration: ShapeDecoration(
                       color: Colors.black,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                       )),
                   // margin: const EdgeInsets.only(bottom: 200),
                   child: Text(
-                    InfoState.sights[index]['label'],
+                    sights[index]['label'],
                     style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -132,7 +138,7 @@ class SightState extends State<Sight>
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5))),
                     onPressed: () {
-                      buttoncall(index);
+                      sightbuttoncall(index);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -176,29 +182,14 @@ class SightState extends State<Sight>
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
-                  child: TextFormField(
-                    controller: namecontroller,
-                    enabled: !InfoState.sights[index]['copy'],
-                    key: const ValueKey('Name'),
-                    validator: (value) {
-                      if (value.toString().isEmpty) {
-                        return 'Required';
-                      } else {
-                        return null;
-                      }
+                  child: CustomTextField(
+                    type: "sight",
+                    onChange: (value) {
+                      sights[index]['name'] = value.toString();
                     },
-                    onSaved: (value) {
-                      InfoState.sights[index]['name'] = value.toString();
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Enter name",
-                      hintStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black.withOpacity(0.6000000238418579),
-                          fontWeight: FontWeight.w400),
-                      contentPadding: const EdgeInsets.only(left: 22),
-                      border: InputBorder.none,
-                    ),
+                    enable: !sights[index]['check'],
+                    hintText: "Enter name",
+                    copydata: InfoState.name,
                   ),
                 ),
               ]),
@@ -222,32 +213,16 @@ class SightState extends State<Sight>
                       )),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
-                  child: TextFormField(
-                    controller: addcontroller,
-                    enabled: !InfoState.sights[index]['copy'],
-                    key: const ValueKey('Address'),
-                    validator: (value) {
-                      if (value.toString().isEmpty) {
-                        return 'Required';
-                      } else {
-                        return null;
-                      }
-                    },
-                    onSaved: (value) {
-                      InfoState.sights[index]['address'] = value.toString();
-                    },
-                    decoration: InputDecoration(
+                    padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
+                    child: CustomTextField(
+                      type: "sight",
+                      onChange: (value) {
+                        sights[index]['address'] = value.toString();
+                      },
+                      enable: !sights[index]['check'],
                       hintText: "Enter address",
-                      hintStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black.withOpacity(0.6000000238418579),
-                          fontWeight: FontWeight.w400),
-                      contentPadding: const EdgeInsets.only(left: 22),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                )
+                      copydata: InfoState.address,
+                    ))
               ]),
               Container(
                 // color: Colors.brown,
@@ -270,29 +245,14 @@ class SightState extends State<Sight>
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
-                  child: TextFormField(
-                    controller: emailcontroller,
-                    enabled: !InfoState.sights[index]['copy'],
-                    key: const ValueKey('Email'),
-                    validator: (value) {
-                      if (value.toString().isEmpty) {
-                        return 'Required';
-                      } else {
-                        return null;
-                      }
+                  child: CustomTextField(
+                    type: "sight",
+                    onChange: (value) {
+                      sights[index]['email'] = value.toString();
                     },
-                    onSaved: (value) {
-                      InfoState.sights[index]['email'] = value.toString();
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Enter email",
-                      hintStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black.withOpacity(0.6000000238418579),
-                          fontWeight: FontWeight.w400),
-                      contentPadding: const EdgeInsets.only(left: 22),
-                      border: InputBorder.none,
-                    ),
+                    enable: !sights[index]['check'],
+                    hintText: "Enter email",
+                    copydata: InfoState.email,
                   ),
                 ),
               ]),
@@ -315,35 +275,34 @@ class SightState extends State<Sight>
                           borderRadius: BorderRadius.circular(10),
                         ))),
                 Padding(
-                  padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
-                  child: TextFormField(
-                    controller: phonecontroller,
-                    enabled: !InfoState.sights[index]['copy'],
-                    key: const ValueKey('Number'),
-                    validator: (value) {
-                      if (value.toString().isEmpty) {
-                        return 'Required';
-                      } else {
-                        return null;
-                      }
-                    },
-                    onSaved: (value) {
-                      InfoState.sights[index]['phone'] = value.toString();
-                    },
-                    decoration: InputDecoration(
+                    padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
+                    child: CustomTextField(
+                      type: "sight",
+                      onChange: (value) {
+                        sights[index]['phone'] = value.toString();
+                      },
+                      enable: !sights[index]['check'],
                       hintText: "Enter Phone number",
-                      hintStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black.withOpacity(0.6000000238418579),
-                          fontWeight: FontWeight.w400),
-                      contentPadding: const EdgeInsets.only(left: 22),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
+                      copydata: InfoState.number,
+                    )),
               ]),
               Container(
-                  margin: const EdgeInsets.only(left: 30, top: 100, right: 20),
+                height: 22,
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(top: 10, left: 250),
+                child: MaterialButton(
+                  onPressed: () {
+                    print(sights);
+                  },
+                  color: Colors.black,
+                  child: const Text(
+                    "Add Device",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              Container(
+                  margin: const EdgeInsets.only(left: 30, right: 20),
                   alignment: Alignment.center,
                   child: Row(
                     children: [
@@ -358,20 +317,18 @@ class SightState extends State<Sight>
                               ),
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            value: InfoState.sights[index]['copy'],
+                            value: sights[index]['check'],
                             onChanged: (value) {
                               setState(() {
-                                InfoState.sights[index]['copy'] = value;
+                                sights[index]['check'] = value;
                                 if (value == true) {
-                                  namecontroller.text = InfoState.sights[index]
-                                      ['name'] = InfoState.name;
-                                  addcontroller.text = InfoState.sights[index]
-                                      ['address'] = InfoState.address;
-                                  emailcontroller.text = InfoState.sights[index]
-                                      ['email'] = InfoState.email;
-                                  phonecontroller.text = InfoState.sights[index]
-                                      ['phone'] = InfoState.number;
-                                  print(InfoState.sights);
+                                  sights[index]['name'] = InfoState.name;
+                                  sights[index]['address'] = InfoState.address;
+                                  sights[index]['email'] = InfoState.email;
+                                  sights[index]['phone'] = InfoState.number;
+                                  print(sights);
+                                } else {
+                                  print(sights);
                                 }
                               });
                             },

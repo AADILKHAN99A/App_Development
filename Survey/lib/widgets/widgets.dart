@@ -10,7 +10,7 @@ class button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only( left: 20, right: 20),
+      margin: const EdgeInsets.only(left: 20, right: 20),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
@@ -20,7 +20,7 @@ class button extends StatelessWidget {
           padding: const EdgeInsets.only(top: 18, bottom: 16),
           child: icon != null
               ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     icon!,
                     Text(
@@ -47,8 +47,6 @@ class button extends StatelessWidget {
     );
   }
 }
-
-
 
 // class textfield extends FormField<String>{
 //   final Key key;

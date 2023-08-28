@@ -61,196 +61,155 @@ class DevicesState extends State<Devices>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView.separated(
-        itemCount: InfoState.deviceList.length ~/ 4,
+    return SingleChildScrollView(
+      child: ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: InfoState.deviceList.length,
         itemBuilder: (BuildContext context, int index) {
-          if (InfoState.deviceList[index]['sight'] < index + 2) {
-            return SingleChildScrollView(
-              child: ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: InfoState.deviceList.length,
-                itemBuilder: (BuildContext context, int subindex) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                  height: 35,
+                  margin: const EdgeInsets.only(left: 20),
+                  alignment: Alignment.center,
+                  child: Row(
                     children: [
-                      Container(
-                          height: 35,
-                          margin: const EdgeInsets.only(left: 20),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Stack(
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: 38,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 15),
+                                child: Checkbox(
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                  value: InfoState.deviceList[index]["checked"],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      InfoState.deviceList[index]["checked"] =
+                                          value;
+                                    });
+                                  },
+                                  activeColor: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 35,
+                              top: 5,
+                              child: Text(
+                                InfoState.deviceList[index]["label"],
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black
+                                        .withOpacity(0.6000000238418579)),
+                              ),
+                            ),
+                            Positioned(
+                              right: 20,
+                              top: 5,
+                              child: InkWell(
+                                onTap: () {
+                                  callback(
+                                      index,
+                                      InfoState.deviceList[index]['label'],
+                                      InfoState.deviceList[index]['sight']);
+                                },
+                                child: Row(
                                   children: [
-                                    SizedBox(
-                                      width: 38,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5, right: 15),
-                                        child: Checkbox(
-                                          shape: RoundedRectangleBorder(
-                                            side: const BorderSide(
-                                              color: Colors.grey,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                          ),
-                                          value: InfoState.deviceList[subindex]
-                                              ["checked"],
-                                          onChanged: (value) {
-                                            setState(() {
-                                              InfoState.deviceList[subindex]
-                                                  ["checked"] = value;
-                                            });
-                                          },
-                                          activeColor: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 35,
-                                      top: 5,
-                                      child: Text(
-                                        InfoState.deviceList[subindex]["label"],
+                                    InfoState.deviceList[index]['type'] ==
+                                            "panel"
+                                        ? const Icon(
+                                            Icons.add,
+                                            color: Color(0x991D19DA),
+                                            size: 17,
+                                          )
+                                        : const Icon(Icons.remove,
+                                            color: Color(0x991D19DA), size: 17),
+                                    Text(
+                                        InfoState.deviceList[index]['type'] ==
+                                                "panel"
+                                            ? "Add"
+                                            : "",
                                         style: GoogleFonts.poppins(
-                                            fontSize: 16,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.w400,
-                                            color: Colors.black.withOpacity(
-                                                0.6000000238418579)),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 20,
-                                      top: 5,
-                                      child: InkWell(
-                                        onTap: () {
-                                          callback(
-                                              subindex,
-                                              InfoState.deviceList[subindex]
-                                                  ['label'],
-                                              InfoState.deviceList[subindex]
-                                                  ['sight']);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            InfoState.deviceList[subindex]
-                                                        ['type'] ==
-                                                    "panel"
-                                                ? const Icon(
-                                                    Icons.add,
-                                                    color: Color(0x991D19DA),
-                                                    size: 17,
-                                                  )
-                                                : const Icon(Icons.remove,
-                                                    color: Color(0x991D19DA),
-                                                    size: 17),
-                                            Text(
-                                                InfoState.deviceList[subindex]
-                                                            ['type'] ==
-                                                        "panel"
-                                                    ? "Add"
-                                                    : "",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: const Color(
-                                                        0x991D19DA)))
-                                          ],
-                                        ),
-                                      ),
-                                    )
+                                            color: const Color(0x991D19DA)))
                                   ],
                                 ),
                               ),
-                            ],
-                          )),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                                margin: const EdgeInsets.only(
-                                    top: 3, left: 55, right: 7),
-                                height: 45,
-                                decoration: ShapeDecoration(
-                                    color: Colors.black
-                                        .withOpacity(0.05000000074505806),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                                child: CustomTextField(
-                                    onChange: (value) {
-                                      setState(() {
-                                        InfoState.deviceList[subindex]
-                                            ["information"] = value;
-                                      });
-                                      log("Value: ${InfoState.deviceList.toString()}");
-                                    },
-                                    enable: InfoState.deviceList[subindex]
-                                        ["checked"],
-                                    hintText: "information")),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 20),
-                            width: 45,
-                            height: 45,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.all(10),
-                                  elevation: 0,
-                                  backgroundColor: Colors.black
-                                      .withOpacity(0.05000000074505806),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                ),
-                                onPressed: () => pickImage(subindex),
-                                child: InfoState.deviceList[subindex]
-                                            ['image'] !=
-                                        ""
-                                    ? Image.file(File(InfoState
-                                        .deviceList[subindex]['image']))
-                                    : SvgPicture.asset(
-                                        'assets/icons/camera.svg')),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ],
-                  );
-                },
-                separatorBuilder: (BuildContext context, int subindex) {
-                  return const SizedBox(
-                    height: 10,
-                    width: 8,
-                  );
-                },
+                  )),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                        margin:
+                            const EdgeInsets.only(top: 3, left: 55, right: 7),
+                        height: 45,
+                        decoration: ShapeDecoration(
+                            color:
+                                Colors.black.withOpacity(0.05000000074505806),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                        child: CustomTextField(
+                          type: "",
+                          onChange: (value) {
+                            setState(() {
+                              InfoState.deviceList[index]["information"] =
+                                  value;
+                            });
+                            log("Value: ${InfoState.deviceList.toString()}");
+                          },
+                          enable: InfoState.deviceList[index]["checked"],
+                          hintText: "information",
+                        )),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    width: 45,
+                    height: 45,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(10),
+                          elevation: 0,
+                          backgroundColor:
+                              Colors.black.withOpacity(0.05000000074505806),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: () => pickImage(index),
+                        child: InfoState.deviceList[index]['image'] != ""
+                            ? Image.file(
+                                File(InfoState.deviceList[index]['image']))
+                            : SvgPicture.asset('assets/icons/camera.svg')),
+                  )
+                ],
               ),
-            );
-          } else {
-            return const SizedBox(
-              height: 10,
-            );
-          }
+            ],
+          );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Center(
-            child: Container(
-              alignment: Alignment.center,
-              width: 30,
-              decoration: ShapeDecoration(
-                  color: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-              // margin: const EdgeInsets.only(bottom: 200),
-              child: Text(
-                "${index + 2}",
-                style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
-            ),
+          return const SizedBox(
+            height: 10,
+            width: 8,
           );
-        });
+        },
+      ),
+    );
   }
 }
