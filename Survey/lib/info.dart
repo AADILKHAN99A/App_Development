@@ -45,7 +45,52 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
 
   //                                       **-sight-**
 
-  //                                       **-devices-**
+  static List sights = [
+    {
+      "label": "Sight 1",
+      "name": "",
+      "address": "",
+      "email": "",
+      "phone": "",
+      "check": false,
+      "devices": [
+        {
+          "sight": "Sight 1",
+          "label": "Panel information",
+          "type": "panel",
+          "image": "",
+          "information": "",
+          "checked": false
+        },
+        {
+          "sight": "Sight 1",
+          "label": "AC",
+          "type": "panel",
+          "image": "",
+          "information": "",
+          "checked": false
+        },
+        {
+          "sight": "Sight 1",
+          "label": "Heater information",
+          "type": "panel",
+          "image": "",
+          "information": "",
+          "checked": false
+        },
+        {
+          "sight": "Sight 1",
+          "label": "PowerX setup",
+          "type": "panel",
+          "image": "",
+          "information": "",
+          "checked": false
+        },
+
+      ]
+    }
+  ];
+  //                                      **-devices-**
   static List deviceList = [
     {
       "sight": "Sight 1",

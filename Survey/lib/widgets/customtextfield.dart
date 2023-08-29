@@ -49,7 +49,7 @@ class CustomText extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      enabled: widget.type == "sight" ? datacopy() : widget.enable,
+      enabled: widget.copydata == null ? widget.enable : datacopy(),
       onChanged: (value) => widget.onChange(value),
       decoration: InputDecoration(
         errorText: widget.errorText,
