@@ -47,26 +47,3 @@ class button extends StatelessWidget {
     );
   }
 }
-
-// class textfield extends FormField<String>{
-//   final Key key;
-//   final String hinttext;
-//   final FormFieldSetter<String>? onSaved;
-//   final FormFieldValidator<String>? validate;
-//   final bool? enable;
-//   final TextEditingController controller;
-//   final bool obscureText;
-//
-//
-//
-//
-// }
-//
-// class textfieldstatus extends State<textfield>
-// {
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }

@@ -5,22 +5,23 @@ class CustomTextField extends StatefulWidget {
   final bool? enable;
   final String? hintText;
   final String? errorText;
-  final String? copydata;
-  final String type;
-  const CustomTextField(
-      {super.key,
-      required this.onChange,
-      this.enable,
-      this.hintText,
-      this.errorText,
-      this.copydata,
-      required this.type});
+  final String? copyData;
+
+  const CustomTextField({
+    super.key,
+    required this.onChange,
+    this.enable,
+    this.hintText,
+    this.errorText,
+    this.copyData,
+  });
 
   @override
   State<StatefulWidget> createState() => CustomText();
 }
 
-class CustomText extends State<CustomTextField> {
+class CustomText extends State<CustomTextField>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController controller = TextEditingController();
 
   // validate()
@@ -33,11 +34,12 @@ class CustomText extends State<CustomTextField> {
   //     return null;
   //   }
   // }
+  //
 
   datacopy() {
     if (widget.enable == false) {
       setState(() {
-        controller.text = widget.copydata!;
+        controller.text = widget.copyData!;
       });
       return false;
     } else {
@@ -47,9 +49,10 @@ class CustomText extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return TextField(
       controller: controller,
-      enabled: widget.copydata == null ? widget.enable : datacopy(),
+      enabled: widget.copyData == null ? widget.enable : datacopy(),
       onChanged: (value) => widget.onChange(value),
       decoration: InputDecoration(
         errorText: widget.errorText,
@@ -63,4 +66,7 @@ class CustomText extends State<CustomTextField> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

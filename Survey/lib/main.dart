@@ -1,14 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:survey/surveylist.dart';
+import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 
 void main() {
-  runApp(const Servay());
+  runApp(const Survey());
 }
 
-class Servay extends StatelessWidget {
-  const Servay({super.key});
+class Survey extends StatelessWidget {
+  const Survey({super.key});
 
   // This widget is the root of your application.
   @override
@@ -26,7 +27,7 @@ class Servay extends StatelessWidget {
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
       routes: {
-        '/surveylist': (context) => const SurveyList(),
+        '/surveyList': (context) => const SurveyList(),
       },
       home: const Login(),
     );
@@ -44,34 +45,39 @@ class _MyHomePageState extends State<Login> {
   //.............VARIABLE DECLARATION..............
   String email = '';
   String password = '';
-  bool passwordvisible = true;
-  final mainkey = GlobalKey<FormState>();
-  TextEditingController emailcontrol = TextEditingController();
-  TextEditingController passcontrol = TextEditingController();
-  bool emailvalidate = false, passvalidate = false;
+  bool passwordVisible = true;
+  final mainKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  bool emailValidate = false, passValidate = false;
 
   //..............FUNCTIONS........................
 
-  trysubmit() {
-    final isvalid = mainkey.currentState!.validate();
-
-    if (isvalid) {
-      mainkey.currentState!.save();
-      return submitform();
+  trySubmit() {
+    final isValid = mainKey.currentState!.validate();
+    if (isValid) {
+      mainKey.currentState!.save();
+      return submitForm();
     } else {
-      print("Error ");
+      if (kDebugMode) {
+        print("Error ");
+      }
     }
   }
 
-  submitform() {
-    print(email);
-    print(password);
+  submitForm() {
+    if (kDebugMode) {
+      print(email);
+    }
+    if (kDebugMode) {
+      print(password);
+    }
     return true;
   }
 
   @override
   void dispose() {
-    emailcontrol.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -84,7 +90,7 @@ class _MyHomePageState extends State<Login> {
       },
       child: SingleChildScrollView(
         child: Form(
-          key: mainkey,
+          key: mainKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -187,7 +193,7 @@ class _MyHomePageState extends State<Login> {
                   width: 300,
                   margin: const EdgeInsets.only(left: 20, top: 3),
                   child: TextFormField(
-                    obscureText: passwordvisible,
+                    obscureText: passwordVisible,
                     key: ValueKey(password),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -218,11 +224,11 @@ class _MyHomePageState extends State<Login> {
                   child: IconButton(
                       onPressed: () {
                         setState(() {
-                          passwordvisible = !passwordvisible;
+                          passwordVisible = !passwordVisible;
                         });
                       },
                       icon: Icon(
-                        passwordvisible
+                        passwordVisible
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
                         color: Colors.grey,
@@ -234,9 +240,9 @@ class _MyHomePageState extends State<Login> {
                 child: button(
                   btnname: "Log In",
                   callback: () {
-                    if (trysubmit()) {
+                    if (trySubmit()) {
                       setState(() {
-                        Navigator.pushNamed(context, '/surveylist');
+                        Navigator.pushNamed(context, '/surveyList');
                       });
                     }
                   },

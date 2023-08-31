@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:survey/cstmr.dart';
+import 'package:survey/customer.dart';
 import 'package:survey/devices.dart';
 import 'package:survey/sight.dart';
-import 'package:survey/surveylist.dart';
+import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 
 class Info extends StatefulWidget {
@@ -18,17 +19,17 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
 
   //                                       **-info-**
 
-  final _custformkey = GlobalKey<FormState>();
-  final sghtformkey = GlobalKey<FormState>();
-  final devformkey = GlobalKey<FormState>();
+  final custFormKey = GlobalKey<FormState>();
+  final sghtFormKey = GlobalKey<FormState>();
+  final devFormKey = GlobalKey<FormState>();
 
   var butStatus = 'Next';
   TabController? tabController;
 
   int count = 1;
 
-  List<bool> tabdisable = [false, true, true];
-  List<bool> buttonstatus = [
+  List<bool> tabDisable = [false, true, true];
+  List<bool> buttonStatus = [
     false,
     false,
     true
@@ -86,45 +87,11 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
           "information": "",
           "checked": false
         },
-
       ]
     }
   ];
+
   //                                      **-devices-**
-  static List deviceList = [
-    {
-      "sight": "Sight 1",
-      "label": "Panel information",
-      "type": "panel",
-      "image": "",
-      "information": "",
-      "checked": false
-    },
-    {
-      "sight": "Sight 1",
-      "label": "AC",
-      "type": "panel",
-      "image": "",
-      "information": "",
-      "checked": false
-    },
-    {
-      "sight": "Sight 1",
-      "label": "Heater information",
-      "type": "panel",
-      "image": "",
-      "information": "",
-      "checked": false
-    },
-    {
-      "sight": "Sight 1",
-      "label": "PowerX setup",
-      "type": "panel",
-      "image": "",
-      "information": "",
-      "checked": false
-    },
-  ];
 
   //..............................FUNCTIONS.....................................
 
@@ -144,14 +111,14 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
 
   //                                       **-info-**
   onTap() {
-    if (tabdisable[tabController!.index]) {
+    if (tabDisable[tabController!.index]) {
       int index = tabController!.previousIndex;
       setState(() {
         tabController!.index = index;
       });
     }
 
-    if (buttonstatus[tabController!.index]) {
+    if (buttonStatus[tabController!.index]) {
       setState(() {
         butStatus = 'Submit';
       });
@@ -162,23 +129,33 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     }
   }
 
-  trysubmit({required GlobalKey<FormState> temp}) {
-    final isvalid = temp.currentState?.validate();
+  trySubmit({required GlobalKey<FormState> temp}) {
+    final isValid = temp.currentState?.validate();
 
-    if (isvalid == true) {
+    if (isValid == true) {
       temp.currentState!.save();
-      return submitform();
+      return submitForm();
     } else {
-      print("Error ");
+      if (kDebugMode) {
+        print("Error ");
+      }
       return false;
     }
   }
 
-  submitform() {
-    print(name);
-    print(email);
-    print(address);
-    print(number);
+  submitForm() {
+    if (kDebugMode) {
+      print(name);
+    }
+    if (kDebugMode) {
+      print(email);
+    }
+    if (kDebugMode) {
+      print(address);
+    }
+    if (kDebugMode) {
+      print(number);
+    }
     return true;
   }
 
@@ -274,9 +251,20 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                         physics: const NeverScrollableScrollPhysics(),
                         controller: tabController,
                         children: [
-                          Form(key: _custformkey, child: const Customer()),
-                          Form(key: sghtformkey, child: Sight()),
-                          const Devices()
+                          Form(key: custFormKey, child: const Customer()),
+                          Form(
+                              key: sghtFormKey,
+                              child: Sight(
+                                voidcallback: () {
+                                  setState(() {
+                                    tabController!.index = 2;
+                                    butStatus = 'Submit';
+                                    tabController
+                                        ?.animateTo(tabController!.index);
+                                  });
+                                },
+                              )),
+                          Devices()
                         ]),
                   ),
                   Container(
@@ -287,29 +275,33 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                           switch (tabController!.index) {
                             case 0:
                               {
-                                if (trysubmit(temp: _custformkey)) {
+                                if (trySubmit(temp: custFormKey)) {
                                   setState(() {
                                     tabController!.index = 1;
-                                    tabdisable[tabController!.index] = false;
+                                    tabDisable[tabController!.index] = false;
                                   });
                                   tabController
                                       ?.animateTo(tabController!.index);
-                                  print(
-                                      "Current tab index : ${tabController!.index}");
+                                  if (kDebugMode) {
+                                    print(
+                                        "Current tab index : ${tabController!.index}");
+                                  }
                                 }
                               }
                               break;
                             case 1:
                               {
-                                if (trysubmit(temp: sghtformkey)) {
+                                if (trySubmit(temp: sghtFormKey)) {
                                   setState(() {
                                     tabController!.index = 2;
-                                    tabdisable[tabController!.index] = false;
+                                    tabDisable[tabController!.index] = false;
                                   });
                                   tabController
                                       ?.animateTo(tabController!.index);
-                                  print(
-                                      "Current tab index : ${tabController!.index}");
+                                  if (kDebugMode) {
+                                    print(
+                                        "Current tab index : ${tabController!.index}");
+                                  }
 
                                   butStatus = 'Submit';
                                 }
@@ -317,6 +309,9 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                               break;
                             case 2:
                               {
+                                if (kDebugMode) {
+                                  print(sights.toString());
+                                }
                                 Navigator.pop(
                                     context,
                                     MaterialPageRoute(

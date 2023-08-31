@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/info.dart';
 import 'package:survey/widgets/widgets.dart';
-// import 'package:intl/intl.dart';
 
 class SurveyList extends StatefulWidget {
   const SurveyList({super.key});

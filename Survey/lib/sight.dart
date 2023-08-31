@@ -1,12 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:survey/devices.dart';
 import 'package:survey/info.dart';
-import 'package:survey/widgets/customtextfield.dart';
-import 'package:survey/info.dart';
+import 'package:survey/widgets/custom_textfield.dart';
 
 class Sight extends StatefulWidget {
-  const Sight({super.key});
+  const Sight({super.key, required this.voidcallback});
+  final VoidCallback voidcallback;
 
   @override
   State<Sight> createState() => SightState();
@@ -16,7 +16,8 @@ class SightState extends State<Sight>
     with AutomaticKeepAliveClientMixin<Sight> {
   //......................Variable and Key Declaration................
 
-  sightbuttoncall(index) {
+  static int display = 0;
+  sightButtonCall(index) {
     if (index == 0) {
       setState(() {
         InfoState.sights.insert(InfoState.sights.length, {
@@ -26,14 +27,52 @@ class SightState extends State<Sight>
           "email": "",
           "phone": "",
           "check": false,
-          "devices": []
+          "devices": [
+            {
+              "sight": "Sight ${InfoState.sights.length + 1}",
+              "label": "Panel information",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            },
+            {
+              "sight": "Sight ${InfoState.sights.length + 1}",
+              "label": "AC",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            },
+            {
+              "sight": "Sight ${InfoState.sights.length + 1}",
+              "label": "Heater information",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            },
+            {
+              "sight": "Sight ${InfoState.sights.length + 1}",
+              "label": "PowerX setup",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            }
+          ]
         });
-        print("widget Added ${InfoState.sights}");
+        if (kDebugMode) {
+          print("widget Added ${InfoState.sights}");
+        }
       });
     } else {
+      display = index - 1;
       setState(() {
         InfoState.sights.removeAt(index);
-        print("widget removed ${InfoState.sights}");
+        if (kDebugMode) {
+          print("widget removed ${InfoState.sights}");
+        }
       });
     }
   }
@@ -96,8 +135,10 @@ class SightState extends State<Sight>
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5))),
                     onPressed: () {
-                      sightbuttoncall(index);
-                      print(InfoState.sights[0]['devices'].length);
+                      sightButtonCall(index);
+                      if (kDebugMode) {
+                        print(InfoState.sights[0]['devices'].length);
+                      }
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -142,13 +183,12 @@ class SightState extends State<Sight>
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: CustomTextField(
-                    type: "sight",
                     onChange: (value) {
                       InfoState.sights[index]['name'] = value.toString();
                     },
                     enable: !InfoState.sights[index]['check'],
                     hintText: "Enter name",
-                    copydata: InfoState.name,
+                    copyData: InfoState.name,
                   ),
                 ),
               ]),
@@ -174,13 +214,13 @@ class SightState extends State<Sight>
                 Padding(
                     padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                     child: CustomTextField(
-                      type: "sight",
                       onChange: (value) {
                         InfoState.sights[index]['address'] = value.toString();
                       },
                       enable: !InfoState.sights[index]['check'],
                       hintText: "Enter address",
-                      copydata: InfoState.address,
+                      copyData: InfoState.address,
+                      // test: InfoState.sights[index]['address'],
                     ))
               ]),
               Container(
@@ -205,13 +245,12 @@ class SightState extends State<Sight>
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: CustomTextField(
-                    type: "sight",
                     onChange: (value) {
                       InfoState.sights[index]['email'] = value.toString();
                     },
                     enable: !InfoState.sights[index]['check'],
                     hintText: "Enter email",
-                    copydata: InfoState.email,
+                    copyData: InfoState.email,
                   ),
                 ),
               ]),
@@ -236,69 +275,34 @@ class SightState extends State<Sight>
                 Padding(
                     padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
                     child: CustomTextField(
-                      type: "sight",
                       onChange: (value) {
                         InfoState.sights[index]['phone'] = value.toString();
                       },
                       enable: !InfoState.sights[index]['check'],
                       hintText: "Enter Phone number",
-                      copydata: InfoState.number,
+                      copyData: InfoState.number,
                     )),
               ]),
               Container(
                 height: 22,
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(top: 10, left: 250),
-                child: index == 0
-                    ? const SizedBox()
-                    : MaterialButton(
-                        onPressed: () {
-
-                          setState(() {
-                            InfoState.sights[index]['devices'].addAll([
-                              {
-                                "sight": "Sight ${InfoState.sights.length}",
-                                "label": "Panel information",
-                                "type": "panel",
-                                "image": "",
-                                "information": "",
-                                "checked": false
-                              },
-                              {
-                                "sight": "Sight ${InfoState.sights.length}",
-                                "label": "AC",
-                                "type": "panel",
-                                "image": "",
-                                "information": "",
-                                "checked": false
-                              },
-                              {
-                                "sight": "Sight ${InfoState.sights.length}",
-                                "label": "Heater information",
-                                "type": "panel",
-                                "image": "",
-                                "information": "",
-                                "checked": false
-                              },
-                              {
-                                "sight": "Sight ${InfoState.sights.length}",
-                                "label": "PowerX setup",
-                                "type": "panel",
-                                "image": "",
-                                "information": "",
-                                "checked": false
-                              }
-                            ]);
-                            InfoState.sights;
-                          });
-                          print(InfoState.sights);
-                        },
-                        color: Colors.black,
-                        child: const Text(
-                          "Add Device",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                child: MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      display = index;
+                      widget.voidcallback();
+                    });
+                    if (kDebugMode) {
+                      print(InfoState.sights);
+                    }
+                  },
+                  color: Colors.black,
+                  child: const Text(
+                    "Add Device",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
               Container(
                   margin: const EdgeInsets.only(left: 30, right: 20),
@@ -329,9 +333,13 @@ class SightState extends State<Sight>
                                       InfoState.email;
                                   InfoState.sights[index]['phone'] =
                                       InfoState.number;
-                                  print(InfoState.sights);
+                                  if (kDebugMode) {
+                                    print(InfoState.sights);
+                                  }
                                 } else {
-                                  print(InfoState.sights);
+                                  if (kDebugMode) {
+                                    print(InfoState.sights);
+                                  }
                                 }
                               });
                             },
