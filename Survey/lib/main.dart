@@ -237,8 +237,8 @@ class _MyHomePageState extends State<Login> {
               ]),
               Container(
                 margin: const EdgeInsets.only(top: 20),
-                child: button(
-                  btnname: "Log In",
+                child: Button(
+                  btnName: "Log In",
                   callback: () {
                     if (trySubmit()) {
                       setState(() {

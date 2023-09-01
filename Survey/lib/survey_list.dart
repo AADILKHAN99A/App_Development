@@ -170,8 +170,8 @@ class SurveyListState extends State<SurveyList> {
         )),
         Container(
           margin: const EdgeInsets.only(bottom: 20),
-          child: button(
-            btnname: "Create Survey",
+          child: Button(
+            btnName: "Create Survey",
             icon: const Icon(
               Icons.add,
               color: Colors.white,

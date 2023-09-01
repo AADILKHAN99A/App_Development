@@ -14,6 +14,7 @@ class CustomerState extends State<Customer>
   @override
   bool get wantKeepAlive => true;
 
+  //................................Customer Page...............................
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -22,7 +23,6 @@ class CustomerState extends State<Customer>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            // color: Colors.brown,
             margin: const EdgeInsets.only(top: 34, left: 20),
             child: Text(
               "Name",

@@ -5,8 +5,9 @@ import 'package:survey/info.dart';
 import 'package:survey/widgets/custom_textfield.dart';
 
 class Sight extends StatefulWidget {
-  const Sight({super.key, required this.voidcallback});
+  Sight({required this.voidcallback}) : super(key: sghtKey);
   final VoidCallback voidcallback;
+  static final GlobalKey<SightState> sghtKey = GlobalKey();
 
   @override
   State<Sight> createState() => SightState();
@@ -14,9 +15,72 @@ class Sight extends StatefulWidget {
 
 class SightState extends State<Sight>
     with AutomaticKeepAliveClientMixin<Sight> {
-  //......................Variable and Key Declaration................
+  //......................Variable Declaration................
 
   static int display = 0;
+  //.....................FUNCTIONS.........................................
+  @override
+  bool get wantKeepAlive => true;
+  ScrollController scrollController = ScrollController();
+  scrollToBottom() {
+    scrollController.jumpTo(scrollController.position.maxScrollExtent);
+  }
+
+  bool tryValidate = false;
+  bool nameValidate = false;
+  bool addValidate = false;
+  bool emailValidate = false;
+  bool phoneValidate = false;
+
+  navigate() {
+    if (nameValidate && addValidate && emailValidate && phoneValidate) {
+      print("return true.............");
+      return true;
+    }
+    print("return false.........");
+    return false;
+  }
+
+  validate() {
+    setState(() {
+      tryValidate = true;
+    });
+    return navigate();
+  }
+
+  validation(value, type) {
+    print("validation start");
+    if (type == "name") {
+      if (value == "") {
+        nameValidate = false;
+        return "required";
+      } else {
+        nameValidate = true;
+      }
+    } else if (type == "address") {
+      if (value == "") {
+        addValidate = false;
+        return "required";
+      } else {
+        addValidate = true;
+      }
+    } else if (type == "email") {
+      if (value == "") {
+        emailValidate = false;
+        return "required";
+      } else {
+        emailValidate = true;
+      }
+    } else if (type == "phone") {
+      if (value == "") {
+        phoneValidate = false;
+        return "required";
+      } else {
+        phoneValidate = true;
+      }
+    }
+  }
+
   sightButtonCall(index) {
     if (index == 0) {
       setState(() {
@@ -77,14 +141,7 @@ class SightState extends State<Sight>
     }
   }
 
-  //.....................FUNCTIONS.........................................
-  @override
-  bool get wantKeepAlive => true;
-  ScrollController scrollController = ScrollController();
-  scrollToBottom() {
-    scrollController.jumpTo(scrollController.position.maxScrollExtent);
-  }
-
+//...................................Sight Page.................................
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -183,13 +240,16 @@ class SightState extends State<Sight>
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
                   child: CustomTextField(
-                    onChange: (value) {
-                      InfoState.sights[index]['name'] = value.toString();
-                    },
-                    enable: !InfoState.sights[index]['check'],
-                    hintText: "Enter name",
-                    copyData: InfoState.name,
-                  ),
+                      onChange: (value) {
+                        InfoState.sights[index]['name'] = value.toString();
+                      },
+                      enable: !InfoState.sights[index]['check'],
+                      hintText: "Enter name",
+                      copyData: InfoState.name,
+                      errorText: tryValidate == false
+                          ? null
+                          : validation(
+                              InfoState.sights[index]['name'], "name")),
                 ),
               ]),
               Container(
@@ -220,7 +280,10 @@ class SightState extends State<Sight>
                       enable: !InfoState.sights[index]['check'],
                       hintText: "Enter address",
                       copyData: InfoState.address,
-                      // test: InfoState.sights[index]['address'],
+                      errorText: tryValidate == false
+                          ? null
+                          : validation(
+                              InfoState.sights[index]['address'], "address"),
                     ))
               ]),
               Container(
@@ -251,6 +314,9 @@ class SightState extends State<Sight>
                     enable: !InfoState.sights[index]['check'],
                     hintText: "Enter email",
                     copyData: InfoState.email,
+                    errorText: tryValidate == false
+                        ? null
+                        : validation(InfoState.sights[index]['email'], "email"),
                   ),
                 ),
               ]),
@@ -281,6 +347,10 @@ class SightState extends State<Sight>
                       enable: !InfoState.sights[index]['check'],
                       hintText: "Enter Phone number",
                       copyData: InfoState.number,
+                      errorText: tryValidate == false
+                          ? null
+                          : validation(
+                              InfoState.sights[index]['phone'], "phone"),
                     )),
               ]),
               Container(
@@ -337,9 +407,10 @@ class SightState extends State<Sight>
                                     print(InfoState.sights);
                                   }
                                 } else {
-                                  if (kDebugMode) {
-                                    print(InfoState.sights);
-                                  }
+                                  // InfoState.sights[index]['name'] ="";
+                                  // InfoState.sights[index]['address'] ="";
+                                  // InfoState.sights[index]['email'] ="";
+                                  // InfoState.sights[index]['phone'] ="";
                                 }
                               });
                             },

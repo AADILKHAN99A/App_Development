@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class button extends StatelessWidget {
-  final String btnname;
+class Button extends StatelessWidget {
+  final String btnName;
   final Icon? icon;
   final VoidCallback? callback;
 
-  const button({super.key, required this.btnname, this.icon, this.callback});
+  const Button({super.key, required this.btnName, this.icon, this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class button extends StatelessWidget {
                   children: [
                     icon!,
                     Text(
-                      btnname,
+                      btnName,
                       style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -33,7 +33,7 @@ class button extends StatelessWidget {
                   ],
                 )
               : Text(
-                  btnname,
+                  btnName,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,

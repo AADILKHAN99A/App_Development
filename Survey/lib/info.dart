@@ -20,7 +20,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   //                                       **-info-**
 
   final custFormKey = GlobalKey<FormState>();
-  final sghtFormKey = GlobalKey<FormState>();
+
   final devFormKey = GlobalKey<FormState>();
 
   var butStatus = 'Next';
@@ -45,6 +45,8 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   static String number = '';
 
   //                                       **-sight-**
+
+  static bool validate = false;
 
   static List sights = [
     {
@@ -91,8 +93,6 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     }
   ];
 
-  //                                      **-devices-**
-
   //..............................FUNCTIONS.....................................
 
   @override
@@ -109,7 +109,6 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     });
   }
 
-  //                                       **-info-**
   onTap() {
     if (tabDisable[tabController!.index]) {
       int index = tabController!.previousIndex;
@@ -158,10 +157,6 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     }
     return true;
   }
-
-  //                                       **-sight-**
-
-  //                                       **-devices-**
 
 //..................................Information Page.............................
 
@@ -252,25 +247,22 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                         controller: tabController,
                         children: [
                           Form(key: custFormKey, child: const Customer()),
-                          Form(
-                              key: sghtFormKey,
-                              child: Sight(
-                                voidcallback: () {
-                                  setState(() {
-                                    tabController!.index = 2;
-                                    butStatus = 'Submit';
-                                    tabController
-                                        ?.animateTo(tabController!.index);
-                                  });
-                                },
-                              )),
+                          Sight(
+                            voidcallback: () {
+                              setState(() {
+                                tabController!.index = 2;
+                                butStatus = 'Submit';
+                                tabController?.animateTo(tabController!.index);
+                              });
+                            },
+                          ),
                           Devices()
                         ]),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 20),
-                    child: button(
-                        btnname: butStatus,
+                    child: Button(
+                        btnName: butStatus,
                         callback: () {
                           switch (tabController!.index) {
                             case 0:
@@ -291,7 +283,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                               break;
                             case 1:
                               {
-                                if (trySubmit(temp: sghtFormKey)) {
+                                if (Sight.sghtKey.currentState?.validate()) {
                                   setState(() {
                                     tabController!.index = 2;
                                     tabDisable[tabController!.index] = false;

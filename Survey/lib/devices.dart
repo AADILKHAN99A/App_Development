@@ -67,6 +67,7 @@ class DevicesState extends State<Devices>
     }
   }
 
+  //..................................Devices Page.............................
   @override
   Widget build(BuildContext context) {
     super.build(context);
