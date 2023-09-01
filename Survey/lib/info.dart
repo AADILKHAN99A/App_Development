@@ -19,8 +19,8 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
 
   //                                       **-info-**
 
-  final custFormKey = GlobalKey<FormState>();
-
+  final customerFormKey = GlobalKey<FormState>();
+  final sightFormKey = GlobalKey<FormState>();
   final devFormKey = GlobalKey<FormState>();
 
   var butStatus = 'Next';
@@ -246,17 +246,21 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                         physics: const NeverScrollableScrollPhysics(),
                         controller: tabController,
                         children: [
-                          Form(key: custFormKey, child: const Customer()),
-                          Sight(
-                            voidcallback: () {
-                              setState(() {
-                                tabController!.index = 2;
-                                butStatus = 'Submit';
-                                tabController?.animateTo(tabController!.index);
-                              });
-                            },
+                          Form(key: customerFormKey, child: const Customer()),
+                          Form(
+                            key: sightFormKey,
+                            child: Sight(
+                              voidcallback: () {
+                                setState(() {
+                                  tabController!.index = 2;
+                                  butStatus = 'Submit';
+                                  tabController
+                                      ?.animateTo(tabController!.index);
+                                });
+                              },
+                            ),
                           ),
-                          Devices()
+                          Form(key: devFormKey, child: Devices())
                         ]),
                   ),
                   Container(
@@ -267,7 +271,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                           switch (tabController!.index) {
                             case 0:
                               {
-                                if (trySubmit(temp: custFormKey)) {
+                                if (trySubmit(temp: customerFormKey)) {
                                   setState(() {
                                     tabController!.index = 1;
                                     tabDisable[tabController!.index] = false;
@@ -283,7 +287,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                               break;
                             case 1:
                               {
-                                if (Sight.sghtKey.currentState?.validate()) {
+                                if (trySubmit(temp: sightFormKey)) {
                                   setState(() {
                                     tabController!.index = 2;
                                     tabDisable[tabController!.index] = false;
@@ -301,14 +305,16 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                               break;
                             case 2:
                               {
-                                if (kDebugMode) {
-                                  print(sights.toString());
+                                if (trySubmit(temp: devFormKey)) {
+                                  if (kDebugMode) {
+                                    print(sights.toString());
+                                  }
+                                  Navigator.pop(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SurveyList()));
                                 }
-                                Navigator.pop(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SurveyList()));
                               }
                               break;
                           }

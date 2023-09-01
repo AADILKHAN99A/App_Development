@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/info.dart';
-import 'package:survey/widgets/custom_textfield.dart';
+import 'package:survey/widgets/customTextFormField.dart';
+import 'package:email_validator/email_validator.dart';
 
 class Sight extends StatefulWidget {
-  Sight({required this.voidcallback}) : super(key: sghtKey);
+  Sight({super.key, required this.voidcallback});
   final VoidCallback voidcallback;
-  static final GlobalKey<SightState> sghtKey = GlobalKey();
 
   @override
   State<Sight> createState() => SightState();
@@ -24,61 +24,6 @@ class SightState extends State<Sight>
   ScrollController scrollController = ScrollController();
   scrollToBottom() {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
-  }
-
-  bool tryValidate = false;
-  bool nameValidate = false;
-  bool addValidate = false;
-  bool emailValidate = false;
-  bool phoneValidate = false;
-
-  navigate() {
-    if (nameValidate && addValidate && emailValidate && phoneValidate) {
-      print("return true.............");
-      return true;
-    }
-    print("return false.........");
-    return false;
-  }
-
-  validate() {
-    setState(() {
-      tryValidate = true;
-    });
-    return navigate();
-  }
-
-  validation(value, type) {
-    print("validation start");
-    if (type == "name") {
-      if (value == "") {
-        nameValidate = false;
-        return "required";
-      } else {
-        nameValidate = true;
-      }
-    } else if (type == "address") {
-      if (value == "") {
-        addValidate = false;
-        return "required";
-      } else {
-        addValidate = true;
-      }
-    } else if (type == "email") {
-      if (value == "") {
-        emailValidate = false;
-        return "required";
-      } else {
-        emailValidate = true;
-      }
-    } else if (type == "phone") {
-      if (value == "") {
-        phoneValidate = false;
-        return "required";
-      } else {
-        phoneValidate = true;
-      }
-    }
   }
 
   sightButtonCall(index) {
@@ -239,18 +184,26 @@ class SightState extends State<Sight>
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
-                  child: CustomTextField(
-                      onChange: (value) {
-                        InfoState.sights[index]['name'] = value.toString();
-                      },
-                      enable: !InfoState.sights[index]['check'],
-                      hintText: "Enter name",
-                      copyData: InfoState.name,
-                      errorText: tryValidate == false
-                          ? null
-                          : validation(
-                              InfoState.sights[index]['name'], "name")),
-                ),
+                  child: CustomTextFormField(
+                    onChange: (value) {
+                      InfoState.sights[index]['name'] = value.toString();
+                    },
+                    enable: !InfoState.sights[index]['check'],
+                    hintText: "Enter name",
+                    copyData: InfoState.name,
+                    keyboardType: "name",
+                    valueKey: const ValueKey('name'),
+                    validator: (value) {
+                      if (value.toString().isEmpty) {
+                        return 'Required';
+                      } else if (value.toString().length < 2) {
+                        return 'Name is too small';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                )
               ]),
               Container(
                 // color: Colors.brown,
@@ -273,17 +226,24 @@ class SightState extends State<Sight>
                 ),
                 Padding(
                     padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
-                    child: CustomTextField(
+                    child: CustomTextFormField(
                       onChange: (value) {
                         InfoState.sights[index]['address'] = value.toString();
                       },
                       enable: !InfoState.sights[index]['check'],
                       hintText: "Enter address",
                       copyData: InfoState.address,
-                      errorText: tryValidate == false
-                          ? null
-                          : validation(
-                              InfoState.sights[index]['address'], "address"),
+                      keyboardType: "address",
+                      valueKey: const ValueKey('address'),
+                      validator: (value) {
+                        if (value.toString().isEmpty) {
+                          return 'Required';
+                        } else if (value.toString().length < 20) {
+                          return 'Enter Full Address';
+                        } else {
+                          return null;
+                        }
+                      },
                     ))
               ]),
               Container(
@@ -307,16 +267,24 @@ class SightState extends State<Sight>
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
-                  child: CustomTextField(
+                  child: CustomTextFormField(
                     onChange: (value) {
                       InfoState.sights[index]['email'] = value.toString();
                     },
                     enable: !InfoState.sights[index]['check'],
                     hintText: "Enter email",
                     copyData: InfoState.email,
-                    errorText: tryValidate == false
-                        ? null
-                        : validation(InfoState.sights[index]['email'], "email"),
+                    keyboardType: "email",
+                    valueKey: const ValueKey('email'),
+                    validator: (value) {
+                      if (EmailValidator.validate(value)) {
+                        return null;
+                      } else if (value.toString().isEmpty) {
+                        return 'Required';
+                      } else {
+                        return 'Enter Valid Email';
+                      }
+                    },
                   ),
                 ),
               ]),
@@ -340,17 +308,24 @@ class SightState extends State<Sight>
                         ))),
                 Padding(
                     padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
-                    child: CustomTextField(
+                    child: CustomTextFormField(
                       onChange: (value) {
                         InfoState.sights[index]['phone'] = value.toString();
                       },
                       enable: !InfoState.sights[index]['check'],
                       hintText: "Enter Phone number",
                       copyData: InfoState.number,
-                      errorText: tryValidate == false
-                          ? null
-                          : validation(
-                              InfoState.sights[index]['phone'], "phone"),
+                      keyboardType: "phone",
+                      valueKey: const ValueKey('phone'),
+                      validator: (value) {
+                        if (value.toString().isEmpty) {
+                          return 'Required';
+                        } else if (value.toString().length != 10) {
+                          return 'Mobile Number must be of 10 digit';
+                        } else {
+                          return null;
+                        }
+                      },
                     )),
               ]),
               Container(

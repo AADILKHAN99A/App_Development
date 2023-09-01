@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:survey/info.dart';
-import 'package:survey/widgets/custom_textfield.dart';
+import 'package:survey/widgets/customTextFormField.dart';
 import 'package:survey/sight.dart';
 
 class Devices extends StatefulWidget {
@@ -231,7 +231,7 @@ class DevicesState extends State<Devices>
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           )),
-                                      child: CustomTextField(
+                                      child: CustomTextFormField(
                                         onChange: (value) {
                                           setState(() {
                                             InfoState.sights[parentIndex]
@@ -243,6 +243,21 @@ class DevicesState extends State<Devices>
                                         enable: InfoState.sights[parentIndex]
                                             ["devices"][index]["checked"],
                                         hintText: "information",
+                                        validator: (value) {
+                                          if (InfoState.sights[parentIndex]
+                                                      ["devices"][index]
+                                                  ["checked"] ==
+                                              true) {
+                                            if (value.toString().isEmpty) {
+                                              return 'Required';
+                                            } else {
+                                              return null;
+                                            }
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        valueKey: ValueKey('information'),
                                       )),
                                 ),
                                 Container(
