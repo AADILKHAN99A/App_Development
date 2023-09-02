@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/info.dart';
+import 'package:email_validator/email_validator.dart';
 
 class Customer extends StatefulWidget {
   const Customer({super.key});
@@ -47,6 +48,8 @@ class CustomerState extends State<Customer>
                 validator: (value) {
                   if (value.toString().isEmpty) {
                     return 'Required';
+                  } else if (value.toString().length < 2) {
+                    return 'Name is too small';
                   } else {
                     return null;
                   }
@@ -64,6 +67,7 @@ class CustomerState extends State<Customer>
                   contentPadding: const EdgeInsets.only(left: 22),
                   border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.name,
               ),
             ),
           ]),
@@ -93,6 +97,8 @@ class CustomerState extends State<Customer>
                 validator: (value) {
                   if (value.toString().isEmpty) {
                     return 'Required';
+                  } else if (value.toString().length < 20) {
+                    return 'Min Characters 20';
                   } else {
                     return null;
                   }
@@ -110,6 +116,7 @@ class CustomerState extends State<Customer>
                   contentPadding: const EdgeInsets.only(left: 22),
                   border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.streetAddress,
               ),
             ),
           ]),
@@ -136,10 +143,12 @@ class CustomerState extends State<Customer>
               child: TextFormField(
                 key: const ValueKey('email'),
                 validator: (value) {
-                  if (value.toString().isEmpty) {
+                  if (EmailValidator.validate(value!)) {
+                    return null;
+                  } else if (value.toString().isEmpty) {
                     return 'Required';
                   } else {
-                    return null;
+                    return 'Enter Valid Email';
                   }
                 },
                 onSaved: (value) {
@@ -155,6 +164,7 @@ class CustomerState extends State<Customer>
                   contentPadding: const EdgeInsets.only(left: 22),
                   border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
             ),
           ]),
@@ -177,16 +187,17 @@ class CustomerState extends State<Customer>
                       borderRadius: BorderRadius.circular(10),
                     ))),
             Padding(
-              padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
+              padding: const EdgeInsets.only(
+                  top: 3, left: 20, right: 40, bottom: 30),
               child: TextFormField(
                 key: const ValueKey('number'),
                 validator: (value) {
                   if (value.toString().isEmpty) {
                     return 'Required';
-                  } else if (value.toString().length < 10) {
-                    return 'Not valid';
-                  } else {
-                    return null;
+                  } else if (!RegExp(
+                          r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                      .hasMatch(value!)) {
+                    return "Enter Valid Mobile Number";
                   }
                 },
                 onSaved: (value) {
@@ -202,6 +213,7 @@ class CustomerState extends State<Customer>
                   contentPadding: const EdgeInsets.only(left: 22),
                   border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.phone,
               ),
             ),
           ]),

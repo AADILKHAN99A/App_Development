@@ -239,7 +239,7 @@ class SightState extends State<Sight>
                         if (value.toString().isEmpty) {
                           return 'Required';
                         } else if (value.toString().length < 20) {
-                          return 'Enter Full Address';
+                          return 'Min Characters 20';
                         } else {
                           return null;
                         }
@@ -320,10 +320,10 @@ class SightState extends State<Sight>
                       validator: (value) {
                         if (value.toString().isEmpty) {
                           return 'Required';
-                        } else if (value.toString().length != 10) {
-                          return 'Mobile Number must be of 10 digit';
-                        } else {
-                          return null;
+                        } else if (!RegExp(
+                                r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                            .hasMatch(value!)) {
+                          return "Enter Valid Mobile Number";
                         }
                       },
                     )),

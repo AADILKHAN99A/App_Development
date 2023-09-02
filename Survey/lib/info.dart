@@ -251,12 +251,14 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                             key: sightFormKey,
                             child: Sight(
                               voidcallback: () {
-                                setState(() {
-                                  tabController!.index = 2;
-                                  butStatus = 'Submit';
-                                  tabController
-                                      ?.animateTo(tabController!.index);
-                                });
+                                if (tabDisable[2] == false) {
+                                  setState(() {
+                                    tabController!.index = 2;
+                                    butStatus = 'Submit';
+                                    tabController
+                                        ?.animateTo(tabController!.index);
+                                  });
+                                }
                               },
                             ),
                           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
+import 'package:email_validator/email_validator.dart';
 
 void main() {
   runApp(const Survey());
@@ -144,10 +145,12 @@ class _MyHomePageState extends State<Login> {
                     child: TextFormField(
                       key: ValueKey(email),
                       validator: (value) {
-                        if (value.toString().isEmpty) {
-                          return 'Please enter email!';
-                        } else {
+                        if (EmailValidator.validate(value!)) {
                           return null;
+                        } else if (value.toString().isEmpty) {
+                          return 'Required';
+                        } else {
+                          return 'Enter Valid Email';
                         }
                       },
                       onSaved: (value) {
@@ -198,6 +201,8 @@ class _MyHomePageState extends State<Login> {
                     validator: (value) {
                       if (value.toString().isEmpty) {
                         return 'Required';
+                      } else if (value.toString().length < 8) {
+                        return "Min length 8";
                       } else {
                         return null;
                       }
@@ -240,7 +245,7 @@ class _MyHomePageState extends State<Login> {
                 child: Button(
                   btnName: "Log In",
                   callback: () {
-                    if (trySubmit()) {
+                    if (trySubmit() == true) {
                       setState(() {
                         Navigator.pushNamed(context, '/surveyList');
                       });
