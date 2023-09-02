@@ -307,7 +307,9 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                               break;
                             case 2:
                               {
-                                if (trySubmit(temp: devFormKey)) {
+                                if (trySubmit(temp: devFormKey) &&
+                                    trySubmit(temp: sightFormKey) &&
+                                    trySubmit(temp: customerFormKey)) {
                                   if (kDebugMode) {
                                     print(sights.toString());
                                   }
