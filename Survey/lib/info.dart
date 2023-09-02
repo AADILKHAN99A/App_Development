@@ -307,17 +307,37 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                               break;
                             case 2:
                               {
-                                if (trySubmit(temp: devFormKey) &&
-                                    trySubmit(temp: sightFormKey) &&
-                                    trySubmit(temp: customerFormKey)) {
-                                  if (kDebugMode) {
-                                    print(sights.toString());
+                                if (trySubmit(temp: customerFormKey)) {
+                                  if (trySubmit(temp: sightFormKey)) {
+                                    if (trySubmit(temp: devFormKey)) {
+                                      if (kDebugMode) {
+                                        print(sights.toString());
+                                      }
+                                      Navigator.pop(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SurveyList()));
+                                    } else {
+                                      if (kDebugMode) {
+                                        print("Error");
+                                      }
+                                    }
+                                  } else {
+                                    setState(() {
+                                      tabController!.index = 1;
+                                    });
+                                    butStatus = 'Next';
+                                    tabController
+                                        ?.animateTo(tabController!.index);
                                   }
-                                  Navigator.pop(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SurveyList()));
+                                } else {
+                                  setState(() {
+                                    tabController!.index = 0;
+                                  });
+                                  butStatus = 'Next';
+                                  tabController
+                                      ?.animateTo(tabController!.index);
                                 }
                               }
                               break;
