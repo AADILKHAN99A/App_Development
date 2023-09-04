@@ -115,11 +115,11 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
 
   showCustomToast() {
     Widget toast = Container(
-      margin: EdgeInsets.only(bottom: 35),
+      margin: const EdgeInsets.only(bottom: 35),
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        color: Colors.grey,
+        color: Colors.black.withOpacity(0.30000000074505806),
       ),
       child: const Text(
         "Select Atleast one",

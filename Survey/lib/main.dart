@@ -52,8 +52,28 @@ class _MyHomePageState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   bool emailValidate = false, passValidate = false;
-
+  FToast? fToast;
   //..............FUNCTIONS........................
+
+  showCustomToast() {
+    Widget toast = Container(
+      margin: const EdgeInsets.only(bottom: 35),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.black.withOpacity(0.30000000074505806),
+      ),
+      child: const Text(
+        "Wrong Details",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+
+    fToast?.showToast(
+      child: toast,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
 
   trySubmit() {
     final isValid = mainKey.currentState!.validate();
@@ -81,6 +101,7 @@ class _MyHomePageState extends State<Login> {
   void dispose() {
     emailController.dispose();
     super.dispose();
+    fToast?.init(context);
   }
 
   @override
@@ -251,6 +272,10 @@ class _MyHomePageState extends State<Login> {
                         Navigator.pushNamed(context, '/surveyList');
                       });
                     }
+                    else
+                      {
+                       showCustomToast();
+                      }
                   },
                 ),
               )
