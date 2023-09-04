@@ -90,7 +90,6 @@ class SightState extends State<Sight>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
     return ListView.separated(
         shrinkWrap: true,
         controller: scrollController,
@@ -141,6 +140,7 @@ class SightState extends State<Sight>
                       if (kDebugMode) {
                         print(InfoState.sights[0]['devices'].length);
                       }
+                      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -381,11 +381,6 @@ class SightState extends State<Sight>
                                   if (kDebugMode) {
                                     print(InfoState.sights);
                                   }
-                                } else {
-                                  // InfoState.sights[index]['name'] ="";
-                                  // InfoState.sights[index]['address'] ="";
-                                  // InfoState.sights[index]['email'] ="";
-                                  // InfoState.sights[index]['phone'] ="";
                                 }
                               });
                             },

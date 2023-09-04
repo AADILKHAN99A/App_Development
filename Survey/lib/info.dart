@@ -6,6 +6,7 @@ import 'package:survey/devices.dart';
 import 'package:survey/sight.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Info extends StatefulWidget {
   const Info({super.key});
@@ -16,6 +17,8 @@ class Info extends StatefulWidget {
 
 class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   //......................Variable and Key Declaration................
+
+  FToast? fToast;
 
   //                                       **-info-**
 
@@ -92,13 +95,14 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
       ]
     }
   ];
-
   //..............................FUNCTIONS.....................................
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    fToast = FToast();
+    fToast?.init(context);
   }
 
   @override
@@ -107,6 +111,26 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     tabController!.addListener(() {
       onTap();
     });
+  }
+
+  showCustomToast() {
+    Widget toast = Container(
+      margin: EdgeInsets.only(bottom: 35),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.grey,
+      ),
+      child: const Text(
+        "Select Atleast one",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+
+    fToast?.showToast(
+      child: toast,
+      toastDuration: const Duration(seconds: 3),
+    );
   }
 
   onTap() {
@@ -309,19 +333,23 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                               {
                                 if (trySubmit(temp: customerFormKey)) {
                                   if (trySubmit(temp: sightFormKey)) {
-                                    if (trySubmit(temp: devFormKey)) {
-                                      if (kDebugMode) {
-                                        print(sights.toString());
+                                    if (DevicesState.check != 0) {
+                                      if (trySubmit(temp: devFormKey)) {
+                                        if (kDebugMode) {
+                                          print(sights.toString());
+                                        }
+                                        Navigator.pop(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SurveyList()));
+                                      } else {
+                                        if (kDebugMode) {
+                                          print("Error");
+                                        }
                                       }
-                                      Navigator.pop(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SurveyList()));
                                     } else {
-                                      if (kDebugMode) {
-                                        print("Error");
-                                      }
+                                      showCustomToast();
                                     }
                                   } else {
                                     setState(() {

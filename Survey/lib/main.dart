@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(const Survey());

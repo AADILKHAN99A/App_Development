@@ -21,6 +21,9 @@ class DevicesState extends State<Devices>
     with AutomaticKeepAliveClientMixin<Devices> {
 //...........................Controller & Functions......................
 
+
+static int check = 0;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -250,6 +253,7 @@ class DevicesState extends State<Devices>
                                                         ["devices"][index]
                                                     ["checked"] ==
                                                 true) {
+                                              check = check+1;
                                               if (value.toString().isEmpty) {
                                                 return 'Required';
                                               } else {
