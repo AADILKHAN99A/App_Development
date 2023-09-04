@@ -3,63 +3,71 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static const _databasename = "surveydatabase.db";
-  static const _databaseversion = 1;
+  static const _databaseName = "surveyDatabase.db";
+  static const _databaseVersion = 1;
 
-  static const table1 = "Customer";
-  static const table1_Column1 = "_id";
-  static const table1_Column2 = "Name";
-  static const table1_Column3 = "Address";
-  static const table1_Column4 = "Email";
-  static const table1_Column5 = "Phone";
+  static const table1 = "User";
+  static const columnID = "_id";
+  static const columnName = "Name";
+  static const columnAddress = "Address";
+  static const columnEmail = "Email";
+  static const columnPhone = "Phone";
 
-  // static const table2 = "Sight";
-  // static const table2_Column1 = "_Sightid";
-  // static const table2_Column2 = "Name";
-  // static const table2_Column3 = "Address";
-  // static const table2_Column4 = "Email";
-  // static const table2_Column5 = "Phone";
+  static Database? _db;
 
-  late Database _db;
+  DatabaseHelper._privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
-  Future<void> init() async {
+  Future<Database?> get db async{
+    if(_db != null) return _db;
+    _db =await _initDatabase();
+    return _db;
+  }
+
+
+  _initDatabase() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, _databasename);
-    _db = await openDatabase(path,
-        version: _databaseversion, onCreate: _onCreate);
+    final path = join(documentsDirectory.path, _databaseName);
+    return await openDatabase(path,
+        version: _databaseVersion, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
     await db.execute(''' CREATE TABLE $table1(
-        $table1_Column1 INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-        $table1_Column2 CHAR(25) NOT NULL,
-        $table1_Column3 VARCHAR(255) NOT NULL,
-        $table1_Column4 VARCHAR(255) NOT NULL,
-        $table1_Column5 INT(10) NOT NULL
+        $columnID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        $columnName CHAR(25) NOT NULL,
+        $columnAddress VARCHAR(255) NOT NULL,
+        $columnEmail VARCHAR(255) NOT NULL,
+        $columnPhone INT(10) NOT NULL
         )''');
   }
 
-  // for insert row in table
+
+  //..................................... Functions ............................
+
+
+  //  Insert
   Future<int> insert(Map<String, dynamic> row) async {
-    return await _db.insert(table1, row);
+    Database? db =await instance.db;
+    return await db!.insert(table1, row);
   }
 
-  // Fetching Data
+  // Query All Row
   Future<List<Map<String, dynamic>>> queryAllRow() async {
-    return _db.query(table1);
+    return _db!.query(table1);
   }
 
   // Update
-  Future update(Map<String, dynamic> row) async {
-    int id = row[table1_Column1];
-    return await _db
-        .update(table1, row, where: '$table1_Column1=?', whereArgs: [id]);
-  }
-
-  Future<int> delete(int id) async {
-    return await _db
-        .delete(table1, where: '$table1_Column1 = ?', whereArgs: [id]);
-  }
+  // Future update(Map<String, dynamic> row) async {
+  //   int id = row[table1_Column1];
+  //   return await _db
+  //       .update(table1, row, where: '$table1_Column1=?', whereArgs: [id]);
+  // }
+  //
+  // Future<int> delete(int id) async {
+  //   return await _db
+  //       .delete(table1, where: '$table1_Column1 = ?', whereArgs: [id]);
+  // }
 
   //
 }

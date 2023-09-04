@@ -5,6 +5,7 @@ import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey/database_helper.dart';
 
 void main() {
   runApp(const Survey());
@@ -45,6 +46,7 @@ class Login extends StatefulWidget {
 
 class _MyHomePageState extends State<Login> {
   //.............VARIABLE DECLARATION..............
+  final dbHelper =DatabaseHelper.instance;
   String email = '';
   String password = '';
   bool passwordVisible = true;
@@ -247,7 +249,7 @@ class _MyHomePageState extends State<Login> {
                 ),
                 Positioned(
                   top: 3,
-                  left: 326,
+                  left: 335,
                   child: IconButton(
                       onPressed: () {
                         setState(() {
