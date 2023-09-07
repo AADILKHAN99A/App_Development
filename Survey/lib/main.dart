@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:survey/dbtester.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 import 'package:email_validator/email_validator.dart';
@@ -46,7 +47,7 @@ class Login extends StatefulWidget {
 
 class _MyHomePageState extends State<Login> {
   //.............VARIABLE DECLARATION..............
-  final dbHelper =DatabaseHelper.instance;
+  final dbHelper = DatabaseHelper.instance;
   String email = '';
   String password = '';
   bool passwordVisible = true;
@@ -269,15 +270,16 @@ class _MyHomePageState extends State<Login> {
                 child: Button(
                   btnName: "Log In",
                   callback: () {
-                    if (trySubmit() == true) {
+                    if (true) {
                       setState(() {
-                        Navigator.pushNamed(context, '/surveyList');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyHomePage()));
                       });
+                    } else {
+                      showCustomToast();
                     }
-                    else
-                      {
-                       showCustomToast();
-                      }
                   },
                 ),
               )

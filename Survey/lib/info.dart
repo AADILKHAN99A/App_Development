@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/customer.dart';
+import 'package:survey/database_helper.dart';
 import 'package:survey/devices.dart';
 import 'package:survey/sight.dart';
 import 'package:survey/survey_list.dart';
@@ -19,8 +20,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   //......................Variable and Key Declaration................
 
   FToast? fToast;
-
-
+  final dbHelper = DatabaseHelper.instance;
 
   //                                       **-info-**
 

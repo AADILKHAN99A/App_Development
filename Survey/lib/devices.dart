@@ -260,6 +260,7 @@ static int check = 0;
                                                 return null;
                                               }
                                             } else {
+                                              check = check-1;
                                               return null;
                                             }
                                           },
