@@ -46,14 +46,24 @@ class SurveyListState extends State<SurveyList> {
         body: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 60),
-          alignment: Alignment.center,
-          child: Text(
-            "Survey List",
-            style:
-                GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
-          ),
+        Stack(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 60,bottom: 8),
+              alignment: Alignment.center,
+              child: Text(
+                "Survey List",
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+            ),
+            Positioned(
+              right: 30,
+              top: 48,
+              child: IconButton(
+                  onPressed: refreshList, icon: const Icon(Icons.refresh_rounded)),
+            )
+          ],
         ),
         isLoading == true
             ? const Padding(
@@ -65,7 +75,8 @@ class SurveyListState extends State<SurveyList> {
               )
             : Expanded(
                 child: ListView.separated(
-                  padding: const EdgeInsets.only(top: 19, left: 24, right: 24,bottom: 20),
+                  padding: const EdgeInsets.only(
+                      top: 19, left: 24, right: 24, bottom: 20),
                   itemCount: surveyList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
@@ -191,7 +202,11 @@ class SurveyListState extends State<SurveyList> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => Info(
-                            refresh: refreshList,
+                            refresh: () {
+                              setState(() {
+                                refreshList();
+                              });
+                            },
                           )));
             },
           ),
