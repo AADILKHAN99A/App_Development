@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:survey/dbtester.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 import 'package:email_validator/email_validator.dart';
@@ -31,7 +30,7 @@ class Survey extends StatelessWidget {
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
       routes: {
-        '/surveyList': (context) => const SurveyList(),
+        '/surveyList': (context) => SurveyList(),
       },
       home: const Login(),
     );
@@ -98,6 +97,12 @@ class _MyHomePageState extends State<Login> {
       print(password);
     }
     return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dbHelper.db;
   }
 
   @override
@@ -275,7 +280,7 @@ class _MyHomePageState extends State<Login> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MyHomePage()));
+                                builder: (context) => SurveyList()));
                       });
                     } else {
                       showCustomToast();

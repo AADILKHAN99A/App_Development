@@ -35,7 +35,7 @@ class SightState extends State<Sight>
           "address": "",
           "email": "",
           "phone": "",
-          "check": false,
+          "checked": false,
           "devices": [
             {
               "sight": "Sight ${InfoState.sights.length + 1}",
@@ -140,7 +140,8 @@ class SightState extends State<Sight>
                       if (kDebugMode) {
                         print(InfoState.sights[0]['devices'].length);
                       }
-                      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
+                      WidgetsBinding.instance
+                          .addPostFrameCallback((_) => scrollToBottom());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -188,9 +189,9 @@ class SightState extends State<Sight>
                     onChange: (value) {
                       InfoState.sights[index]['name'] = value.toString();
                     },
-                    enable: !InfoState.sights[index]['check'],
+                    enable: !InfoState.sights[index]['checked'],
                     hintText: "Enter name",
-                    copyData: InfoState.name,
+                    copyData: InfoState.customerDetails['name'],
                     keyboardType: "name",
                     valueKey: const ValueKey('name'),
                     validator: (value) {
@@ -230,9 +231,9 @@ class SightState extends State<Sight>
                       onChange: (value) {
                         InfoState.sights[index]['address'] = value.toString();
                       },
-                      enable: !InfoState.sights[index]['check'],
+                      enable: !InfoState.sights[index]['checked'],
                       hintText: "Enter address",
-                      copyData: InfoState.address,
+                      copyData: InfoState.customerDetails['address'],
                       keyboardType: "address",
                       valueKey: const ValueKey('address'),
                       validator: (value) {
@@ -271,9 +272,9 @@ class SightState extends State<Sight>
                     onChange: (value) {
                       InfoState.sights[index]['email'] = value.toString();
                     },
-                    enable: !InfoState.sights[index]['check'],
+                    enable: !InfoState.sights[index]['checked'],
                     hintText: "Enter email",
-                    copyData: InfoState.email,
+                    copyData: InfoState.customerDetails['email'],
                     keyboardType: "email",
                     valueKey: const ValueKey('email'),
                     validator: (value) {
@@ -312,9 +313,9 @@ class SightState extends State<Sight>
                       onChange: (value) {
                         InfoState.sights[index]['phone'] = value.toString();
                       },
-                      enable: !InfoState.sights[index]['check'],
+                      enable: !InfoState.sights[index]['checked'],
                       hintText: "Enter Phone number",
-                      copyData: InfoState.number,
+                      copyData: InfoState.customerDetails['phone'],
                       keyboardType: "phone",
                       valueKey: const ValueKey('phone'),
                       validator: (value) {
@@ -325,6 +326,7 @@ class SightState extends State<Sight>
                             .hasMatch(value!)) {
                           return "Enter Valid Mobile Number";
                         }
+                        return null;
                       },
                     )),
               ]),
@@ -365,19 +367,19 @@ class SightState extends State<Sight>
                               ),
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            value: InfoState.sights[index]['check'],
+                            value: InfoState.sights[index]['checked'],
                             onChanged: (value) {
                               setState(() {
-                                InfoState.sights[index]['check'] = value;
+                                InfoState.sights[index]['checked'] = value;
                                 if (value == true) {
                                   InfoState.sights[index]['name'] =
-                                      InfoState.name;
+                                      InfoState.customerDetails['name'];
                                   InfoState.sights[index]['address'] =
-                                      InfoState.address;
+                                      InfoState.customerDetails['address'];
                                   InfoState.sights[index]['email'] =
-                                      InfoState.email;
+                                      InfoState.customerDetails['email'];
                                   InfoState.sights[index]['phone'] =
-                                      InfoState.number;
+                                      InfoState.customerDetails['phone'];
                                   if (kDebugMode) {
                                     print(InfoState.sights);
                                   }

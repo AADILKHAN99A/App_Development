@@ -55,7 +55,7 @@ class CustomerState extends State<Customer>
                   }
                 },
                 onSaved: (value) {
-                  InfoState.name = value.toString();
+                  InfoState.customerDetails['name'] = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),
@@ -104,7 +104,7 @@ class CustomerState extends State<Customer>
                   }
                 },
                 onSaved: (value) {
-                  InfoState.address = value.toString();
+                  InfoState.customerDetails['address'] = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),
@@ -152,7 +152,7 @@ class CustomerState extends State<Customer>
                   }
                 },
                 onSaved: (value) {
-                  InfoState.email = value.toString();
+                  InfoState.customerDetails['email'] = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),
@@ -190,7 +190,7 @@ class CustomerState extends State<Customer>
               padding: const EdgeInsets.only(
                   top: 3, left: 20, right: 40, bottom: 30),
               child: TextFormField(
-                key: const ValueKey('number'),
+                key: const ValueKey('phone'),
                 validator: (value) {
                   if (value.toString().isEmpty) {
                     return 'Required';
@@ -199,9 +199,10 @@ class CustomerState extends State<Customer>
                       .hasMatch(value!)) {
                     return "Enter Valid Mobile Number";
                   }
+                  return null;
                 },
                 onSaved: (value) {
-                  InfoState.number = value.toString();
+                  InfoState.customerDetails['phone'] = value.toString();
                 },
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.poppins(),

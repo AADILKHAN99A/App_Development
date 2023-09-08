@@ -34,7 +34,8 @@ class DatabaseHelper {
         ${CustomerFields.columnName} TEXT NOT NULL,
         ${CustomerFields.columnAddress} TEXT NOT NULL,
         ${CustomerFields.columnEmail} TEXT NOT NULL,
-        ${CustomerFields.columnPhone} TEXT NOT NULL
+        ${CustomerFields.columnPhone} TEXT NOT NULL,
+        ${CustomerFields.columnDateTime} TEXT NOT NULL
         )''');
     await db.execute('''CREATE TABLE $sightTable(
         ${SightFields.columnSightID} INTEGER PRIMARY KEY,
@@ -58,6 +59,7 @@ class DatabaseHelper {
         id INTEGER ,
         FOREIGN KEY(id) REFERENCES $sightTable(${SightFields.columnSightID}) ON DELETE CASCADE
     )''');
+    preListAdder();
   }
 
   static Future _onConfigure(Database db) async {
@@ -67,6 +69,97 @@ class DatabaseHelper {
   Future close() async {
     final db = await instance.db;
     db!.close();
+  }
+
+  Future preListAdder() async {
+    List preCustomerList = [
+      {
+        "name": "Dwayne Douglas",
+        "address": "2451 University Mobile, AL 36617",
+        "email": "",
+        "phone": "",
+        "dateTime": "25 July 2023 5:41 pm"
+      },
+      {
+        "name": "Dwayne Douglas",
+        "address": "2451 University Mobile, AL 36617",
+        "email": "",
+        "phone": "",
+        "dateTime": "26 July 2023 5:41 pm"
+      },
+      {
+        "name": "Dwayne Douglas",
+        "address": "2451 University Mobile, AL 36617",
+        "email": "",
+        "phone": "",
+        "dateTime": "27 July 2023 5:41 pm"
+      },
+      {
+        "name": "Dwayne Douglas",
+        "address": "2451 University Mobile, AL 36617",
+        "email": "",
+        "phone": "",
+        "dateTime": "28 July 2023 5:41 pm"
+      }
+    ];
+    List preSightList = [
+      {
+        "label": "Sight 1",
+        "name": "",
+        "address": "",
+        "email": "",
+        "phone": "",
+        "checked": false,
+      }
+    ];
+    List preDeviceList = [
+      {
+        "sight": "Sight 1",
+        "label": "Panel information",
+        "type": "panel",
+        "image": "",
+        "information": "",
+        "checked": false
+      },
+      {
+        "sight": "Sight 1",
+        "label": "AC",
+        "type": "panel",
+        "image": "",
+        "information": "",
+        "checked": false
+      },
+      {
+        "sight": "Sight 1",
+        "label": "Heater information",
+        "type": "panel",
+        "image": "",
+        "information": "",
+        "checked": false
+      },
+      {
+        "sight": "Sight 1",
+        "label": "PowerX setup",
+        "type": "panel",
+        "image": "",
+        "information": "",
+        "checked": false
+      },
+    ];
+
+    for (int i = 0; i < preCustomerList.length; i++) {
+      var id = await insert(row: preCustomerList[i], table: customerTable);
+
+      for (int j = 0; j < preSightList.length; j++) {
+        var sightid =
+            await insert(row: preSightList[j], table: sightTable, tempId: id);
+        for (int k = 0; k < preDeviceList.length; k++) {
+          var deviceid = await insert(
+              row: preDeviceList[k], table: deviceTable, tempId: sightid);
+          print(deviceid);
+        }
+      }
+    }
   }
 
   //..................................... Functions ............................
@@ -106,7 +199,16 @@ class DatabaseHelper {
       ]);
       return id;
     } else if (table == customerTable) {
-      final id = await db!.insert(table, row);
+      const columns =
+          '${CustomerFields.columnName},${CustomerFields.columnAddress},${CustomerFields.columnEmail},${CustomerFields.columnPhone},${CustomerFields.columnDateTime}';
+      final id = await db!
+          .rawInsert('INSERT INTO $table($columns) VALUES (?,?,?,?,?)', [
+        '${row['name']}',
+        '${row['address']}',
+        '${row['email']}',
+        '${row['phone']}',
+        '${row['dateTime']}'
+      ]);
       return id;
     } else {
       return null;

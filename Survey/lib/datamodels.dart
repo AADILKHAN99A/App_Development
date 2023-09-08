@@ -10,23 +10,24 @@ class CustomerFields {
   static const columnAddress = "address";
   static const columnEmail = "email";
   static const columnPhone = "phone";
+  static const columnDateTime = "dateTime";
 }
 
-class Customer {
+class CustomerModel {
   final int? id;
   final String name;
   final String address;
   final String email;
   final int phone;
 
-  Customer(
+  CustomerModel(
       {this.id,
       required this.name,
       required this.address,
       required this.email,
       required this.phone});
 
-  factory Customer.fromMap(json) => Customer(
+  factory CustomerModel.fromMap(json) => CustomerModel(
       name: json["name"],
       address: json["address"],
       email: json["email"],
@@ -54,7 +55,7 @@ class SightFields {
   static const columnSightChecked = "checked";
 }
 
-class Sight {
+class SightModel {
   final int? sightId;
   final String label;
   final String name;
@@ -63,7 +64,7 @@ class Sight {
   final String phone;
   final bool check;
 
-  Sight(
+  SightModel(
       {this.sightId,
       required this.label,
       required this.name,
@@ -86,7 +87,7 @@ class DeviceFields {
   static const columnDeviceChecked = "checked";
 }
 
-class Device {
+class DeviceModel {
   final int? deviceId;
   final String sight;
   final String label;
@@ -95,7 +96,7 @@ class Device {
   final String information;
   final bool checked;
 
-  Device(
+  DeviceModel(
       {this.deviceId,
       required this.sight,
       required this.label,

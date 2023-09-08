@@ -21,9 +21,6 @@ class DevicesState extends State<Devices>
     with AutomaticKeepAliveClientMixin<Devices> {
 //...........................Controller & Functions......................
 
-
-static int check = 0;
-
   @override
   bool get wantKeepAlive => true;
 
@@ -79,8 +76,8 @@ static int check = 0;
       itemBuilder: (BuildContext context, int parentIndex) {
         return parentIndex == SightState.display
             ? Padding(
-              padding: const EdgeInsets.only(bottom: 30),
-              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Padding(
@@ -133,14 +130,22 @@ static int check = 0;
                                                       color: Colors.grey,
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.circular(3),
+                                                        BorderRadius.circular(
+                                                            3),
                                                   ),
-                                                  value: InfoState
-                                                              .sights[parentIndex]
+                                                  value: InfoState.sights[
+                                                              parentIndex]
                                                           ["devices"][index]
                                                       ['checked'],
                                                   onChanged: (value) {
                                                     setState(() {
+                                                      if(value==true)
+                                                        {
+                                                          InfoState.checkValue+=1;
+                                                        }
+                                                      else{
+                                                        InfoState.checkValue-=1;
+                                                      }
                                                       InfoState.sights[
                                                                   parentIndex]
                                                               ["devices"][index]
@@ -185,18 +190,21 @@ static int check = 0;
                                                 child: Row(
                                                   children: [
                                                     InfoState.sights[parentIndex]
-                                                                    ["devices"]
-                                                                [index]['type'] ==
+                                                                        [
+                                                                        "devices"]
+                                                                    [index]
+                                                                ['type'] ==
                                                             "panel"
                                                         ? const Icon(
                                                             Icons.add,
-                                                            color:
-                                                                Color(0x991D19DA),
+                                                            color: Color(
+                                                                0x991D19DA),
                                                             size: 17,
                                                           )
-                                                        : const Icon(Icons.remove,
-                                                            color:
-                                                                Color(0x991D19DA),
+                                                        : const Icon(
+                                                            Icons.remove,
+                                                            color: Color(
+                                                                0x991D19DA),
                                                             size: 17),
                                                     Text(
                                                         InfoState.sights[parentIndex]
@@ -230,8 +238,8 @@ static int check = 0;
                                             top: 3, left: 55, right: 7),
                                         height: 45,
                                         decoration: ShapeDecoration(
-                                            color: Colors.black
-                                                .withOpacity(0.05000000074505806),
+                                            color: Colors.black.withOpacity(
+                                                0.05000000074505806),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -253,18 +261,15 @@ static int check = 0;
                                                         ["devices"][index]
                                                     ["checked"] ==
                                                 true) {
-                                              check = check+1;
                                               if (value.toString().isEmpty) {
                                                 return 'Required';
                                               } else {
                                                 return null;
                                               }
-                                            } else {
-                                              check = check-1;
-                                              return null;
                                             }
                                           },
-                                          valueKey: const ValueKey('information'),
+                                          valueKey:
+                                              const ValueKey('information'),
                                         )),
                                   ),
                                   Container(
@@ -284,11 +289,12 @@ static int check = 0;
                                         onPressed: () =>
                                             pickImage(parentIndex, index),
                                         child: InfoState.sights[parentIndex]
-                                                    ["devices"][index]['image'] !=
+                                                        ["devices"][index]
+                                                    ['image'] !=
                                                 ""
-                                            ? Image.file(File(
-                                                InfoState.sights[parentIndex]
-                                                    ["devices"][index]['image']))
+                                            ? Image.file(File(InfoState
+                                                    .sights[parentIndex]
+                                                ["devices"][index]['image']))
                                             : SvgPicture.asset(
                                                 'assets/icons/camera.svg')),
                                   )
@@ -307,7 +313,7 @@ static int check = 0;
                     ],
                   ),
                 ),
-            )
+              )
             : const SizedBox();
       },
     );
