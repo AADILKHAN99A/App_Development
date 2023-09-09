@@ -84,7 +84,6 @@ class SurveyListState extends State<SurveyList> {
                       child: Container(
                         width: 341,
                         height: 120,
-                        // clipBehavior: Clip.antiAlias,
                         decoration: ShapeDecoration(
                           color: Colors.black.withOpacity(0.05000000074505806),
                           shape: RoundedRectangleBorder(

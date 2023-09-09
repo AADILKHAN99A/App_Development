@@ -138,6 +138,35 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     );
   }
 
+  Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+            actionsAlignment: MainAxisAlignment.spaceEvenly,
+            icon: const Icon(Icons.warning_amber, color: Colors.black),
+            title: const Text(
+              "Changes on this page will not be saved.",
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+            actions: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      backgroundColor: Colors.black),
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white))),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      backgroundColor: Colors.black),
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text("Discard",
+                      style: TextStyle(color: Colors.white)))
+            ],
+          ));
+
   onTap() {
     if (tabDisable[tabController!.index]) {
       int index = tabController!.previousIndex;
@@ -209,255 +238,322 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: GestureDetector(
-            onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    // color: Colors.purple,
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(top: 60),
-                    child: Text(
-                      "Information",
-                      style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          height: 1.53),
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+        if (shouldPop == true) {
+          setState(() {
+            customerDetails = {
+              "name": "",
+              "address": "",
+              "email": "",
+              "phone": "",
+              "dateTime": ""
+            };
+            sights = [
+              {
+                "label": "Sight 1",
+                "name": "",
+                "address": "",
+                "email": "",
+                "phone": "",
+                "checked": false,
+                "devices": [
+                  {
+                    "sight": "Sight 1",
+                    "label": "Panel information",
+                    "type": "panel",
+                    "image": "",
+                    "information": "",
+                    "checked": false
+                  },
+                  {
+                    "sight": "Sight 1",
+                    "label": "AC",
+                    "type": "panel",
+                    "image": "",
+                    "information": "",
+                    "checked": false
+                  },
+                  {
+                    "sight": "Sight 1",
+                    "label": "Heater information",
+                    "type": "panel",
+                    "image": "",
+                    "information": "",
+                    "checked": false
+                  },
+                  {
+                    "sight": "Sight 1",
+                    "label": "PowerX setup",
+                    "type": "panel",
+                    "image": "",
+                    "information": "",
+                    "checked": false
+                  },
+                ]
+              }
+            ];
+          });
+        }
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+          body: GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      // color: Colors.purple,
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.only(top: 60),
+                      child: Text(
+                        "Information",
+                        style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            height: 1.53),
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 39,
-                    margin: const EdgeInsets.only(top: 18, left: 20, right: 20),
-                    decoration: ShapeDecoration(
-                        color: Colors.black.withOpacity(0.05000000074505806),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )),
-                    child: TabBar(
-                        onTap: (int index) => onTap(),
-                        controller: tabController,
-                        unselectedLabelColor:
-                            Colors.black.withOpacity(0.6000000238418579),
-                        labelColor: Colors.white,
-                        indicatorColor: Colors.black,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.black),
-                        tabs: [
-                          Tab(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  // color: Colors.brown,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Text(
-                                "Customer",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
+                    Container(
+                      height: 39,
+                      margin:
+                          const EdgeInsets.only(top: 18, left: 20, right: 20),
+                      decoration: ShapeDecoration(
+                          color: Colors.black.withOpacity(0.05000000074505806),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                      child: TabBar(
+                          onTap: (int index) => onTap(),
+                          controller: tabController,
+                          unselectedLabelColor:
+                              Colors.black.withOpacity(0.6000000238418579),
+                          labelColor: Colors.white,
+                          indicatorColor: Colors.black,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.black),
+                          tabs: [
+                            Tab(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    // color: Colors.brown,
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: Text(
+                                  "Customer",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                             ),
-                          ),
-                          Tab(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  // color: Colors.brown,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Text(
-                                "Sight",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
+                            Tab(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    // color: Colors.brown,
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: Text(
+                                  "Sight",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                             ),
-                          ),
-                          Tab(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  // color: Colors.brown,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Text(
-                                "Devices",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
+                            Tab(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    // color: Colors.brown,
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: Text(
+                                  "Devices",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            )
+                          ]),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: tabController,
+                          children: [
+                            Form(key: customerFormKey, child: const Customer()),
+                            Form(
+                              key: sightFormKey,
+                              child: Sight(
+                                voidcallback: () {
+                                  if (tabDisable[2] == false) {
+                                    setState(() {
+                                      tabController!.index = 2;
+                                      butStatus = 'Submit';
+                                      tabController
+                                          ?.animateTo(tabController!.index);
+                                    });
+                                  }
+                                },
                               ),
                             ),
-                          )
-                        ]),
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: tabController,
-                        children: [
-                          Form(key: customerFormKey, child: const Customer()),
-                          Form(
-                            key: sightFormKey,
-                            child: Sight(
-                              voidcallback: () {
-                                if (tabDisable[2] == false) {
-                                  setState(() {
-                                    tabController!.index = 2;
-                                    butStatus = 'Submit';
+                            Form(key: devFormKey, child: Devices())
+                          ]),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      child: Button(
+                          btnName: butStatus,
+                          callback: () {
+                            switch (tabController!.index) {
+                              case 0:
+                                {
+                                  if (trySubmit(temp: customerFormKey)) {
+                                    setState(() {
+                                      tabController!.index = 1;
+                                      tabDisable[tabController!.index] = false;
+                                    });
                                     tabController
                                         ?.animateTo(tabController!.index);
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          Form(key: devFormKey, child: Devices())
-                        ]),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    child: Button(
-                        btnName: butStatus,
-                        callback: () {
-                          switch (tabController!.index) {
-                            case 0:
-                              {
-                                if (trySubmit(temp: customerFormKey)) {
-                                  setState(() {
-                                    tabController!.index = 1;
-                                    tabDisable[tabController!.index] = false;
-                                  });
-                                  tabController
-                                      ?.animateTo(tabController!.index);
-                                  if (kDebugMode) {
-                                    print(
-                                        "Current tab index : ${tabController!.index}");
+                                    if (kDebugMode) {
+                                      print(
+                                          "Current tab index : ${tabController!.index}");
+                                    }
                                   }
                                 }
-                              }
-                              break;
-                            case 1:
-                              {
-                                if (trySubmit(temp: sightFormKey)) {
-                                  setState(() {
-                                    tabController!.index = 2;
-                                    tabDisable[tabController!.index] = false;
-                                  });
-                                  tabController
-                                      ?.animateTo(tabController!.index);
-                                  if (kDebugMode) {
-                                    print(
-                                        "Current tab index : ${tabController!.index}");
-                                  }
-
-                                  butStatus = 'Submit';
-                                }
-                              }
-                              break;
-                            case 2:
-                              {
-                                if (trySubmit(temp: customerFormKey)) {
+                                break;
+                              case 1:
+                                {
                                   if (trySubmit(temp: sightFormKey)) {
-                                    if (checkValue > 0) {
-                                      if (trySubmit(temp: devFormKey)) {
-                                        if (kDebugMode) {
-                                          print(sights.toString());
-                                        }
-                                        var time = DateTime.now();
-                                        customerDetails['dateTime'] =
-                                            DateFormat.d()
-                                                .add_yMMM()
-                                                .add_jm()
-                                                .format(time);
+                                    setState(() {
+                                      tabController!.index = 2;
+                                      tabDisable[tabController!.index] = false;
+                                    });
+                                    tabController
+                                        ?.animateTo(tabController!.index);
+                                    if (kDebugMode) {
+                                      print(
+                                          "Current tab index : ${tabController!.index}");
+                                    }
 
-                                        insertData(customerDetails, sights);
-                                        widget.refresh;
-                                        setState(() {
-                                          customerDetails = {
-                                            "name": "",
-                                            "address": "",
-                                            "email": "",
-                                            "phone": "",
-                                            "dateTime": ""
-                                          };
-                                          sights = [
-                                            {
-                                              "label": "Sight 1",
+                                    butStatus = 'Submit';
+                                  }
+                                }
+                                break;
+                              case 2:
+                                {
+                                  if (trySubmit(temp: customerFormKey)) {
+                                    if (trySubmit(temp: sightFormKey)) {
+                                      if (checkValue > 0) {
+                                        if (trySubmit(temp: devFormKey)) {
+                                          if (kDebugMode) {
+                                            print(sights.toString());
+                                          }
+                                          var time = DateTime.now();
+                                          customerDetails['dateTime'] =
+                                              DateFormat.d()
+                                                  .add_yMMM()
+                                                  .add_jm()
+                                                  .format(time);
+
+                                          insertData(customerDetails, sights);
+                                          widget.refresh;
+                                          setState(() {
+                                            customerDetails = {
                                               "name": "",
                                               "address": "",
                                               "email": "",
                                               "phone": "",
-                                              "checked": false,
-                                              "devices": [
-                                                {
-                                                  "sight": "Sight 1",
-                                                  "label": "Panel information",
-                                                  "type": "panel",
-                                                  "image": "",
-                                                  "information": "",
-                                                  "checked": false
-                                                },
-                                                {
-                                                  "sight": "Sight 1",
-                                                  "label": "AC",
-                                                  "type": "panel",
-                                                  "image": "",
-                                                  "information": "",
-                                                  "checked": false
-                                                },
-                                                {
-                                                  "sight": "Sight 1",
-                                                  "label": "Heater information",
-                                                  "type": "panel",
-                                                  "image": "",
-                                                  "information": "",
-                                                  "checked": false
-                                                },
-                                                {
-                                                  "sight": "Sight 1",
-                                                  "label": "PowerX setup",
-                                                  "type": "panel",
-                                                  "image": "",
-                                                  "information": "",
-                                                  "checked": false
-                                                },
-                                              ]
-                                            }
-                                          ];
-                                        });
-                                        Navigator.pop(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SurveyList()));
-                                      } else {
-                                        if (kDebugMode) {
-                                          print("Error");
+                                              "dateTime": ""
+                                            };
+                                            sights = [
+                                              {
+                                                "label": "Sight 1",
+                                                "name": "",
+                                                "address": "",
+                                                "email": "",
+                                                "phone": "",
+                                                "checked": false,
+                                                "devices": [
+                                                  {
+                                                    "sight": "Sight 1",
+                                                    "label":
+                                                        "Panel information",
+                                                    "type": "panel",
+                                                    "image": "",
+                                                    "information": "",
+                                                    "checked": false
+                                                  },
+                                                  {
+                                                    "sight": "Sight 1",
+                                                    "label": "AC",
+                                                    "type": "panel",
+                                                    "image": "",
+                                                    "information": "",
+                                                    "checked": false
+                                                  },
+                                                  {
+                                                    "sight": "Sight 1",
+                                                    "label":
+                                                        "Heater information",
+                                                    "type": "panel",
+                                                    "image": "",
+                                                    "information": "",
+                                                    "checked": false
+                                                  },
+                                                  {
+                                                    "sight": "Sight 1",
+                                                    "label": "PowerX setup",
+                                                    "type": "panel",
+                                                    "image": "",
+                                                    "information": "",
+                                                    "checked": false
+                                                  },
+                                                ]
+                                              }
+                                            ];
+                                          });
+                                          Navigator.pop(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SurveyList()));
+                                        } else {
+                                          if (kDebugMode) {
+                                            print("Error");
+                                          }
                                         }
+                                      } else {
+                                        print(checkValue);
+                                        showCustomToast();
                                       }
                                     } else {
-                                      print(checkValue);
-                                      showCustomToast();
+                                      setState(() {
+                                        tabController!.index = 1;
+                                      });
+                                      butStatus = 'Next';
+                                      tabController
+                                          ?.animateTo(tabController!.index);
                                     }
                                   } else {
                                     setState(() {
-                                      tabController!.index = 1;
+                                      tabController!.index = 0;
                                     });
                                     butStatus = 'Next';
                                     tabController
                                         ?.animateTo(tabController!.index);
                                   }
-                                } else {
-                                  setState(() {
-                                    tabController!.index = 0;
-                                  });
-                                  butStatus = 'Next';
-                                  tabController
-                                      ?.animateTo(tabController!.index);
                                 }
-                              }
-                              break;
-                          }
-                        }),
-                  )
-                ])));
+                                break;
+                            }
+                          }),
+                    )
+                  ]))),
+    );
   }
 }
