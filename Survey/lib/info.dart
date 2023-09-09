@@ -451,9 +451,6 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                     if (trySubmit(temp: sightFormKey)) {
                                       if (checkValue > 0) {
                                         if (trySubmit(temp: devFormKey)) {
-                                          if (kDebugMode) {
-                                            print(sights.toString());
-                                          }
                                           var time = DateTime.now();
                                           customerDetails['dateTime'] =
                                               DateFormat.d()
@@ -461,6 +458,9 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                                   .add_jm()
                                                   .format(time);
 
+                                          if (kDebugMode) {
+                                            print(sights.toString());
+                                          }
                                           insertData(customerDetails, sights);
                                           widget.refresh;
                                           setState(() {
@@ -523,10 +523,6 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       SurveyList()));
-                                        } else {
-                                          if (kDebugMode) {
-                                            print("Error");
-                                          }
                                         }
                                       } else {
                                         print(checkValue);

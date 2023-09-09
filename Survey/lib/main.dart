@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:survey/splash_screen.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:survey/database_helper.dart';
 
 void main() {
   runApp(const Survey());
@@ -32,7 +32,7 @@ class Survey extends StatelessWidget {
       routes: {
         '/surveyList': (context) => SurveyList(),
       },
-      home: const Login(),
+      home: SplashScreen(),
     );
   }
 }
@@ -46,7 +46,6 @@ class Login extends StatefulWidget {
 
 class _MyHomePageState extends State<Login> {
   //.............VARIABLE DECLARATION..............
-  final dbHelper = DatabaseHelper.instance;
   String email = '';
   String password = '';
   bool passwordVisible = true;
@@ -102,7 +101,6 @@ class _MyHomePageState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    dbHelper.db;
   }
 
   @override

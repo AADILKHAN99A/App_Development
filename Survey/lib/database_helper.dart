@@ -305,4 +305,11 @@ class DatabaseHelper {
     }
     return 0;
   }
+
+  //   Device Group list query
+  Future deviceGroupQuery() async {
+    Database? db = await instance.db;
+    return await db!
+        .rawQuery('''SELECT id, COUNT(*) FROM Devices GROUP BY id''');
+  }
 }

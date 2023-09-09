@@ -139,12 +139,12 @@ class DevicesState extends State<Devices>
                                                       ['checked'],
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      if(value==true)
-                                                        {
-                                                          InfoState.checkValue+=1;
-                                                        }
-                                                      else{
-                                                        InfoState.checkValue-=1;
+                                                      if (value == true) {
+                                                        InfoState.checkValue +=
+                                                            1;
+                                                      } else {
+                                                        InfoState.checkValue -=
+                                                            1;
                                                       }
                                                       InfoState.sights[
                                                                   parentIndex]
@@ -233,44 +233,54 @@ class DevicesState extends State<Devices>
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Container(
-                                        margin: const EdgeInsets.only(
-                                            top: 3, left: 55, right: 7),
-                                        height: 45,
-                                        decoration: ShapeDecoration(
-                                            color: Colors.black.withOpacity(
-                                                0.05000000074505806),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            )),
-                                        child: CustomTextFormField(
-                                          onChange: (value) {
-                                            setState(() {
-                                              InfoState.sights[parentIndex]
-                                                      ["devices"][index]
-                                                  ["information"] = value;
-                                            });
-                                            log("Value: ${InfoState.sights[parentIndex]["devices"].toString()}");
-                                          },
-                                          enable: InfoState.sights[parentIndex]
-                                              ["devices"][index]["checked"],
-                                          hintText: "information",
-                                          validator: (value) {
-                                            if (InfoState.sights[parentIndex]
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 3, left: 55, right: 7),
+                                          height: 45,
+                                          decoration: ShapeDecoration(
+                                              color: Colors.black.withOpacity(
+                                                  0.05000000074505806),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              )),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 50, top: 3, right: 40),
+                                          child: CustomTextFormField(
+                                            onChange: (value) {
+                                              setState(() {
+                                                InfoState.sights[parentIndex]
                                                         ["devices"][index]
-                                                    ["checked"] ==
-                                                true) {
-                                              if (value.toString().isEmpty) {
-                                                return 'Required';
-                                              } else {
-                                                return null;
+                                                    ["information"] = value;
+                                              });
+                                              log("Value: ${InfoState.sights[parentIndex]["devices"].toString()}");
+                                            },
+                                            enable: InfoState
+                                                    .sights[parentIndex]
+                                                ["devices"][index]["checked"],
+                                            hintText: "information",
+                                            validator: (value) {
+                                              if (InfoState.sights[parentIndex]
+                                                          ["devices"][index]
+                                                      ["checked"] ==
+                                                  true) {
+                                                if (value.toString().isEmpty) {
+                                                  return 'Required';
+                                                } else {
+                                                  return null;
+                                                }
                                               }
-                                            }
-                                          },
-                                          valueKey:
-                                              const ValueKey('information'),
-                                        )),
+                                            },
+                                            valueKey:
+                                                const ValueKey('information'),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(right: 20),
