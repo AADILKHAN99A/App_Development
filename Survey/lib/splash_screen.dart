@@ -32,7 +32,7 @@ class SplashScreenState extends State<SplashScreen> {
         child: const Center(
           child: Text(
             "Survey App",
-            style: TextStyle(color: Colors.black, fontSize: 25),
+            style: TextStyle(color: Colors.black, fontSize: 25,fontWeight: FontWeight.w800),
           ),
         ),
       ),

@@ -97,8 +97,6 @@ class CustomerState extends State<Customer>
                 validator: (value) {
                   if (value.toString().isEmpty) {
                     return 'Required';
-                  } else if (value.toString().length < 20) {
-                    return 'Min Characters 20';
                   } else {
                     return null;
                   }

@@ -12,8 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class Info extends StatefulWidget {
-  const Info({super.key, required this.refresh});
-  final VoidCallback refresh;
+  const Info({super.key});
   @override
   State<Info> createState() => InfoState();
 }
@@ -226,9 +225,11 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
       sightId =
           await dbHelper.insert(row: data[i], table: sightTable, tempId: id);
       for (int j = 0; j < data[i]['devices'].length; j++) {
-        deviceId = await dbHelper.insert(
-            row: data[i]['devices'][j], table: deviceTable, tempId: sightId);
-        print("Device ID $deviceId");
+        if (data[i]['devices'][j]['checked'] == true) {
+          deviceId = await dbHelper.insert(
+              row: data[i]['devices'][j], table: deviceTable, tempId: sightId);
+          print("Device ID $deviceId");
+        }
       }
       print("Sight ID $sightId");
     }
@@ -387,20 +388,18 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                           controller: tabController,
                           children: [
                             Form(key: customerFormKey, child: const Customer()),
-                            Form(
-                              key: sightFormKey,
-                              child: Sight(
-                                voidcallback: () {
-                                  if (tabDisable[2] == false) {
-                                    setState(() {
-                                      tabController!.index = 2;
-                                      butStatus = 'Submit';
-                                      tabController
-                                          ?.animateTo(tabController!.index);
-                                    });
-                                  }
-                                },
-                              ),
+                            Sight(
+                              sightkey: sightFormKey,
+                              voidcallback: () {
+                                if (tabDisable[2] == false) {
+                                  setState(() {
+                                    tabController!.index = 2;
+                                    butStatus = 'Submit';
+                                    tabController
+                                        ?.animateTo(tabController!.index);
+                                  });
+                                }
+                              },
                             ),
                             Form(key: devFormKey, child: Devices())
                           ]),
@@ -462,7 +461,6 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                             print(sights.toString());
                                           }
                                           insertData(customerDetails, sights);
-                                          widget.refresh;
                                           setState(() {
                                             customerDetails = {
                                               "name": "",

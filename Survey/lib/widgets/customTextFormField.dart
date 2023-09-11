@@ -29,6 +29,13 @@ class CustomText extends State<CustomTextFormField>
     with AutomaticKeepAliveClientMixin {
   TextEditingController controller = TextEditingController();
 
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller;
+  }
+
   keyboard() {
     switch (widget.keyboardType) {
       case "name":
