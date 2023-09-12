@@ -7,8 +7,6 @@ import 'package:survey/info.dart';
 import 'package:survey/widgets/widgets.dart';
 
 class SurveyList extends StatefulWidget {
-  const SurveyList({super.key});
-
   @override
   State<SurveyList> createState() => SurveyListState();
 }
@@ -31,8 +29,10 @@ class SurveyListState extends State<SurveyList> {
   Future refreshList() async {
     setState(() => isLoading = true);
     surveyList = (await dbHelper.queryAllRow(table: customerTable))!;
-    deviceGroup = await dbHelper.groupQuery(table: deviceTable, id: "id");
     totalSight = await dbHelper.groupQuery(table: sightTable, id: "id");
+    deviceGroup = await dbHelper.groupQuery(table: deviceTable, id: "id");
+    print(surveyList);
+    print(totalSight);
     print(deviceGroup);
 
     setState(() {
@@ -98,11 +98,14 @@ class SurveyListState extends State<SurveyList> {
                       itemCount: surveyList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            bool refresh = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Details()));
+                                    builder: (context) => Details(
+                                          displayId: index + 1,
+                                        )));
+                            refresh == true ? refreshList() : null;
                           },
                           child: Container(
                             width: 341,
@@ -238,9 +241,10 @@ class SurveyListState extends State<SurveyList> {
               Icons.add,
               color: Colors.white,
             ),
-            callback: () {
-              Navigator.push(
+            callback: () async {
+              bool refresh = await Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Info()));
+              refresh == true ? refreshList() : null;
             },
           ),
         )

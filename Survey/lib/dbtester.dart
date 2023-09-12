@@ -91,7 +91,7 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   void querySpecific() async {
-    var allRows = await dbHelper.queryAllRow(table: deviceTable, tempId: 3);
+    var allRows = await dbHelper.queryAllRow(table: deviceTable, value: 3);
     allRows!.forEach((row) {
       print(row);
     });

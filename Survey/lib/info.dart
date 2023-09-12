@@ -215,10 +215,65 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     return true;
   }
 
+  resetData() {
+    setState(() {
+      customerDetails = {
+        "name": "",
+        "address": "",
+        "email": "",
+        "phone": "",
+        "dateTime": ""
+      };
+      sights = [
+        {
+          "label": "Sight 1",
+          "name": "",
+          "address": "",
+          "email": "",
+          "phone": "",
+          "checked": false,
+          "devices": [
+            {
+              "sight": "Sight 1",
+              "label": "Panel information",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            },
+            {
+              "sight": "Sight 1",
+              "label": "AC",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            },
+            {
+              "sight": "Sight 1",
+              "label": "Heater information",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            },
+            {
+              "sight": "Sight 1",
+              "label": "PowerX setup",
+              "type": "panel",
+              "image": "",
+              "information": "",
+              "checked": false
+            },
+          ]
+        }
+      ];
+    });
+  }
+
 //...........................**-Database Query Functions-**.....................
-  void insertData(Map<String, dynamic> customerData, data) async {
+  Future insertData(Map<String, dynamic> customerData, data) async {
     final id = await dbHelper.insert(row: customerData, table: customerTable);
-    print(id);
     int deviceId;
     int sightId;
     for (int i = 0; i < data.length; i++) {
@@ -461,66 +516,8 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                             print(sights.toString());
                                           }
                                           insertData(customerDetails, sights);
-                                          setState(() {
-                                            customerDetails = {
-                                              "name": "",
-                                              "address": "",
-                                              "email": "",
-                                              "phone": "",
-                                              "dateTime": ""
-                                            };
-                                            sights = [
-                                              {
-                                                "label": "Sight 1",
-                                                "name": "",
-                                                "address": "",
-                                                "email": "",
-                                                "phone": "",
-                                                "checked": false,
-                                                "devices": [
-                                                  {
-                                                    "sight": "Sight 1",
-                                                    "label":
-                                                        "Panel information",
-                                                    "type": "panel",
-                                                    "image": "",
-                                                    "information": "",
-                                                    "checked": false
-                                                  },
-                                                  {
-                                                    "sight": "Sight 1",
-                                                    "label": "AC",
-                                                    "type": "panel",
-                                                    "image": "",
-                                                    "information": "",
-                                                    "checked": false
-                                                  },
-                                                  {
-                                                    "sight": "Sight 1",
-                                                    "label":
-                                                        "Heater information",
-                                                    "type": "panel",
-                                                    "image": "",
-                                                    "information": "",
-                                                    "checked": false
-                                                  },
-                                                  {
-                                                    "sight": "Sight 1",
-                                                    "label": "PowerX setup",
-                                                    "type": "panel",
-                                                    "image": "",
-                                                    "information": "",
-                                                    "checked": false
-                                                  },
-                                                ]
-                                              }
-                                            ];
-                                          });
-                                          Navigator.pop(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SurveyList()));
+                                          resetData();
+                                          Navigator.pop(context,true);
                                         }
                                       } else {
                                         print(checkValue);

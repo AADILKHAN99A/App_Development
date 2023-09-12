@@ -70,97 +70,6 @@ class DatabaseHelper {
     db!.close();
   }
 
-  // Future preListAdder() async {
-  //   List preCustomerList = [
-  //     {
-  //       "name": "Dwayne Douglas",
-  //       "address": "2451 University Mobile, AL 36617",
-  //       "email": "",
-  //       "phone": "",
-  //       "dateTime": "25 July 2023 5:41 pm"
-  //     },
-  //     {
-  //       "name": "Dwayne Douglas",
-  //       "address": "2451 University Mobile, AL 36617",
-  //       "email": "",
-  //       "phone": "",
-  //       "dateTime": "26 July 2023 5:41 pm"
-  //     },
-  //     {
-  //       "name": "Dwayne Douglas",
-  //       "address": "2451 University Mobile, AL 36617",
-  //       "email": "",
-  //       "phone": "",
-  //       "dateTime": "27 July 2023 5:41 pm"
-  //     },
-  //     {
-  //       "name": "Dwayne Douglas",
-  //       "address": "2451 University Mobile, AL 36617",
-  //       "email": "",
-  //       "phone": "",
-  //       "dateTime": "28 July 2023 5:41 pm"
-  //     }
-  //   ];
-  //   List preSightList = [
-  //     {
-  //       "label": "Sight 1",
-  //       "name": "",
-  //       "address": "",
-  //       "email": "",
-  //       "phone": "",
-  //       "checked": false,
-  //     }
-  //   ];
-  //   List preDeviceList = [
-  //     {
-  //       "sight": "Sight 1",
-  //       "label": "Panel information",
-  //       "type": "panel",
-  //       "image": "",
-  //       "information": "",
-  //       "checked": false
-  //     },
-  //     {
-  //       "sight": "Sight 1",
-  //       "label": "AC",
-  //       "type": "panel",
-  //       "image": "",
-  //       "information": "",
-  //       "checked": false
-  //     },
-  //     {
-  //       "sight": "Sight 1",
-  //       "label": "Heater information",
-  //       "type": "panel",
-  //       "image": "",
-  //       "information": "",
-  //       "checked": false
-  //     },
-  //     {
-  //       "sight": "Sight 1",
-  //       "label": "PowerX setup",
-  //       "type": "panel",
-  //       "image": "",
-  //       "information": "",
-  //       "checked": false
-  //     },
-  //   ];
-  //
-  //   for (int i = 0; i < preCustomerList.length; i++) {
-  //     var id = await insert(row: preCustomerList[i], table: customerTable);
-  //
-  //     for (int j = 0; j < preSightList.length; j++) {
-  //       var sightid =
-  //           await insert(row: preSightList[j], table: sightTable, tempId: id);
-  //       for (int k = 0; k < preDeviceList.length; k++) {
-  //         var deviceid = await insert(
-  //             row: preDeviceList[k], table: deviceTable, tempId: sightid);
-  //         print(deviceid);
-  //       }
-  //     }
-  //   }
-  // }
-
   //..................................... Functions ............................
 
   //  Insert
@@ -216,9 +125,9 @@ class DatabaseHelper {
 
   // Query
   Future<List<Map<String, dynamic>>?> queryAllRow(
-      {required table, tempId}) async {
+      {required table, column, value}) async {
     Database? db = await instance.db;
-    if (tempId == null) {
+    if (value == null) {
       if (table == customerTable) {
         return await db!.rawQuery('''SELECT * FROM $customerTable''');
       } else if (table == sightTable) {
@@ -229,13 +138,13 @@ class DatabaseHelper {
     } else {
       if (table == customerTable) {
         return await db!
-            .rawQuery('''SELECT * FROM $table WHERE _id = ?''', [tempId]);
+            .rawQuery('''SELECT * FROM $table WHERE $column = ?''', [value]);
       } else if (table == sightTable) {
         return await db!
-            .query(table, where: "_sightId = ?", whereArgs: [tempId]);
+            .rawQuery('''SELECT * FROM $table WHERE $column = ?''', [value]);
       } else if (table == deviceTable) {
         return await db!
-            .query(table, where: "_deviceId = ?", whereArgs: [tempId]);
+            .rawQuery('''SELECT * FROM $table WHERE $column = ?''', [value]);
       }
     }
     return null;
@@ -306,7 +215,7 @@ class DatabaseHelper {
   }
 
   //   Device Group list query
-  Future groupQuery({required table,required id}) async {
+  Future groupQuery({required table, required id}) async {
     Database? db = await instance.db;
     return await db!
         .rawQuery('''SELECT $id, COUNT(*) FROM $table GROUP BY $id''');
