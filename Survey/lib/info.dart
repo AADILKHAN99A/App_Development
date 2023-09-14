@@ -6,7 +6,6 @@ import 'package:survey/database_helper.dart';
 import 'package:survey/datamodels.dart';
 import 'package:survey/devices.dart';
 import 'package:survey/sight.dart';
-import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -41,7 +40,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     true
   ]; // false = next , true = submit
 
-  //                                       **-cstmr-**
+  //                                       **-customer-**
 
   static Map<String, dynamic> customerDetails = {
     "name": "",
@@ -126,7 +125,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
         color: Colors.black.withOpacity(0.30000000074505806),
       ),
       child: const Text(
-        "Select Atleast one",
+        "Select at least one",
         style: TextStyle(color: Colors.white),
       ),
     );
@@ -283,10 +282,14 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
         if (data[i]['devices'][j]['checked'] == true) {
           deviceId = await dbHelper.insert(
               row: data[i]['devices'][j], table: deviceTable, tempId: sightId);
-          print("Device ID $deviceId");
+          if (kDebugMode) {
+            print("Device ID $deviceId");
+          }
         }
       }
-      print("Sight ID $sightId");
+      if (kDebugMode) {
+        print("Sight ID $sightId");
+      }
     }
   }
 
@@ -517,10 +520,12 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                           }
                                           insertData(customerDetails, sights);
                                           resetData();
-                                          Navigator.pop(context,true);
+                                          Navigator.pop(context, true);
                                         }
                                       } else {
-                                        print(checkValue);
+                                        if (kDebugMode) {
+                                          print(checkValue);
+                                        }
                                         showCustomToast();
                                       }
                                     } else {

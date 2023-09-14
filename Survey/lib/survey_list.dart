@@ -30,7 +30,7 @@ class SurveyListState extends State<SurveyList> {
     setState(() => isLoading = true);
     surveyList = (await dbHelper.queryAllRow(table: customerTable))!;
     totalSight = await dbHelper.groupQuery(table: sightTable, id: "id");
-    deviceGroup = await dbHelper.groupQuery(table: deviceTable, id: "id");
+    deviceGroup = await dbHelper.totalDevice();
     print(surveyList);
     print(totalSight);
     print(deviceGroup);
@@ -99,11 +99,11 @@ class SurveyListState extends State<SurveyList> {
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () async {
-                            bool refresh = await Navigator.push(
+                            final refresh = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Details(
-                                          displayId: index + 1,
+                                          displayId: surveyList[index]['_id'],
                                         )));
                             refresh == true ? refreshList() : null;
                           },
@@ -176,7 +176,7 @@ class SurveyListState extends State<SurveyList> {
                                   child: Row(
                                     children: [
                                       SizedBox(
-                                        width: 94,
+                                        width: 125,
                                         child: Text(
                                           'Sights(${totalSight[index]['COUNT(*)']})',
                                           style: GoogleFonts.poppins(
@@ -242,7 +242,7 @@ class SurveyListState extends State<SurveyList> {
               color: Colors.white,
             ),
             callback: () async {
-              bool refresh = await Navigator.push(
+              final refresh = await Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Info()));
               refresh == true ? refreshList() : null;
             },

@@ -220,4 +220,10 @@ class DatabaseHelper {
     return await db!
         .rawQuery('''SELECT $id, COUNT(*) FROM $table GROUP BY $id''');
   }
+
+  Future totalDevice() async {
+    Database? db = await instance.db;
+    return await db!.rawQuery(
+        '''SELECT COUNT(*) FROM (SELECT C._id,C._sightId,Devices._deviceId FROM (SELECT Customer._id,Sight._sightId FROM Customer INNER JOIN Sight ON Customer._id = Sight.id) AS C INNER JOIN Devices ON C._sightId = Devices.id) GROUP BY _id''');
+  }
 }

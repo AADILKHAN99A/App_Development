@@ -28,6 +28,7 @@ class DetailsState extends State<Details> {
   }
 
   Future refreshList() async {
+    print(widget.displayId);
     setState(() => isLoading = true);
     customerDetails = (await dbHelper.queryAllRow(
         table: customerTable, column: "_id", value: widget.displayId))!;
@@ -134,13 +135,15 @@ class DetailsState extends State<Details> {
                 ),
                 Expanded(
                   child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
                     itemCount: sightDetails.length,
                     itemBuilder: (BuildContext context, int sightIndex) {
                       return Column(
                         children: [
                           Container(
-                            margin:
-                                const EdgeInsets.only(left: 130, right: 130),
+                            margin: const EdgeInsets.only(
+                                top: 10, left: 130, right: 130),
                             alignment: Alignment.center,
                             height: 30,
                             width: 80,
@@ -229,104 +232,110 @@ class DetailsState extends State<Details> {
                               ],
                             ),
                           ),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.only(
-                                top: 19, left: 24, right: 24),
-                            itemCount: deviceDetails[sightIndex].length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                width: 341,
-                                height: 120,
-                                decoration: ShapeDecoration(
-                                  color: Colors.black
-                                      .withOpacity(0.05000000074505806),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                          SizedBox(
+                            width: 400,
+                            height: 380,
+                            child: ListView.separated(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.only(
+                                  top: 19, left: 24, right: 24),
+                              itemCount: deviceDetails[sightIndex].length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  width: 341,
+                                  height: 120,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.black
+                                        .withOpacity(0.05000000074505806),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 65,
-                                      top: 34,
-                                      child: SizedBox(
-                                        width: 264,
-                                        child: Text(
-                                          '${deviceDetails[sightIndex][index]['label']}',
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.black.withOpacity(
-                                                  0.8100000023841858),
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w500,
-                                              letterSpacing: -0.34),
-                                          maxLines: 1,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 65,
-                                      top: 60,
-                                      child: SizedBox(
-                                        width: 264,
-                                        child: Text(
-                                          '${deviceDetails[sightIndex][index]['information']}',
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.black.withOpacity(
-                                                0.6000000238418579),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: -0.32,
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        left: 65,
+                                        top: 34,
+                                        child: SizedBox(
+                                          width: 264,
+                                          child: Text(
+                                            '${deviceDetails[sightIndex][index]['label']}',
+                                            style: GoogleFonts.poppins(
+                                                color: Colors.black.withOpacity(
+                                                    0.8100000023841858),
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: -0.34),
+                                            maxLines: 1,
                                           ),
-                                          maxLines: 1,
                                         ),
                                       ),
-                                    ),
-                                    Positioned(
-                                        left: 11,
-                                        top: 37,
-                                        child: Container(
-                                            height: 46,
-                                            width: 46,
-                                            decoration: ShapeDecoration(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7)),
-                                                color: Colors.white),
-                                            child: deviceDetails[sightIndex]
-                                                        [index]['image']
-                                                    .isEmpty
-                                                ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(5),
-                                                    child: SvgPicture.asset(
-                                                        'assets/icons/multiple-devices-svgrepo-com.svg'),
-                                                  )
-                                                : Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(5),
-                                                    child: Image.file(File(
-                                                        "${deviceDetails[sightIndex][index]['image']}")),
-                                                  )))
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                height: 7,
-                              );
-                            },
+                                      Positioned(
+                                        left: 65,
+                                        top: 60,
+                                        child: SizedBox(
+                                          width: 264,
+                                          child: Text(
+                                            '${deviceDetails[sightIndex][index]['information']}',
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.black.withOpacity(
+                                                  0.6000000238418579),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: -0.32,
+                                            ),
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                          left: 11,
+                                          top: 37,
+                                          child: Container(
+                                              height: 46,
+                                              width: 46,
+                                              decoration: ShapeDecoration(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7)),
+                                                  color: Colors.white),
+                                              child: deviceDetails[sightIndex]
+                                                          [index]['image']
+                                                      .isEmpty
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: SvgPicture.asset(
+                                                          'assets/icons/multiple-devices-svgrepo-com.svg'),
+                                                    )
+                                                  : Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      child: Image.file(File(
+                                                          "${deviceDetails[sightIndex][index]['image']}")),
+                                                    )))
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const SizedBox(
+                                  height: 7,
+                                );
+                              },
+                            ),
                           ),
                         ],
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(
-                        height: 15,
+                        width: 20,
                       );
                     },
                   ),
