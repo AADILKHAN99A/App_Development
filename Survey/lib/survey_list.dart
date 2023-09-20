@@ -40,16 +40,6 @@ class SurveyListState extends State<SurveyList> {
     });
   }
 
-//...............................Database Query Functions.......................
-
-  queryTable({required table}) async {
-    var allRows = await dbHelper.queryAllRow(table: table);
-    allRows!.forEach((row) {
-      print(row);
-    });
-    return allRows;
-  }
-
 //.................................Survey List Screen...........................
   @override
   Widget build(BuildContext context) {
@@ -98,6 +88,8 @@ class SurveyListState extends State<SurveyList> {
                       itemCount: surveyList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
+                          customBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           onTap: () async {
                             final refresh = await Navigator.push(
                                 context,

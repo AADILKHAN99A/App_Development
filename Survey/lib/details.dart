@@ -172,7 +172,8 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(top: 20,left: 15,right: 15),
+                            margin: const EdgeInsets.only(
+                                top: 20, left: 15, right: 15),
                             decoration: ShapeDecoration(
                               color:
                                   Colors.black.withOpacity(0.05000000074505806),
@@ -183,11 +184,12 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                             height: 150,
                             width: 365,
                             child: InkWell(
+                              customBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               onTap: () {
-                                displayIndex=sightIndex;
-                                setState(() {
-
-                                });
+                                displayIndex = sightIndex;
+                                setState(() {});
                               },
                               child: Stack(
                                 children: [
@@ -266,16 +268,15 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                   child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    padding: const EdgeInsets.only(
-                        top: 19, left: 24, right: 24),
+                    padding:
+                        const EdgeInsets.only(top: 19, left: 24, right: 24),
                     itemCount: deviceDetails[displayIndex].length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         width: 341,
                         height: 120,
                         decoration: ShapeDecoration(
-                          color: Colors.black
-                              .withOpacity(0.05000000074505806),
+                          color: Colors.black.withOpacity(0.05000000074505806),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -290,8 +291,8 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                                 child: Text(
                                   '${deviceDetails[displayIndex][index]['label']}',
                                   style: GoogleFonts.poppins(
-                                      color: Colors.black.withOpacity(
-                                          0.8100000023841858),
+                                      color: Colors.black
+                                          .withOpacity(0.8100000023841858),
                                       fontSize: 17,
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: -0.34),
@@ -307,8 +308,8 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                                 child: Text(
                                   '${deviceDetails[displayIndex][index]['information']}',
                                   style: GoogleFonts.poppins(
-                                    color: Colors.black.withOpacity(
-                                        0.6000000238418579),
+                                    color: Colors.black
+                                        .withOpacity(0.6000000238418579),
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     letterSpacing: -0.32,
@@ -326,32 +327,26 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                                     decoration: ShapeDecoration(
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(
-                                                7)),
+                                                BorderRadius.circular(7)),
                                         color: Colors.white),
-                                    child: deviceDetails[displayIndex]
-                                    [index]['image']
-                                        .isEmpty
+                                    child: deviceDetails[displayIndex][index]
+                                                ['image']
+                                            .isEmpty
                                         ? Padding(
-                                      padding:
-                                      const EdgeInsets.all(
-                                          5),
-                                      child: SvgPicture.asset(
-                                          'assets/icons/multiple-devices-svgrepo-com.svg'),
-                                    )
+                                            padding: const EdgeInsets.all(5),
+                                            child: SvgPicture.asset(
+                                                'assets/icons/multiple-devices-svgrepo-com.svg'),
+                                          )
                                         : Padding(
-                                      padding:
-                                      const EdgeInsets.all(
-                                          5),
-                                      child: Image.file(File(
-                                          "${deviceDetails[displayIndex][index]['image']}")),
-                                    )))
+                                            padding: const EdgeInsets.all(5),
+                                            child: Image.file(File(
+                                                "${deviceDetails[displayIndex][index]['image']}")),
+                                          )))
                           ],
                         ),
                       );
                     },
-                    separatorBuilder:
-                        (BuildContext context, int index) {
+                    separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(
                         height: 7,
                       );
