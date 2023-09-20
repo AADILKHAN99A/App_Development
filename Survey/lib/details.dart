@@ -14,12 +14,13 @@ class Details extends StatefulWidget {
   State<Details> createState() => DetailsState();
 }
 
-class DetailsState extends State<Details> {
+class DetailsState extends State<Details> with TickerProviderStateMixin {
   final dbHelper = DatabaseHelper.instance;
   bool isLoading = false;
   late List customerDetails;
   late List sightDetails;
   var deviceDetails = <List<Map<String, dynamic>>>[];
+  var displayIndex = 0;
 
   @override
   void initState() {
@@ -111,6 +112,15 @@ class DetailsState extends State<Details> {
                         ),
                       ),
                       Positioned(
+                          left: 1,
+                          child: IconButton(
+                            color: Colors.black,
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                            },
+                            icon: const Icon(Icons.arrow_back_outlined),
+                          )),
+                      Positioned(
                           right: 5,
                           child: IconButton(
                             color: Colors.black,
@@ -162,7 +172,7 @@ class DetailsState extends State<Details> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(top: 27),
+                            margin: const EdgeInsets.only(top: 20,left: 15,right: 15),
                             decoration: ShapeDecoration(
                               color:
                                   Colors.black.withOpacity(0.05000000074505806),
@@ -172,162 +182,72 @@ class DetailsState extends State<Details> {
                             ),
                             height: 150,
                             width: 365,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  bottom: 75,
-                                  left: 10,
-                                  child: Text(
-                                    "${sightDetails[sightIndex]['address']}",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 45,
-                                  left: 10,
-                                  child: Text(
-                                    "${sightDetails[sightIndex]['email']}",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 10,
-                                  bottom: 15,
-                                  child: Text(
-                                    "${sightDetails[sightIndex]['phone']}",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18),
-                                  ),
-                                ),
-                                Positioned(
-                                    right: 5,
-                                    bottom: 10,
-                                    child: IconButton(
-                                      color: Colors.black,
-                                      onPressed: () {
-                                        dbHelper.delete(
-                                            id: sightDetails[sightIndex]
-                                                ['_sightId'],
-                                            table: sightTable);
-                                        refreshList();
-                                        setState(() {});
-                                      },
-                                      icon: const Icon(Icons.delete),
-                                    )),
-                                Positioned(
-                                  left: 15,
-                                  top: 5,
-                                  child: Text(
-                                    "${sightDetails[sightIndex]['name']}",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 20),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 400,
-                            height: 380,
-                            child: ListView.separated(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              padding: const EdgeInsets.only(
-                                  top: 19, left: 24, right: 24),
-                              itemCount: deviceDetails[sightIndex].length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  width: 341,
-                                  height: 120,
-                                  decoration: ShapeDecoration(
-                                    color: Colors.black
-                                        .withOpacity(0.05000000074505806),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                            child: InkWell(
+                              onTap: () {
+                                displayIndex=sightIndex;
+                                setState(() {
+
+                                });
+                              },
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    bottom: 75,
+                                    left: 10,
+                                    child: Text(
+                                      "${sightDetails[sightIndex]['address']}",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18),
                                     ),
                                   ),
-                                  child: Stack(
-                                    children: [
-                                      Positioned(
-                                        left: 65,
-                                        top: 34,
-                                        child: SizedBox(
-                                          width: 264,
-                                          child: Text(
-                                            '${deviceDetails[sightIndex][index]['label']}',
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.black.withOpacity(
-                                                    0.8100000023841858),
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w500,
-                                                letterSpacing: -0.34),
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: 65,
-                                        top: 60,
-                                        child: SizedBox(
-                                          width: 264,
-                                          child: Text(
-                                            '${deviceDetails[sightIndex][index]['information']}',
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.black.withOpacity(
-                                                  0.6000000238418579),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.32,
-                                            ),
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                          left: 11,
-                                          top: 37,
-                                          child: Container(
-                                              height: 46,
-                                              width: 46,
-                                              decoration: ShapeDecoration(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              7)),
-                                                  color: Colors.white),
-                                              child: deviceDetails[sightIndex]
-                                                          [index]['image']
-                                                      .isEmpty
-                                                  ? Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      child: SvgPicture.asset(
-                                                          'assets/icons/multiple-devices-svgrepo-com.svg'),
-                                                    )
-                                                  : Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      child: Image.file(File(
-                                                          "${deviceDetails[sightIndex][index]['image']}")),
-                                                    )))
-                                    ],
+                                  Positioned(
+                                    bottom: 45,
+                                    left: 10,
+                                    child: Text(
+                                      "${sightDetails[sightIndex]['email']}",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18),
+                                    ),
                                   ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  height: 7,
-                                );
-                              },
+                                  Positioned(
+                                    left: 10,
+                                    bottom: 15,
+                                    child: Text(
+                                      "${sightDetails[sightIndex]['phone']}",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      right: 5,
+                                      bottom: 10,
+                                      child: IconButton(
+                                        color: Colors.black,
+                                        onPressed: () {
+                                          dbHelper.delete(
+                                              id: sightDetails[sightIndex]
+                                                  ['_sightId'],
+                                              table: sightTable);
+                                          refreshList();
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(Icons.delete),
+                                      )),
+                                  Positioned(
+                                    left: 15,
+                                    top: 5,
+                                    child: Text(
+                                      "${sightDetails[sightIndex]['name']}",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -339,7 +259,105 @@ class DetailsState extends State<Details> {
                       );
                     },
                   ),
-                )
+                ),
+                SizedBox(
+                  width: 400,
+                  height: 380,
+                  child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(
+                        top: 19, left: 24, right: 24),
+                    itemCount: deviceDetails[displayIndex].length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        width: 341,
+                        height: 120,
+                        decoration: ShapeDecoration(
+                          color: Colors.black
+                              .withOpacity(0.05000000074505806),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 65,
+                              top: 34,
+                              child: SizedBox(
+                                width: 264,
+                                child: Text(
+                                  '${deviceDetails[displayIndex][index]['label']}',
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.black.withOpacity(
+                                          0.8100000023841858),
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: -0.34),
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 65,
+                              top: 60,
+                              child: SizedBox(
+                                width: 264,
+                                child: Text(
+                                  '${deviceDetails[displayIndex][index]['information']}',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.black.withOpacity(
+                                        0.6000000238418579),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.32,
+                                  ),
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                                left: 11,
+                                top: 37,
+                                child: Container(
+                                    height: 46,
+                                    width: 46,
+                                    decoration: ShapeDecoration(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                7)),
+                                        color: Colors.white),
+                                    child: deviceDetails[displayIndex]
+                                    [index]['image']
+                                        .isEmpty
+                                        ? Padding(
+                                      padding:
+                                      const EdgeInsets.all(
+                                          5),
+                                      child: SvgPicture.asset(
+                                          'assets/icons/multiple-devices-svgrepo-com.svg'),
+                                    )
+                                        : Padding(
+                                      padding:
+                                      const EdgeInsets.all(
+                                          5),
+                                      child: Image.file(File(
+                                          "${deviceDetails[displayIndex][index]['image']}")),
+                                    )))
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder:
+                        (BuildContext context, int index) {
+                      return const SizedBox(
+                        height: 7,
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
     );
