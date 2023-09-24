@@ -21,6 +21,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
   FToast? fToast;
   final dbHelper = DatabaseHelper.instance;
   static int checkValue = 0;
+  bool empty = false;
 
   //                                       **-info-**
 
@@ -270,6 +271,19 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     });
   }
 
+  emptyChecker() {
+    for (int i = 0; i < sights.length; i++) {
+      for (int j = 0; j < sights[i]['devices'].length; j++) {
+        if (sights[i]['devices'][j]['checked'] == true) {
+          if (sights[i]['devices'][j]['information']=="") {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
 //...........................**-Database Query Functions-**.....................
   Future insertData(Map<String, dynamic> customerData, data) async {
     final id = await dbHelper.insert(row: customerData, table: customerTable);
@@ -388,7 +402,10 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                             borderRadius: BorderRadius.circular(10),
                           )),
                       child: TabBar(
-                          onTap: (int index) => onTap(),
+                          onTap: (int index) {
+                            FocusScope.of(context).unfocus();
+                            onTap();
+                            },
                           controller: tabController,
                           unselectedLabelColor:
                               Colors.black.withOpacity(0.6000000238418579),
@@ -467,6 +484,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                       child: Button(
                           btnName: butStatus,
                           callback: () {
+                            FocusScope.of(context).unfocus();
                             switch (tabController!.index) {
                               case 0:
                                 {
@@ -508,19 +526,23 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                     if (trySubmit(temp: sightFormKey)) {
                                       if (checkValue > 0) {
                                         if (trySubmit(temp: devFormKey)) {
-                                          var time = DateTime.now();
-                                          customerDetails['dateTime'] =
-                                              DateFormat.d()
-                                                  .add_yMMM()
-                                                  .add_jm()
-                                                  .format(time);
+                                          if (emptyChecker()) {
+                                            var time = DateTime.now();
+                                            customerDetails['dateTime'] =
+                                                DateFormat.d()
+                                                    .add_yMMM()
+                                                    .add_jm()
+                                                    .format(time);
 
-                                          if (kDebugMode) {
-                                            print(sights.toString());
+                                            if (kDebugMode) {
+                                              print(sights.toString());
+                                            }
+                                            insertData(customerDetails, sights);
+                                            resetData();
+                                            Navigator.pop(context, true);
+                                          } else {
+                                            print("error of empty list");
                                           }
-                                          insertData(customerDetails, sights);
-                                          resetData();
-                                          Navigator.pop(context, true);
                                         }
                                       } else {
                                         if (kDebugMode) {

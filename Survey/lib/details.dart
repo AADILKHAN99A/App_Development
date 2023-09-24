@@ -20,7 +20,8 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
   late List customerDetails;
   late List sightDetails;
   var deviceDetails = <List<Map<String, dynamic>>>[];
-  var displayIndex = 0;
+  PageController controller = PageController();
+  int currentPage = 0;
 
   @override
   void initState() {
@@ -144,124 +145,121 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                   ),
                 ),
                 Expanded(
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: sightDetails.length,
-                    itemBuilder: (BuildContext context, int sightIndex) {
-                      return Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 10, left: 130, right: 130),
-                            alignment: Alignment.center,
-                            height: 30,
-                            width: 80,
-                            decoration: ShapeDecoration(
-                                color: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                )),
-                            // margin: const EdgeInsets.only(bottom: 200),
-                            child: Text(
-                              "${sightDetails[sightIndex]['label']}",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 20, left: 15, right: 15),
-                            decoration: ShapeDecoration(
-                              color:
-                                  Colors.black.withOpacity(0.05000000074505806),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                    child: PageView.builder(
+                        onPageChanged: (num) {
+                          setState(() {
+                            currentPage = num;
+                          });
+                        },
+                        controller: controller,
+                        itemCount: sightDetails.length,
+                        itemBuilder: (BuildContext context, int sightIndex) {
+                          return Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 10, left: 130, right: 130),
+                                alignment: Alignment.center,
+                                height: 30,
+                                width: 80,
+                                decoration: ShapeDecoration(
+                                    color: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    )),
+                                // margin: const EdgeInsets.only(bottom: 200),
+                                child: Text(
+                                  "${sightDetails[sightIndex]['label']}",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white),
+                                ),
                               ),
-                            ),
-                            height: 150,
-                            width: 365,
-                            child: InkWell(
-                              customBorder: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 20, left: 15, right: 15),
+                                decoration: ShapeDecoration(
+                                  color: Colors.black
+                                      .withOpacity(0.05000000074505806),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                height: 150,
+                                width: 365,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      bottom: 75,
+                                      left: 10,
+                                      child: Text(
+                                        "${sightDetails[sightIndex]['address']}",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 45,
+                                      left: 10,
+                                      child: Text(
+                                        "${sightDetails[sightIndex]['email']}",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 10,
+                                      bottom: 15,
+                                      child: Text(
+                                        "${sightDetails[sightIndex]['phone']}",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                    Positioned(
+                                        right: 5,
+                                        bottom: 10,
+                                        child: IconButton(
+                                          color: Colors.black,
+                                          onPressed: () {
+                                            if (sightDetails.length != 1) {
+                                              dbHelper.delete(
+                                                  id: sightDetails[sightIndex]
+                                                      ['_sightId'],
+                                                  table: sightTable);
+                                            } else {
+                                              dbHelper.delete(
+                                                  id: widget.displayId,
+                                                  table: customerTable);
+                                              Navigator.pop(context, true);
+                                            }
+
+                                            refreshList();
+                                            controller.jumpTo(currentPage - 1);
+                                            setState(() {});
+                                          },
+                                          icon: const Icon(Icons.delete),
+                                        )),
+                                    Positioned(
+                                      left: 15,
+                                      top: 5,
+                                      child: Text(
+                                        "${sightDetails[sightIndex]['name']}",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              onTap: () {
-                                displayIndex = sightIndex;
-                                setState(() {});
-                              },
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    bottom: 75,
-                                    left: 10,
-                                    child: Text(
-                                      "${sightDetails[sightIndex]['address']}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 45,
-                                    left: 10,
-                                    child: Text(
-                                      "${sightDetails[sightIndex]['email']}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 10,
-                                    bottom: 15,
-                                    child: Text(
-                                      "${sightDetails[sightIndex]['phone']}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18),
-                                    ),
-                                  ),
-                                  Positioned(
-                                      right: 5,
-                                      bottom: 10,
-                                      child: IconButton(
-                                        color: Colors.black,
-                                        onPressed: () {
-                                          dbHelper.delete(
-                                              id: sightDetails[sightIndex]
-                                                  ['_sightId'],
-                                              table: sightTable);
-                                          refreshList();
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(Icons.delete),
-                                      )),
-                                  Positioned(
-                                    left: 15,
-                                    top: 5,
-                                    child: Text(
-                                      "${sightDetails[sightIndex]['name']}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: 20,
-                      );
-                    },
-                  ),
-                ),
+                            ],
+                          );
+                        })),
                 SizedBox(
                   width: 400,
                   height: 380,
@@ -270,7 +268,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                     shrinkWrap: true,
                     padding:
                         const EdgeInsets.only(top: 19, left: 24, right: 24),
-                    itemCount: deviceDetails[displayIndex].length,
+                    itemCount: deviceDetails[currentPage].length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         width: 341,
@@ -289,7 +287,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                               child: SizedBox(
                                 width: 264,
                                 child: Text(
-                                  '${deviceDetails[displayIndex][index]['label']}',
+                                  '${deviceDetails[currentPage][index]['label']}',
                                   style: GoogleFonts.poppins(
                                       color: Colors.black
                                           .withOpacity(0.8100000023841858),
@@ -306,7 +304,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                               child: SizedBox(
                                 width: 264,
                                 child: Text(
-                                  '${deviceDetails[displayIndex][index]['information']}',
+                                  '${deviceDetails[currentPage][index]['information']}',
                                   style: GoogleFonts.poppins(
                                     color: Colors.black
                                         .withOpacity(0.6000000238418579),
@@ -329,7 +327,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                                             borderRadius:
                                                 BorderRadius.circular(7)),
                                         color: Colors.white),
-                                    child: deviceDetails[displayIndex][index]
+                                    child: deviceDetails[currentPage][index]
                                                 ['image']
                                             .isEmpty
                                         ? Padding(
@@ -340,7 +338,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                                         : Padding(
                                             padding: const EdgeInsets.all(5),
                                             child: Image.file(File(
-                                                "${deviceDetails[displayIndex][index]['image']}")),
+                                                "${deviceDetails[currentPage][index]['image']}")),
                                           )))
                           ],
                         ),
