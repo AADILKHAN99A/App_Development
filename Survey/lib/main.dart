@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:survey/dbtester.dart';
 import 'package:survey/splash_screen.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
@@ -278,7 +279,7 @@ class _MyHomePageState extends State<Login> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SurveyList()));
+                                builder: (context) => MyHomePage()));
                       });
                     } else {
                       showCustomToast();

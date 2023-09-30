@@ -286,27 +286,46 @@ class DevicesState extends State<Devices>
                                     margin: const EdgeInsets.only(right: 20),
                                     width: 45,
                                     height: 45,
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          padding: const EdgeInsets.all(10),
-                                          elevation: 0,
-                                          backgroundColor: Colors.black
-                                              .withOpacity(0.05000000074505806),
-                                          shape: RoundedRectangleBorder(
+                                    child: InfoState.sights[parentIndex]
+                                                ["devices"][index]['image'] ==
+                                            ""
+                                        ? ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              padding: const EdgeInsets.all(10),
+                                              elevation: 0,
+                                              backgroundColor: Colors.black
+                                                  .withOpacity(
+                                                      0.05000000074505806),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                            ),
+                                            onPressed: () =>
+                                                pickImage(parentIndex, index),
+                                            child: SvgPicture.asset(
+                                                'assets/icons/camera.svg'))
+                                        : ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              padding: const EdgeInsets.all(1),
+                                              elevation: 0,
+                                              backgroundColor: Colors.black
+                                                  .withOpacity(
+                                                      0.05000000074505806),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                            ),
+                                            onPressed: () =>
+                                                pickImage(parentIndex, index),
+                                            child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(10)),
-                                        ),
-                                        onPressed: () =>
-                                            pickImage(parentIndex, index),
-                                        child: InfoState.sights[parentIndex]
-                                                        ["devices"][index]
-                                                    ['image'] !=
-                                                ""
-                                            ? Image.file(File(InfoState
-                                                    .sights[parentIndex]
-                                                ["devices"][index]['image']))
-                                            : SvgPicture.asset(
-                                                'assets/icons/camera.svg')),
+                                                  BorderRadius.circular(10),
+                                              child: Image.file(File(InfoState
+                                                      .sights[parentIndex]
+                                                  ["devices"][index]['image'])),
+                                            )),
                                   )
                                 ],
                               ),

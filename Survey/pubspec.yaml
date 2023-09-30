@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  http: ^1.1.0
   permission_handler: ^11.0.0
   fluttertoast: ^8.2.2
   sqflite: ^2.3.0

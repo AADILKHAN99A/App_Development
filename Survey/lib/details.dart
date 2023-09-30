@@ -30,7 +30,6 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
   }
 
   Future refreshList() async {
-    print(widget.displayId);
     setState(() => isLoading = true);
     customerDetails = (await dbHelper.queryAllRow(
         table: customerTable, column: "_id", value: widget.displayId))!;
@@ -65,7 +64,19 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
           : Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 27),
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(top: 20),
+                  height: 40,
+                  child:  IconButton(
+                    color: Colors.black,
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    icon: const Icon(Icons.arrow_back_outlined),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
                   decoration: ShapeDecoration(
                     color: Colors.black.withOpacity(0.05000000074505806),
                     shape: RoundedRectangleBorder(
@@ -112,15 +123,6 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                               fontWeight: FontWeight.w500, fontSize: 16),
                         ),
                       ),
-                      Positioned(
-                          left: 1,
-                          child: IconButton(
-                            color: Colors.black,
-                            onPressed: () {
-                              Navigator.pop(context, true);
-                            },
-                            icon: const Icon(Icons.arrow_back_outlined),
-                          )),
                       Positioned(
                           right: 5,
                           child: IconButton(
@@ -262,7 +264,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                         })),
                 SizedBox(
                   width: 400,
-                  height: 380,
+                  height: 353,
                   child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
