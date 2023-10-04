@@ -18,7 +18,7 @@ your personal gadgets, this app simplifies the task.
 ### Customization: Tailor the app to your specific needs by adding custom fields or modifying data entry forms.
 
 ### Screenshots:
-![](D:\app%20development\Survey\Screenshots\Login.png)![](D:\app development\Survey\Screenshots\surveylist.png)![](D:\app development\Survey\Screenshots\Detailed Info.png)![](D:\app development\Survey\Screenshots\customer.png)![](D:\app development\Survey\Screenshots\sight.png)![](D:\app development\Survey\Screenshots\Devices.png)
+![Login](https://github.com/AADILKHAN99A/App_Development/assets/84337555/e681ea20-9cdc-4462-bc81-e21cd7111575)
 
 
 
