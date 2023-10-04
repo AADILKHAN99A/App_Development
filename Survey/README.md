@@ -18,7 +18,7 @@ your personal gadgets, this app simplifies the task.
 ### Customization: Tailor the app to your specific needs by adding custom fields or modifying data entry forms.
 
 ### Screenshots:
-![](D:\app development\Survey\Screenshots\Login.png)![](D:\app development\Survey\Screenshots\surveylist.png)![](D:\app development\Survey\Screenshots\Detailed Info.png)![](D:\app development\Survey\Screenshots\customer.png)![](D:\app development\Survey\Screenshots\sight.png)![](D:\app development\Survey\Screenshots\Devices.png)
+![](D:\app%20development\Survey\Screenshots\Login.png)![](D:\app development\Survey\Screenshots\surveylist.png)![](D:\app development\Survey\Screenshots\Detailed Info.png)![](D:\app development\Survey\Screenshots\customer.png)![](D:\app development\Survey\Screenshots\sight.png)![](D:\app development\Survey\Screenshots\Devices.png)
 
 
 
