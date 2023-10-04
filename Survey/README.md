@@ -18,7 +18,7 @@ your personal gadgets, this app simplifies the task.
 ### Customization: Tailor the app to your specific needs by adding custom fields or modifying data entry forms.
 
 ### Screenshots:
-![Login](https://github.com/AADILKHAN99A/App_Development/assets/84337555/e681ea20-9cdc-4462-bc81-e21cd7111575)
+![Device Survey App](https://github.com/AADILKHAN99A/App_Development/assets/84337555/8cbade5d-d0ce-4330-891d-e3439e08e24e)
 
 
 
