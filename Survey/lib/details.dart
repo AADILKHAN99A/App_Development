@@ -67,7 +67,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                   alignment: Alignment.centerLeft,
                   margin: const EdgeInsets.only(top: 20),
                   height: 40,
-                  child:  IconButton(
+                  child: IconButton(
                     color: Colors.black,
                     onPressed: () {
                       Navigator.pop(context, true);

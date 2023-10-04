@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/database_helper.dart';
@@ -7,6 +8,8 @@ import 'package:survey/info.dart';
 import 'package:survey/widgets/widgets.dart';
 
 class SurveyList extends StatefulWidget {
+  const SurveyList({super.key});
+
   @override
   State<SurveyList> createState() => SurveyListState();
 }
@@ -31,9 +34,15 @@ class SurveyListState extends State<SurveyList> {
     surveyList = (await dbHelper.queryAllRow(table: customerTable))!;
     totalSight = await dbHelper.groupQuery(table: sightTable, id: "id");
     deviceGroup = await dbHelper.totalDevice();
-    print(surveyList);
-    print(totalSight);
-    print(deviceGroup);
+    if (kDebugMode) {
+      print(surveyList);
+    }
+    if (kDebugMode) {
+      print(totalSight);
+    }
+    if (kDebugMode) {
+      print(deviceGroup);
+    }
 
     setState(() {
       isLoading = false;

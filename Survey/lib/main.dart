@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:survey/dbtester.dart';
 import 'package:survey/splash_screen.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
@@ -33,7 +32,7 @@ class Survey extends StatelessWidget {
       routes: {
         '/surveyList': (context) => SurveyList(),
       },
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -274,12 +273,12 @@ class _MyHomePageState extends State<Login> {
                 child: Button(
                   btnName: "Log In",
                   callback: () {
-                    if (true) {
+                    if (trySubmit() == true) {
                       setState(() {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                                builder: (context) => SurveyList()));
                       });
                     } else {
                       showCustomToast();

@@ -275,7 +275,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
     for (int i = 0; i < sights.length; i++) {
       for (int j = 0; j < sights[i]['devices'].length; j++) {
         if (sights[i]['devices'][j]['checked'] == true) {
-          if (sights[i]['devices'][j]['information']=="") {
+          if (sights[i]['devices'][j]['information'] == "") {
             return false;
           }
         }
@@ -405,7 +405,7 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                           onTap: (int index) {
                             FocusScope.of(context).unfocus();
                             onTap();
-                            },
+                          },
                           controller: tabController,
                           unselectedLabelColor:
                               Colors.black.withOpacity(0.6000000238418579),
@@ -541,7 +541,9 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
                                             resetData();
                                             Navigator.pop(context, true);
                                           } else {
-                                            print("error of empty list");
+                                            if (kDebugMode) {
+                                              print("error of empty list");
+                                            }
                                           }
                                         }
                                       } else {

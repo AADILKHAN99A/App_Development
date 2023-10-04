@@ -127,7 +127,8 @@ class SightState extends State<Sight>
                   ),
                 ),
                 Container(
-                    margin: const EdgeInsets.only(top: 15, right: 21, left: 280),
+                    margin:
+                        const EdgeInsets.only(top: 15, right: 21, left: 280),
                     height: 35,
                     width: 89,
                     child: ElevatedButton(
@@ -229,7 +230,8 @@ class SightState extends State<Sight>
                         )),
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 3, right: 40),
+                      padding:
+                          const EdgeInsets.only(left: 20, top: 3, right: 40),
                       child: CustomTextFormField(
                         onChange: (value) {
                           InfoState.sights[index]['address'] = value.toString();
@@ -301,7 +303,8 @@ class SightState extends State<Sight>
                 ),
                 Stack(children: [
                   Container(
-                      margin: const EdgeInsets.only(top: 3, left: 20, right: 20),
+                      margin:
+                          const EdgeInsets.only(top: 3, left: 20, right: 20),
                       height: 50,
                       decoration: ShapeDecoration(
                           color: Colors.black.withOpacity(0.05000000074505806),
@@ -309,7 +312,8 @@ class SightState extends State<Sight>
                             borderRadius: BorderRadius.circular(10),
                           ))),
                   Padding(
-                      padding: const EdgeInsets.only(top: 3, left: 20, right: 40),
+                      padding:
+                          const EdgeInsets.only(top: 3, left: 20, right: 40),
                       child: CustomTextFormField(
                         onChange: (value) {
                           InfoState.sights[index]['phone'] = value.toString();

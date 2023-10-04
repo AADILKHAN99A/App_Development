@@ -15,7 +15,7 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-      dbHelper.db;
+    dbHelper.db;
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => const Login()));
@@ -32,7 +32,8 @@ class SplashScreenState extends State<SplashScreen> {
         child: const Center(
           child: Text(
             "Survey App",
-            style: TextStyle(color: Colors.black, fontSize: 25,fontWeight: FontWeight.w800),
+            style: TextStyle(
+                color: Colors.black, fontSize: 25, fontWeight: FontWeight.w800),
           ),
         ),
       ),
