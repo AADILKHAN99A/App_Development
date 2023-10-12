@@ -1,99 +1,18 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-class UpdateScreen extends StatefulWidget {
-  UpdateScreen({super.key, required this.item});
+class DetailedScreen extends StatelessWidget {
+  const DetailedScreen(this.item, {super.key});
   final Map item;
-
-  @override
-  State<UpdateScreen> createState() => _UpdateScreenState();
-}
-
-class _UpdateScreenState extends State<UpdateScreen> {
-  TextEditingController titleController = TextEditingController();
-
-  TextEditingController desController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    titleController.text = widget.item['title'];
-    desController.text = widget.item['description'];
-  }
-
-  Future<void> updateData() async {
-    final url = 'https://api.nstack.in/v1/todos/${widget.item['_id']}';
-    final uri = Uri.parse(url);
-    final title = titleController.text;
-    final description = desController.text;
-    final body = {
-      "title": title,
-      "description": description,
-      "is_completed": false
-    };
-    final response = await http.put(uri,
-        body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
-    if (response.statusCode == 200) {
-      showSuccessMessage("Update Successful");
-    } else {
-      showErrorMessage("Failed Update");
-    }
-  }
-
-  void showSuccessMessage(String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.blueAccent,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void showErrorMessage(String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.redAccent,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    throw Exception("Failed to Post");
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: SizedBox(
-        height: 45,
-        width: 45,
-        child: Container(
-          decoration: ShapeDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment(0.1, 0.95),
-                colors: [
-                  Color(0xFF5E54F6),
-                  Color(0xFF776EE0),
-                  Color(0xFF5E54F6),
-                ],
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              )),
-          child: FloatingActionButton(
-            backgroundColor: Colors.transparent,
-            onPressed: updateData,
-            tooltip: "Add Note",
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Icon(Icons.check),
-          ),
-        ),
-      ),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
-          'Edit Todo',
+          'Details',
           style: TextStyle(
               fontFamily: 'Inter', fontSize: 20, fontWeight: FontWeight.w500),
         ),
@@ -246,21 +165,29 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   height: 560,
                   child: ListView(
                     children: [
-                      TextField(
-                        controller: titleController,
-                        decoration: const InputDecoration(hintText: "Title"),
+                      Center(
+                          child: Text(
+                        item['title'],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 30),
+                      )),
+                      const Divider(
+                        height: 10,
+                        thickness: 1,
                       ),
-                      const SizedBox(
-                        height: 20,
+                      Center(
+                          child: Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        child: Text(
+                          item['description'],
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 20),
+                        ),
+                      )),
+                      const Divider(
+                        height: 5,
+                        thickness: 1,
                       ),
-                      TextField(
-                        controller: desController,
-                        decoration:
-                            const InputDecoration(hintText: "Description"),
-                        keyboardType: TextInputType.multiline,
-                        minLines: 5,
-                        maxLines: 8,
-                      )
                     ],
                   ),
                 )),

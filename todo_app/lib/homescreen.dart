@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/add_screen.dart';
 import 'package:todo_app/data_models.dart';
+import 'package:todo_app/detail_screen.dart';
 import 'package:todo_app/update_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -319,15 +320,24 @@ class HomeScreenState extends State<HomeScreen> {
                                       Icons.edit,
                                       color: Colors.grey,
                                     )),
-                                Text(
-                                  items[index]['title'],
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w500,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (builder) =>
+                                                DetailedScreen(items[index])));
+                                  },
+                                  child: Text(
+                                    items[index]['title'],
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    maxLines: 1,
                                   ),
-                                  maxLines: 1,
                                 ),
                                 IconButton(
                                     splashColor: Colors.blue,
