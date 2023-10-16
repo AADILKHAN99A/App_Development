@@ -99,7 +99,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   ? Navigator.pop(context, true)
                   : Navigator.pop(context, false);
             },
-            icon: Icon(Icons.arrow_back_outlined)),
+            icon: const Icon(Icons.arrow_back_outlined)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(

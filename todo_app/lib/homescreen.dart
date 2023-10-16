@@ -67,6 +67,37 @@ class HomeScreenState extends State<HomeScreen> {
     throw Exception("Failed to Delete");
   }
 
+  Future showWarning(BuildContext context) async => showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            actionsAlignment: MainAxisAlignment.spaceEvenly,
+            icon: const Icon(Icons.warning_amber, color: Color(0xFF5E54F6)),
+            title: const Text(
+              "Are you sure?",
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+            actions: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      backgroundColor: const Color(0xFF5E54F6)),
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text("Cancel",
+                      style: TextStyle(color: Colors.white))),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      backgroundColor: const Color(0xFF5E54F6)),
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text("Delete",
+                      style: TextStyle(color: Colors.white)))
+            ],
+          ));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -345,8 +376,11 @@ class HomeScreenState extends State<HomeScreen> {
                                 ),
                                 IconButton(
                                     splashColor: Colors.blue,
-                                    onPressed: () {
-                                      deleteData(id: id);
+                                    onPressed: () async {
+                                      final result = await showWarning(context);
+                                      result == true
+                                          ? deleteData(id: id)
+                                          : null;
                                     },
                                     icon: const Icon(
                                       Icons.close,
