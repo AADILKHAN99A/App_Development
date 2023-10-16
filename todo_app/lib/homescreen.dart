@@ -38,7 +38,9 @@ class HomeScreenState extends State<HomeScreen> {
         items = result;
         isLoading = false;
       });
-    } else {}
+    } else {
+      throw Exception("Failed to Load ${response.statusCode}");
+    }
   }
 
   Future<void> deleteData({required String id}) async {
@@ -304,17 +306,19 @@ class HomeScreenState extends State<HomeScreen> {
                                       if (kDebugMode) {
                                         print("update");
                                       }
-                                      await Navigator.push(
+                                      final result = await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (builder) =>
                                                   UpdateScreen(
                                                     item: items[index],
                                                   )));
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      getData();
+                                      if (result) {
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        getData();
+                                      }
                                     },
                                     icon: const Icon(
                                       Icons.edit,

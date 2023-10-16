@@ -14,6 +14,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   TextEditingController titleController = TextEditingController();
 
   TextEditingController desController = TextEditingController();
+  bool doRefresh = false;
   @override
   void initState() {
     super.initState();
@@ -34,6 +35,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final response = await http.put(uri,
         body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
+      doRefresh = true;
       showSuccessMessage("Update Successful");
     } else {
       showErrorMessage("Failed Update");
@@ -90,6 +92,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
       ),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              doRefresh
+                  ? Navigator.pop(context, true)
+                  : Navigator.pop(context, false);
+            },
+            icon: Icon(Icons.arrow_back_outlined)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
