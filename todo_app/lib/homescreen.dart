@@ -33,7 +33,6 @@ class HomeScreenState extends State<HomeScreen> {
       final data = jsonDecode(response.body) as Map;
       final result = data['items'] as List;
       setState(() {
-        print(result);
         items = result;
         isLoading = false;
       });
@@ -419,7 +418,7 @@ class HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(
-                    left:35,top: 620, right: 35,bottom: 82),
+                    left: 35, top: 620, right: 35, bottom: 82),
                 decoration: ShapeDecoration(
                   gradient: LinearGradient(
                     begin: const Alignment(1.00, 0.02),
