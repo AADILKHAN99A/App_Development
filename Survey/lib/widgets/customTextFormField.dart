@@ -9,6 +9,7 @@ class CustomTextFormField extends StatefulWidget {
   final Key valueKey;
   final Function? validator;
   final String? keyboardType;
+  final int? maxLength;
   const CustomTextFormField({
     super.key,
     required this.onChange,
@@ -18,7 +19,7 @@ class CustomTextFormField extends StatefulWidget {
     this.copyData,
     required this.valueKey,
     this.validator,
-    this.keyboardType,
+    this.keyboardType, this.maxLength,
   });
 
   @override
@@ -76,6 +77,7 @@ class CustomText extends State<CustomTextFormField>
   Widget build(BuildContext context) {
     super.build(context);
     return TextFormField(
+      maxLength: widget.maxLength,
       keyboardType: keyboard(),
       controller: controller,
       validator: (input) => widget.validator!(input),
@@ -83,6 +85,7 @@ class CustomText extends State<CustomTextFormField>
       enabled: widget.copyData == null ? widget.enable : datacopy(),
       onChanged: (value) => widget.onChange(value),
       decoration: InputDecoration(
+        counter: SizedBox.shrink(),
         errorText: widget.errorText,
         hintText: widget.hintText,
         hintStyle: TextStyle(

@@ -10,6 +10,7 @@ class Details extends StatefulWidget {
   final int displayId;
 
   const Details({super.key, required this.displayId});
+
   @override
   State<Details> createState() => DetailsState();
 }
@@ -59,22 +60,25 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: Container(
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.only(top: 20),
+          height: 40,
+          child: IconButton(
+            color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            icon: const Icon(Icons.arrow_back_outlined),
+          ),
+        ),
+      ),
       body: isLoading == true
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 20),
-                  height: 40,
-                  child: IconButton(
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    icon: const Icon(Icons.arrow_back_outlined),
-                  ),
-                ),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   decoration: ShapeDecoration(
@@ -264,7 +268,7 @@ class DetailsState extends State<Details> with TickerProviderStateMixin {
                         })),
                 SizedBox(
                   width: 400,
-                  height: 353,
+                  height: 333,
                   child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,

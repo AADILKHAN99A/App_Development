@@ -315,6 +315,7 @@ class SightState extends State<Sight>
                       padding:
                           const EdgeInsets.only(top: 3, left: 20, right: 40),
                       child: CustomTextFormField(
+                        maxLength: 15,
                         onChange: (value) {
                           InfoState.sights[index]['phone'] = value.toString();
                         },

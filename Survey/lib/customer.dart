@@ -188,6 +188,7 @@ class CustomerState extends State<Customer>
               padding: const EdgeInsets.only(
                   top: 3, left: 20, right: 40, bottom: 30),
               child: TextFormField(
+                maxLength: 15,
                 key: const ValueKey('phone'),
                 validator: (value) {
                   if (value.toString().isEmpty) {
@@ -203,6 +204,7 @@ class CustomerState extends State<Customer>
                   InfoState.customerDetails['phone'] = value.toString();
                 },
                 decoration: InputDecoration(
+                  counter: SizedBox.shrink(),
                   errorStyle: GoogleFonts.poppins(),
                   hintText: "Enter Phone number",
                   hintStyle: TextStyle(
