@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:survey/main.dart';
+import 'package:survey/auth_page.dart';
 import 'package:survey/database_helper.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class SplashScreenState extends State<SplashScreen> {
     dbHelper.db;
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => const Login()));
+          MaterialPageRoute(builder: (BuildContext context) => const AuthPage()));
     });
   }
 

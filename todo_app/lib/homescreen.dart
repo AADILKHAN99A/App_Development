@@ -194,87 +194,93 @@ class HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(18)),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 40, left: 25),
-                child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 8,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      width: 24,
-                      height: 44,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 20,
-                            child: Container(
-                              width: 24,
-                              height: 18,
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFD6D6D6),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2)),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: -0,
-                            top: 21.90,
-                            child: Container(
-                              width: 24,
-                              height: 16.10,
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFE9E9E9),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2)),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 6,
-                            top: 0,
-                            child: SizedBox(
-                              height: 38,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 4,
-                                    height: 32,
+                width: double.infinity,
+                height: 44,
+                color: Colors.brown,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 8,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            width: 24,
+                            height: 44,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  top: 20,
+                                  child: Container(
+                                    width: 24,
+                                    height: 18,
                                     decoration: ShapeDecoration(
-                                      color: const Color(0xFF4D4D4D),
+                                      color: const Color(0xFFD6D6D6),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(2)),
+                                          BorderRadius.circular(2)),
                                     ),
                                   ),
-                                  const SizedBox(width: 4),
-                                  Container(
-                                    width: 4,
-                                    height: 32,
+                                ),
+                                Positioned(
+                                  left: -0,
+                                  top: 21.90,
+                                  child: Container(
+                                    width: 24,
+                                    height: 16.10,
                                     decoration: ShapeDecoration(
-                                      color: const Color(0xFF4D4D4D),
+                                      color: const Color(0xFFE9E9E9),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(2)),
+                                          BorderRadius.circular(2)),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Positioned(
+                                  left: 6,
+                                  top: 0,
+                                  child: SizedBox(
+                                    height: 38,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 4,
+                                          height: 32,
+                                          decoration: ShapeDecoration(
+                                            color: const Color(0xFF4D4D4D),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(2)),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          width: 4,
+                                          height: 32,
+                                          decoration: ShapeDecoration(
+                                            color: const Color(0xFF4D4D4D),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(2)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      width: 21,
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ),
               Container(

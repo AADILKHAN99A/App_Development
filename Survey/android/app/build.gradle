@@ -24,6 +24,7 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace "com.example.survey"
@@ -52,7 +53,8 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        minSdkVersion 21
+        minSdkVersion 23
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -71,4 +73,11 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth:22.3.0'
+    implementation 'com.google.firebase:firebase-firestore:24.10.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 }
