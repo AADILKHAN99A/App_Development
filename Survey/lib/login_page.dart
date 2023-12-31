@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:survey/database_helper.dart';
 import 'package:survey/firebase_auth%20implementation/firebase_auth%20services.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/squaretile.dart';
@@ -39,29 +40,55 @@ class _MyHomePageState extends State<Login> {
           .signInWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passController.text.trim())
-          .then((value) {
-        isLoading = false;
-        setState(() {});
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (builder) => const SurveyList()));
+          .then((value) async {
+        print(value);
+        setState(() {
+          isLoading = false;
+        });
+
+        await DatabaseHelper.instance
+            .findUser(email: emailController.text.toString())
+            .then((value) {
+          if (value.isNotEmpty) {
+            print(value);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (builder) => SurveyList(
+                          id: value[0]["_id"].toString(),
+                        )));
+          } else {
+            print("User is only on Server not local");
+          }
+        });
       });
     } on FirebaseAuthException catch (e) {
-      print(e.code);
+      if (kDebugMode) {
+        print(e.code);
+      }
       isLoading = false;
       setState(() {});
       if (e.code == 'invalid-email') {
         showToast(message: "No user found for that email");
-        print("No user found for that email");
+        if (kDebugMode) {
+          print("No user found for that email");
+        }
       } else if (e.code == 'invalid-password') {
         showToast(message: "User password is Incorrect");
-        print("User password is Incorrect");
+        if (kDebugMode) {
+          print("User password is Incorrect");
+        }
       } else if (e.code == 'invalid-credential') {
         showToast(message: "User Credentials is Invalid");
-        print("User Credentials is Invalid");
+        if (kDebugMode) {
+          print("User Credentials is Invalid");
+        }
       } else if (e.code == 'too-many-requests') {
         showToast(
             message: "Account is Temporarily disable due to too many attempts");
-        print("Account is Temporarily disable due to too many attempts");
+        if (kDebugMode) {
+          print("Account is Temporarily disable due to too many attempts");
+        }
       }
     }
   }
@@ -290,6 +317,7 @@ class _MyHomePageState extends State<Login> {
                     if (trySubmit() == true) {
                       isLoading = true;
                       setState(() {});
+
                       signUserIn();
                     } else {
                       showCustomToast();
@@ -338,18 +366,15 @@ class _MyHomePageState extends State<Login> {
                       imagePath: "assets/icons/googlelogo.png",
                       onTap: () => FirebaseAuthServices()
                           .signInWithGoogle()
-                          .then((value) => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => SurveyList()))),
+                          .then((value) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => SurveyList(
+                                      id: emailController.text,
+                                    )));
+                      }),
                     ),
-                    const VerticalDivider(
-                      thickness: 1,
-                    ),
-                    SquareTile(
-                      imagePath: "assets/icons/apple-logo.png",
-                      onTap: () {},
-                    )
                   ],
                 ),
               )

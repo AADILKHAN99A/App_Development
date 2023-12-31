@@ -10,7 +10,9 @@ import 'package:survey/login_page.dart';
 import 'package:survey/widgets/widgets.dart';
 
 class SurveyList extends StatefulWidget {
-  const SurveyList({super.key});
+  const SurveyList({super.key, required this.id});
+
+  final String? id;
 
   @override
   State<SurveyList> createState() => SurveyListState();
@@ -24,6 +26,8 @@ class SurveyListState extends State<SurveyList> {
   late List totalSight;
   bool isLoading = false;
 
+  late int id;
+
   final user = FirebaseAuth.instance.currentUser;
 
 //................................Functions.....................................
@@ -36,8 +40,18 @@ class SurveyListState extends State<SurveyList> {
 
   Future refreshList() async {
     setState(() => isLoading = true);
-    surveyList = (await dbHelper.queryAllRow(table: customerTable))!;
-    totalSight = await dbHelper.groupQuery(table: sightTable, id: "id");
+
+    if (widget.id!.contains("@")) {
+      var temp = await DatabaseHelper.instance.findUser(email: widget.id);
+      id = temp[0]["_id"];
+    } else {
+      id = int.parse(widget.id!);
+    }
+    print(id);
+    surveyList = (await dbHelper.queryAllRow(
+        table: customerTable, column: CustomerFields.columnID, value: id))!;
+    totalSight =
+        await dbHelper.groupQuery(table: sightTable, id: "id", value: id);
     deviceGroup = await dbHelper.totalDevice();
     if (kDebugMode) {
       print(surveyList);
@@ -251,8 +265,8 @@ class SurveyListState extends State<SurveyList> {
                   color: Colors.white,
                 ),
                 callback: () async {
-                  final refresh = await Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Info()));
+                  final refresh = await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Info(id: id)));
                   refresh == true ? refreshList() : null;
                 },
               ),

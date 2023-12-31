@@ -29,13 +29,20 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
+    await db.execute(''' CREATE TABLE $usersTable(
+        ${UsersFields.columnID} INTEGER PRIMARY KEY,
+        ${UsersFields.columnUserId} TEXT NOT NULL,
+        ${UsersFields.columnEmail} TEXT NOT NULL
+        )''');
     await db.execute(''' CREATE TABLE $customerTable(
         ${CustomerFields.columnID} INTEGER PRIMARY KEY,
         ${CustomerFields.columnName} TEXT NOT NULL,
         ${CustomerFields.columnAddress} TEXT NOT NULL,
         ${CustomerFields.columnEmail} TEXT NOT NULL,
         ${CustomerFields.columnPhone} TEXT NOT NULL,
-        ${CustomerFields.columnDateTime} TEXT NOT NULL
+        ${CustomerFields.columnDateTime} TEXT NOT NULL,
+        id INTEGER ,
+        FOREIGN KEY(id) REFERENCES $usersTable(${UsersFields.columnID}) ON DELETE CASCADE
         )''');
     await db.execute('''CREATE TABLE $sightTable(
         ${SightFields.columnSightID} INTEGER PRIMARY KEY,
@@ -71,6 +78,15 @@ class DatabaseHelper {
   }
 
   //..................................... Functions ............................
+
+  // Insert User
+  Future insertUser({required userid, required email}) async {
+    Database? db = await instance.db;
+    const columns = '${UsersFields.columnUserId},${UsersFields.columnEmail}';
+    final id = await db!.rawInsert(
+        'INSERT INTO $usersTable($columns)VALUES(?,?)', ['$userid', '$email']);
+    return id;
+  }
 
   //  Insert
   Future insert(
@@ -108,14 +124,15 @@ class DatabaseHelper {
       return id;
     } else if (table == customerTable) {
       const columns =
-          '${CustomerFields.columnName},${CustomerFields.columnAddress},${CustomerFields.columnEmail},${CustomerFields.columnPhone},${CustomerFields.columnDateTime}';
+          '${CustomerFields.columnName},${CustomerFields.columnAddress},${CustomerFields.columnEmail},${CustomerFields.columnPhone},${CustomerFields.columnDateTime},id';
       final id = await db!
-          .rawInsert('INSERT INTO $table($columns) VALUES (?,?,?,?,?)', [
+          .rawInsert('INSERT INTO $table($columns) VALUES (?,?,?,?,?,?)', [
         '${row['name']}',
         '${row['address']}',
         '${row['email']}',
         '${row['phone']}',
-        '${row['dateTime']}'
+        '${row['dateTime']}',
+        '$tempId'
       ]);
       return id;
     } else {
@@ -124,8 +141,11 @@ class DatabaseHelper {
   }
 
   // Query
-  Future<List<Map<String, dynamic>>?> queryAllRow(
-      {required table, column, value}) async {
+  Future<List<Map<String, dynamic>>?> queryAllRow({
+    required table,
+    column,
+    value,
+  }) async {
     Database? db = await instance.db;
     if (value == null) {
       if (table == customerTable) {
@@ -215,15 +235,23 @@ class DatabaseHelper {
   }
 
   //   Device Group list query
-  Future groupQuery({required table, required id}) async {
+  Future groupQuery({required table, required id, required value}) async {
     Database? db = await instance.db;
-    return await db!
-        .rawQuery('''SELECT $id, COUNT(*) FROM $table GROUP BY $id''');
+    return await db!.rawQuery(
+        '''SELECT $id, COUNT(*) FROM $table WHERE $id = ? GROUP BY $id''',
+        [value]);
   }
 
   Future totalDevice() async {
     Database? db = await instance.db;
     return await db!.rawQuery(
         '''SELECT COUNT(*) FROM (SELECT C._id,C._sightId,Devices._deviceId FROM (SELECT Customer._id,Sight._sightId FROM Customer INNER JOIN Sight ON Customer._id = Sight.id) AS C INNER JOIN Devices ON C._sightId = Devices.id) GROUP BY _id''');
+  }
+
+  Future findUser({required email}) async {
+    Database? db = await instance.db;
+    return await db!.rawQuery(
+        '''SELECT ${UsersFields.columnID} FROM $usersTable WHERE ${UsersFields.columnEmail} = ?''',
+        [email]);
   }
 }

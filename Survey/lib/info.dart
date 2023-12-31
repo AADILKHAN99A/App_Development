@@ -11,7 +11,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class Info extends StatefulWidget {
-  const Info({super.key});
+  const Info({super.key, required this.id});
+
+  final id;
   @override
   State<Info> createState() => InfoState();
 }
@@ -286,7 +288,8 @@ class InfoState extends State<Info> with SingleTickerProviderStateMixin {
 
 //...........................**-Database Query Functions-**.....................
   Future insertData(Map<String, dynamic> customerData, data) async {
-    final id = await dbHelper.insert(row: customerData, table: customerTable);
+    final id = await dbHelper.insert(
+        row: customerData, table: customerTable, tempId: widget.id);
     int deviceId;
     int sightId;
     for (int i = 0; i < data.length; i++) {

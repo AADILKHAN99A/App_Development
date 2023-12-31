@@ -1,6 +1,28 @@
 //                                    **-Data Models-**
 //
 //
+//  ...................................User.................................
+const usersTable = "Users";
+
+class UsersFields {
+  static const columnID = "_id";
+  static const columnUserId = "userid";
+  static const columnEmail = "email";
+}
+
+class UsersModel {
+  final int? id;
+  final int? userid;
+  final int? email;
+
+  UsersModel({
+    this.id,
+    this.userid,
+    this.email
+  });
+
+}
+
 //  ...................................Customer.................................
 const customerTable = "Customer";
 

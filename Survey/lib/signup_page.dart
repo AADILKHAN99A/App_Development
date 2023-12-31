@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/firebase_auth%20implementation/firebase_auth%20services.dart';
+import 'package:survey/firebase_database/firebase_db_helper.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/widgets.dart';
 
@@ -16,6 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
 
+  bool isLoading = false;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -30,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Sign Up"),
+          title: const Text("Sign Up"),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -167,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       onSaved: (value) {},
                       decoration: InputDecoration(
-                        counter: SizedBox.shrink(),
+                        counter: const SizedBox.shrink(),
                         errorStyle: GoogleFonts.poppins(),
                         hintText: "Enter Phone number",
                         hintStyle: TextStyle(
@@ -318,10 +321,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 Container(
                   margin: const EdgeInsets.only(top: 40),
                   child: Button(
+                    loading: isLoading,
                     btnName: "Create Account",
                     callback: () {
+                      isLoading = true;
+                      setState(() {
+
+                      });
                       if (_formKey.currentState!.validate()) {
-                        print("sign up called");
                         _signUp();
                       } else {}
                     },
@@ -337,13 +344,28 @@ class _SignUpPageState extends State<SignUpPage> {
     String email = emailController.text;
     String password = passwordController.text;
 
-    await _auth.signUpWithEmailPassword(email, password).then((user) {
+    await _auth.signUpWithEmailPassword(email, password).then((user) async {
       if (user != null) {
-        print("user created");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (builder) => SurveyList()));
+        await FirebaseDatabaseService()
+            .addUser(
+                fullName: nameController.text.toString(),
+                email: email,
+                phone: phoneController.text,
+                password: password)
+            .then((value) {
+          if (value.contains('success')) {
+            isLoading =false;
+            setState(() {
+
+            });
+            Navigator.push(context,
+                MaterialPageRoute(builder: (builder) => SurveyList(id: email)));
+          }
+        });
       } else {
-        print("Some error happened");
+        if (kDebugMode) {
+          print("Some error happened");
+        }
       }
     });
   }

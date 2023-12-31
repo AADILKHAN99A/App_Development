@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/firebase_options.dart';
 import 'package:survey/splash_screen.dart';
-import 'package:survey/survey_list.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -31,9 +30,7 @@ class Survey extends StatelessWidget {
       ),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.light,
-      routes: {
-        '/surveyList': (context) => SurveyList(),
-      },
+
       home: const SplashScreen(),
     );
   }

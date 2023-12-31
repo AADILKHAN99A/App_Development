@@ -42,6 +42,8 @@ class FirebaseAuthServices {
           accessToken: gAuth.accessToken, idToken: gAuth.idToken);
 
       return await FirebaseAuth.instance.signInWithCredential(credential);
+
+
     }on FirebaseAuthException catch (e) {
       showToast(message: "An error is Occurred ${e.code}");
     }

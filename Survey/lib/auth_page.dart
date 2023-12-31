@@ -5,7 +5,6 @@ import 'package:survey/survey_list.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,11 +13,11 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           // user is logged in
           if (snapshot.hasData) {
-            return  SurveyList();
+            return SurveyList(id: snapshot.data?.email);
           }
           // user is not logged in
           else {
-            return  Login();
+            return  const Login();
           }
         },
       ),
