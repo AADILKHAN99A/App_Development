@@ -40,13 +40,11 @@ class SurveyListState extends State<SurveyList> {
 
   Future refreshList() async {
     setState(() => isLoading = true);
+    print(widget.id);
+    var temp = await DatabaseHelper.instance.findUser(uid: widget.id);
+    print(temp);
+    id = temp[0]["_id"];
 
-    if (widget.id!.contains("@")) {
-      var temp = await DatabaseHelper.instance.findUser(email: widget.id);
-      id = temp[0]["_id"];
-    } else {
-      id = int.parse(widget.id!);
-    }
     print(id);
     surveyList = (await dbHelper.queryAllRow(
         table: customerTable, column: CustomerFields.columnID, value: id))!;

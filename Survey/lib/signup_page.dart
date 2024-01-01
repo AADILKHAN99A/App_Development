@@ -325,9 +325,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     btnName: "Create Account",
                     callback: () {
                       isLoading = true;
-                      setState(() {
-
-                      });
+                      setState(() {});
                       if (_formKey.currentState!.validate()) {
                         _signUp();
                       } else {}
@@ -351,18 +349,21 @@ class _SignUpPageState extends State<SignUpPage> {
                 fullName: nameController.text.toString(),
                 email: email,
                 phone: phoneController.text,
-                password: password)
+                password: password,
+                uid: user.uid)
             .then((value) {
           if (value.contains('success')) {
-            isLoading =false;
-            setState(() {
-
-            });
-            Navigator.push(context,
-                MaterialPageRoute(builder: (builder) => SurveyList(id: email)));
+            isLoading = false;
+            setState(() {});
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (builder) => SurveyList(id: user.uid)));
           }
         });
       } else {
+        isLoading = false;
+        setState(() {});
         if (kDebugMode) {
           print("Some error happened");
         }

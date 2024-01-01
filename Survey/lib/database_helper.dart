@@ -248,10 +248,10 @@ class DatabaseHelper {
         '''SELECT COUNT(*) FROM (SELECT C._id,C._sightId,Devices._deviceId FROM (SELECT Customer._id,Sight._sightId FROM Customer INNER JOIN Sight ON Customer._id = Sight.id) AS C INNER JOIN Devices ON C._sightId = Devices.id) GROUP BY _id''');
   }
 
-  Future findUser({required email}) async {
+  Future findUser({required uid}) async {
     Database? db = await instance.db;
     return await db!.rawQuery(
-        '''SELECT ${UsersFields.columnID} FROM $usersTable WHERE ${UsersFields.columnEmail} = ?''',
-        [email]);
+        '''SELECT ${UsersFields.columnID} FROM $usersTable WHERE ${UsersFields.columnUserId} = ?''',
+        [uid]);
   }
 }

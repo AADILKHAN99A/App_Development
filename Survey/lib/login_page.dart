@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/database_helper.dart';
 import 'package:survey/firebase_auth%20implementation/firebase_auth%20services.dart';
+import 'package:survey/firebase_database/firebase_db_helper.dart';
 import 'package:survey/survey_list.dart';
 import 'package:survey/widgets/squaretile.dart';
 import 'package:survey/widgets/toast.dart';
@@ -40,25 +41,33 @@ class _MyHomePageState extends State<Login> {
           .signInWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passController.text.trim())
-          .then((value) async {
-        print(value);
+          .then((credential) async {
+        print("Credentials is $credential");
         setState(() {
           isLoading = false;
         });
 
         await DatabaseHelper.instance
-            .findUser(email: emailController.text.toString())
-            .then((value) {
+            .findUser(uid: credential.user?.uid)
+            .then((value) async {
           if (value.isNotEmpty) {
             print(value);
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (builder) => SurveyList(
-                          id: value[0]["_id"].toString(),
+                          id: credential.user?.uid,
                         )));
           } else {
             print("User is only on Server not local");
+            await DatabaseHelper.instance
+                .insertUser(
+                    userid: credential.user?.uid, email: credential.user?.email)
+                .then((value) => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) =>
+                            SurveyList(id: credential.user?.uid))));
           }
         });
       });
@@ -88,6 +97,11 @@ class _MyHomePageState extends State<Login> {
             message: "Account is Temporarily disable due to too many attempts");
         if (kDebugMode) {
           print("Account is Temporarily disable due to too many attempts");
+        }
+      } else if (e.code == 'user-not-found') {
+        showToast(message: "User is not found,Please Create Account");
+        if (kDebugMode) {
+          print("User Not found");
         }
       }
     }
@@ -366,13 +380,53 @@ class _MyHomePageState extends State<Login> {
                       imagePath: "assets/icons/googlelogo.png",
                       onTap: () => FirebaseAuthServices()
                           .signInWithGoogle()
-                          .then((value) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => SurveyList(
-                                      id: emailController.text,
-                                    )));
+                          .then((credential) async {
+                        if (credential != null) {
+                          await FirebaseDatabaseService()
+                              .getUser(uid: (credential).user.uid)
+                              .then((value) async {
+                            if (value == "User not found!") {
+                              await FirebaseDatabaseService()
+                                  .addUser(
+                                      fullName: (credential).user.displayName,
+                                      email: (credential).user.email,
+                                      phone: (credential).user.phoneNumber,
+                                      password: null,
+                                      uid: (credential).user.uid)
+                                  .then((value) => Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => SurveyList(
+                                              id: (credential).user.uid))));
+                            } else {
+                              await DatabaseHelper.instance
+                                  .findUser(uid: (credential).user.uid)
+                                  .then((value) async {
+                                if (value == []) {
+                                  await DatabaseHelper.instance
+                                      .insertUser(
+                                          userid: (credential).user.uid,
+                                          email: (credential).user.email)
+                                      .then((value) =>
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (builder) =>
+                                                      SurveyList(
+                                                          id: (credential)
+                                                              .user
+                                                              .uid))));
+                                } else {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => SurveyList(
+                                              id: (credential).user.uid)));
+                                }
+                              });
+                            }
+                          });
+                        }
                       }),
                     ),
                   ],

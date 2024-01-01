@@ -13,7 +13,7 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           // user is logged in
           if (snapshot.hasData) {
-            return SurveyList(id: snapshot.data?.email);
+            return SurveyList(id: snapshot.data?.uid);
           }
           // user is not logged in
           else {

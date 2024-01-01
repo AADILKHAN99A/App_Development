@@ -14,8 +14,10 @@ class FirebaseAuthServices {
       print(e.code);
       if (e.code == 'email-already-in-use') {
         showToast(message: "The email is already in use");
+        return null;
       } else {
         showToast(message: "An error is Occurred ${e.code}");
+        return null;
       }
     }
     return null;
@@ -42,9 +44,7 @@ class FirebaseAuthServices {
           accessToken: gAuth.accessToken, idToken: gAuth.idToken);
 
       return await FirebaseAuth.instance.signInWithCredential(credential);
-
-
-    }on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       showToast(message: "An error is Occurred ${e.code}");
     }
   }

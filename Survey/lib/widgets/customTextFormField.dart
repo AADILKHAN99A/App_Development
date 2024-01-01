@@ -19,7 +19,8 @@ class CustomTextFormField extends StatefulWidget {
     this.copyData,
     required this.valueKey,
     this.validator,
-    this.keyboardType, this.maxLength,
+    this.keyboardType,
+    this.maxLength,
   });
 
   @override
@@ -29,7 +30,6 @@ class CustomTextFormField extends StatefulWidget {
 class CustomText extends State<CustomTextFormField>
     with AutomaticKeepAliveClientMixin {
   TextEditingController controller = TextEditingController();
-
 
   @override
   void dispose() {
@@ -64,9 +64,8 @@ class CustomText extends State<CustomTextFormField>
 
   datacopy() {
     if (widget.enable == false) {
-      setState(() {
-        controller.text = widget.copyData!;
-      });
+      controller.text = widget.copyData!;
+      // setState(() {});
       return false;
     } else {
       return true;
