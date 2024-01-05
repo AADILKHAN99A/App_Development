@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'api_handler.dart';
+
 class AddScreen extends StatefulWidget {
   AddScreen({super.key});
 
@@ -13,6 +15,8 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController desController = TextEditingController();
 
+  bool doRefresh = false;
+
   Future<void> submitData() async {
     final title = titleController.text;
     final description = desController.text;
@@ -23,38 +27,25 @@ class _AddScreenState extends State<AddScreen> {
     };
     const url = 'https://api.nstack.in/v1/todos';
     final uri = Uri.parse(url);
-    final response = await http.post(uri,
-        body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
-
-    if (response.statusCode == 201) {
-      titleController.text = "";
-      desController.text = "";
-      showSuccessMessage("Created Successfully");
-    } else {
-      showErrorMessage("Failed");
-    }
-  }
-
-  void showSuccessMessage(String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.blueAccent,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void showErrorMessage(String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.redAccent,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    throw Exception("Failed to Post");
+    await http.post(uri,
+        body: jsonEncode(body),
+        headers: {'Content-Type': 'application/json'}).then((response) {
+      if (response.statusCode == 201) {
+        titleController.text = "";
+        desController.text = "";
+        showSuccessMessage("Created Successfully", context);
+        doRefresh = true;
+        setState(() {});
+      } else {
+        showErrorMessage("Failed", context);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: SizedBox(
         height: 45,
         width: 45,
@@ -87,10 +78,23 @@ class _AddScreenState extends State<AddScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              doRefresh
+                  ? Navigator.pop(context, true)
+                  : Navigator.pop(context, false);
+            },
+            icon: const Icon(
+              Icons.arrow_back_outlined,
+              color: Colors.white,
+            )),
         title: const Text(
           'Add',
           style: TextStyle(
-              fontFamily: 'Inter', fontSize: 20, fontWeight: FontWeight.w500),
+              fontFamily: 'Inter',
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.white),
         ),
         flexibleSpace: Container(
           decoration: const ShapeDecoration(
@@ -137,8 +141,7 @@ class _AddScreenState extends State<AddScreen> {
               margin: const EdgeInsets.only(
                   top: 50, left: 20, right: 20, bottom: 93),
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18)),
+                  color: Colors.white, borderRadius: BorderRadius.circular(18)),
             ),
             Container(
               margin: const EdgeInsets.only(top: 40, left: 25),
@@ -194,8 +197,7 @@ class _AddScreenState extends State<AddScreen> {
                                   decoration: ShapeDecoration(
                                     color: const Color(0xFF4D4D4D),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(2)),
+                                        borderRadius: BorderRadius.circular(2)),
                                   ),
                                 ),
                                 const SizedBox(width: 4),
@@ -205,8 +207,7 @@ class _AddScreenState extends State<AddScreen> {
                                   decoration: ShapeDecoration(
                                     color: const Color(0xFF4D4D4D),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(2)),
+                                        borderRadius: BorderRadius.circular(2)),
                                   ),
                                 ),
                               ],
