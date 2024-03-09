@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todo_app/api_handler.dart';
+import 'package:todo_app/controller.dart';
 import 'package:todo_app/detail_screen.dart';
 import 'package:todo_app/update_screen.dart';
 
 import 'add_screen.dart';
+
+final MyController controller = Get.put(MyController());
 
 Widget backPaper(BuildContext context) {
   return Container(
@@ -179,27 +183,27 @@ class _PaperWithListState extends State<PaperWithList> {
   List list = [];
 
   Future refreshList() async {
-    await fetchPost().then((result) {
+    await ApiHelper.fetchPost().then((result) {
       if (result != null) {
-        showSuccessMessage("Data Fetch Successfully", context);
+        ShowMessage.showSuccessMessage("Data Fetch Successfully", context);
         print(result);
         list = result;
         list.add({"title": "Add task++01"});
         isLoading = false;
         setState(() {});
       } else {
-        showErrorMessage("Error", context);
+        ShowMessage.showErrorMessage("Error", context);
       }
     });
   }
 
   delete({required String id, required List items}) async {
-    await deletePost(id: id, items: items).then((result) {
+    await ApiHelper.deletePost(id: id, items: items).then((result) {
       if (result) {
-        showSuccessMessage("Successfully Deleted", context);
+        ShowMessage.showSuccessMessage("Successfully Deleted", context);
         refreshList();
       } else {
-        showErrorMessage("Error Deleting", context);
+        ShowMessage.showErrorMessage("Error Deleting", context);
       }
     });
   }
@@ -241,6 +245,8 @@ class _PaperWithListState extends State<PaperWithList> {
     refreshList();
   }
 
+  final MyController controller = Get.put(MyController());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -262,7 +268,10 @@ class _PaperWithListState extends State<PaperWithList> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (builder) => AddScreen()));
-                            result == true ? refreshList() : null;
+                            if (result) {
+                              controller.reset();
+                              refreshList();
+                            }
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -296,7 +305,10 @@ class _PaperWithListState extends State<PaperWithList> {
                                         MaterialPageRoute(
                                             builder: (builder) => UpdateScreen(
                                                 item: list[index])));
-                                    result == true ? refreshList() : null;
+                                    if (result) {
+                                      controller.reset();
+                                      refreshList();
+                                    }
                                   },
                                   child: const Icon(
                                     Icons.edit,
@@ -380,10 +392,10 @@ class PaperWithTextFields extends StatefulWidget {
   final bool? readOnly;
 
   @override
-  State<PaperWithTextFields> createState() => _PaperWithTextFieldsState();
+  State<PaperWithTextFields> createState() => PaperWithTextFieldsState();
 }
 
-class _PaperWithTextFieldsState extends State<PaperWithTextFields> {
+class PaperWithTextFieldsState extends State<PaperWithTextFields> {
   final titleController = TextEditingController();
   final desController = TextEditingController();
 
@@ -392,6 +404,21 @@ class _PaperWithTextFieldsState extends State<PaperWithTextFields> {
     super.initState();
     titleController.text = widget.data['title'];
     desController.text = widget.data['description'];
+  }
+
+  updateData() async {
+    await ApiHelper.updatePost(
+            id: widget.data["_id"],
+            title: titleController.text,
+            description: desController.text)
+        .then((result) {
+      if (result) {
+        ShowMessage.showSuccessMessage("Updated Successfully", context);
+        controller.doRefresh = true;
+      } else {
+        ShowMessage.showErrorMessage("Update Error", context);
+      }
+    });
   }
 
   @override

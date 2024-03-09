@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/api_handler.dart';
+import 'package:get/get.dart';
+import 'package:todo_app/controller.dart';
 import 'package:todo_app/ui_elements.dart';
 
 class UpdateScreen extends StatefulWidget {
@@ -11,27 +12,8 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class _UpdateScreenState extends State<UpdateScreen> {
-  TextEditingController titleController = TextEditingController();
-
-  TextEditingController desController = TextEditingController();
-
-  updateData() async {
-    await updatePost(
-            id: widget.item["_id"],
-            title: titleController.text,
-            description: desController.text)
-        .then((result) {
-      if (result) {
-        showSuccessMessage("Updated Successfully", context);
-        doRefresh = true;
-      } else {
-        showErrorMessage("Update Error", context);
-      }
-    });
-  }
-
-  bool doRefresh = false;
-
+  final MyController controller = Get.put(MyController());
+  final GlobalKey<PaperWithTextFieldsState> key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +38,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
             child: FloatingActionButton(
               backgroundColor: Colors.transparent,
               onPressed: () {
-                updateData();
+                // do something
+                key.currentState?.updateData();
               },
               tooltip: "Add Note",
               shape: RoundedRectangleBorder(
@@ -74,7 +57,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                doRefresh
+                controller.doRefresh
                     ? Navigator.pop(context, true)
                     : Navigator.pop(context, false);
               },
@@ -136,6 +119,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
             child: Stack(alignment: Alignment.bottomCenter, children: [
               // Main Paper
               PaperWithTextFields(
+                key: key,
                 data: widget.item,
               ),
               // Clips of Paper

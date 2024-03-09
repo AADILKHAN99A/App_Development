@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:todo_app/controller.dart';
 
 import 'api_handler.dart';
 
@@ -15,7 +17,7 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController desController = TextEditingController();
 
-  bool doRefresh = false;
+  final MyController controller = Get.put(MyController());
 
   Future<void> submitData() async {
     final title = titleController.text;
@@ -33,11 +35,11 @@ class _AddScreenState extends State<AddScreen> {
       if (response.statusCode == 201) {
         titleController.text = "";
         desController.text = "";
-        showSuccessMessage("Created Successfully", context);
-        doRefresh = true;
+        ShowMessage.showSuccessMessage("Created Successfully", context);
+        controller.doRefresh = true;
         setState(() {});
       } else {
-        showErrorMessage("Failed", context);
+        ShowMessage.showErrorMessage("Failed", context);
       }
     });
   }
@@ -80,7 +82,7 @@ class _AddScreenState extends State<AddScreen> {
         elevation: 0,
         leading: IconButton(
             onPressed: () {
-              doRefresh
+              controller.doRefresh
                   ? Navigator.pop(context, true)
                   : Navigator.pop(context, false);
             },
