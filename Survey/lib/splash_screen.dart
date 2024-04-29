@@ -17,8 +17,10 @@ class SplashScreenState extends State<SplashScreen> {
     super.initState();
     dbHelper.db;
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => const AuthPage()));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => const AuthPage()));
     });
   }
 

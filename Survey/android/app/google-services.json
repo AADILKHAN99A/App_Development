@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "844007217609",
+    "project_id": "survey-8a4cc",
+    "storage_bucket": "survey-8a4cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844007217609:android:9808cf50611c333c743018",
+        "android_client_info": {
+          "package_name": "com.example.survey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844007217609-bsjngva8r3q0bs208eikheltt97f0b8n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.survey",
+            "certificate_hash": "743baca5262c72cc34a7a88bae7d07b430cbe8da"
+          }
+        },
+        {
+          "client_id": "844007217609-e4iqtqkd657hnm24qai5qdhqbhjidrol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXlJdwQHdfXbM8RjqgfSbFM3C0vT7tZm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844007217609-e4iqtqkd657hnm24qai5qdhqbhjidrol.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "844007217609-bste5jpq8sk4eanbgf0rucibptln88jc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.survey.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

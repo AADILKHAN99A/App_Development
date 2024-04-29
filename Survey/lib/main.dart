@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:survey/firebase_options.dart';
+import 'package:survey/info.dart';
+import 'package:survey/login_page.dart';
+import 'package:survey/signup_page.dart';
 import 'package:survey/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -20,6 +23,11 @@ class Survey extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Survey',
+      getPages: [
+        GetPage(name: '/', page: () => const SplashScreen()),
+        GetPage(name: '/Login', page: () => const Login()),
+        GetPage(name: '/SignUp', page: () => const SignUpPage()),
+      ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textSelectionTheme: const TextSelectionThemeData(
