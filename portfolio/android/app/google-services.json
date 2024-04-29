@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "577955661285",
+    "project_id": "portfolio-aadil-khan",
+    "storage_bucket": "portfolio-aadil-khan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577955661285:android:9a7d4e15d9851b0882db0c",
+        "android_client_info": {
+          "package_name": "com.example.portfolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNOZ7ZZutli2pJArz0zlCs-V1mXMP6UsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
