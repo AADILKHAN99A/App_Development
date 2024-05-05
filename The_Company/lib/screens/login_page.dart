@@ -63,7 +63,7 @@ class LoginPageState extends State<LoginPage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50.0)),
                         child: Image.asset(
-                          'assets/cwihitewthlogo.png',
+                          'assets/cwhitewithlogo.png',
                         )),
                   ),
                 ),

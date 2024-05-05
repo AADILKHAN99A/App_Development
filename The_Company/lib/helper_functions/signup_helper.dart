@@ -19,7 +19,7 @@ class SignUp {
       await _auth.verifyPhoneNumber(
           phoneNumber: '+91${controllerPhone.text.trim()}',
           verificationCompleted: (PhoneAuthCredential authCredential) async {
-            await _auth.signInWithCredential(authCredential).then((value) {});
+            await _auth.signInWithCredential(authCredential);
           },
           verificationFailed: ((error) {
             if (kDebugMode) {

@@ -113,7 +113,7 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 const SizedBox(height: 40),
                 Image.asset(
-                  'assets/cwihitewthlogo.png',
+                  'assets/cwhitewithlogo.png',
                   scale: 1.2,
                 ),
                 const SizedBox(height: 30),
