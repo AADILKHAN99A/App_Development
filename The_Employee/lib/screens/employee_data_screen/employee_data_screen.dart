@@ -1,5 +1,8 @@
 import 'package:flutter/Material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:the_employee/screens/employee_data_screen/provider/employee_data_provider.dart';
+import 'package:the_employee/screens/home_screen/models/home_model.dart';
 import 'package:the_employee/utils/color_constants.dart';
 
 class EmployeeDataScreen extends StatefulWidget {
@@ -26,6 +29,17 @@ class _EmployeeDataScreenState extends State<EmployeeDataScreen> {
       appBar: AppBar(
         title: Text("Profile"),
         centerTitle: true,
+        actions: [
+          Consumer<EmployeeDataProvider>(builder: (context, provider, child) {
+            return IconButton(
+                onPressed: () {
+
+                  provider.editDetails(context, widget.args['data'],
+                      widget.args['primaryEmail']);
+                },
+                icon: Icon(Icons.edit));
+          })
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,8 +79,8 @@ class _EmployeeDataScreenState extends State<EmployeeDataScreen> {
                 ],
               )
             : const Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Not Active",

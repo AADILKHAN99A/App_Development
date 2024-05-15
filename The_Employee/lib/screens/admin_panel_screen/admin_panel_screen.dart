@@ -2,6 +2,7 @@ import 'package:flutter/Material.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:the_employee/routes/app_routes.dart';
+import 'package:the_employee/screens/admin_panel_screen/models/admin_panel_model.dart';
 import 'package:the_employee/screens/admin_panel_screen/provider/admin_panel_provider.dart';
 import 'package:the_employee/screens/employee_data_screen/models/employee_data_model.dart';
 import 'package:the_employee/utils/color_constants.dart';
@@ -21,7 +22,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
   }
 
   void refresh() async {
-    final provider = Provider.of<AdminPanelProvider>(context,listen: false);
+    final provider = Provider.of<AdminPanelProvider>(context, listen: false);
   }
 
   @override
@@ -66,9 +67,16 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
     );
   }
 
-  navigate(EmployeeDataModel model) {
+  navigate(AdminPanelModel model) {
+    EmployeeDataModel employeeDataModel = EmployeeDataModel(
+        fullName: model.fullName,
+        email: model.email,
+        phone: model.phone,
+        workDetails: model.workDetails,
+        joinDate: model.joinDate,
+        isActive: model.isActive);
     Navigator.pushNamed(context, RouteName.employeeDataScreen,
-        arguments: {'data': model});
+        arguments: {'data': employeeDataModel, 'primaryEmail': model.id});
   }
 
   Widget _buildEmployeeTiles() {

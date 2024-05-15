@@ -97,17 +97,19 @@ class FirebaseDatabaseService {
     }
   }
 
-  Future<List<EmployeeDataModel>?> fetchAllEmpData() async {
+  Future<List<AdminPanelModel>?> fetchAllEmpData() async {
     try {
       CollectionReference allEmpData =
           FirebaseFirestore.instance.collection(employeeDetailsCollection);
       final snapshot = await allEmpData.get();
 
       final data = snapshot.docs;
-      List<EmployeeDataModel> list = [];
+      List<AdminPanelModel> list = [];
+
       if (data.isNotEmpty) {
         for (var element in data) {
-          list.add(EmployeeDataModel.fromMap(element.data() as Map<String, dynamic>));
+
+          list.add(AdminPanelModel.fromMap(element.data() as Map<String, dynamic>,element.id));
         }
         return list;
       }
