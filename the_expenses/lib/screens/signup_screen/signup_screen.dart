@@ -338,17 +338,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signUp(SignUpProvider provider) async {
-    SignUpModel model = SignUpModel(
+    SignUpModel signUpModel = SignUpModel(
+        userId: '',
         name: nameController.text,
         email: emailController.text,
         phone: phoneController.text,
         password: passwordController.text);
-    await SignUpProvider().userSignUp(model, provider).then((isNavigate) {
-      if (isNavigate == true) {
-        // Navigator.pushReplacementNamed(context, RouteName.homeScreen,
-        //     arguments: {'data': model, 'id': model.email});
-      }
-    });
+    await SignUpProvider().userSignUp(signUpModel, provider, context);
   }
 
   @override

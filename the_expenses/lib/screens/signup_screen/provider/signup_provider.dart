@@ -1,6 +1,7 @@
 import 'package:flutter/Material.dart';
 import 'package:flutter/foundation.dart';
-import '../../../database/firebase_database_helper.dart';
+import 'package:the_expenses/database/database_helper.dart';
+import 'package:the_expenses/routes/routes.dart';
 import '../../../domain/authentication/firebase_auth.dart';
 import '../../../utils/custom_toast.dart';
 import '../models/signup_model.dart';
@@ -10,6 +11,8 @@ class SignUpProvider with ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
+  DatabaseHelper databaseHelper = DatabaseHelper.instance;
+
   setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
@@ -17,29 +20,32 @@ class SignUpProvider with ChangeNotifier {
 
   final FirebaseAuthServices _auth = FirebaseAuthServices();
 
-  Future<bool> userSignUp(SignUpModel model,SignUpProvider provider) async {
+  Future userSignUp(
+      SignUpModel model, SignUpProvider provider, BuildContext context) async {
     provider.setLoading(true);
-    var user = await _auth.signUpWithEmailPassword(model.email, model.password);
+
+    // signup user
+    var user =
+        await _auth.signUpWithEmailPassword(model.email, model.password!);
 
     if (user != null) {
-      String res = await FirebaseDatabaseService()
-          .addUser(signUpModel: model, uid: user.uid);
+      // add userid into object
+      model = model.copy(userId: user.uid);
 
-      if (res.contains('success')) {
-        commonToast("Registered Successfully");
-        provider.setLoading(false);
+      // insert user into database and receive object with id added
+      model = await databaseHelper.insertUser(model: model);
 
-        return true;
-      }
+      commonToast("Registered Successfully");
+      provider.setLoading(false);
+
+      Navigator.pushReplacementNamed(context, RouteName.homeScreen,
+          arguments: {'data': model});
     } else {
       if (kDebugMode) {
         print("Some error happened");
       }
-
     }
 
     provider.setLoading(false);
-
-    return false;
   }
 }

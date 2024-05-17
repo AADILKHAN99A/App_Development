@@ -1,15 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/Material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:the_expenses/screens/login_screen/provider/login_provider.dart';
-
 import '../../routes/routes.dart';
 import '../../utils/image_constants.dart';
 import '../../widgets/custom_loading_button.dart';
@@ -35,12 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void logIn(LogInProvider provider) async {
     LoginModel model = LoginModel(emailController.text, passController.text);
-    // LogInProvider().signUserIn(model, context, provider);
+    LogInProvider().signUserIn(model, context, provider);
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Tree rebuild");
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,

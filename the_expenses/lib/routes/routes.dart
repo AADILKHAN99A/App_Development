@@ -5,7 +5,7 @@ import 'package:the_expenses/screens/login_screen/provider/login_provider.dart';
 import 'package:the_expenses/screens/splash_screen/splash_screen.dart';
 
 import '../screens/home_screen/home_screen.dart';
-import '../screens/home_screen/provider/home_provider.dart';
+import '../screens/home_screen/provider/expense_data_provider.dart';
 import '../screens/signup_screen/provider/signup_provider.dart';
 import '../screens/signup_screen/signup_screen.dart';
 
@@ -34,7 +34,7 @@ class Routes {
         final args = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-                  create: (BuildContext context) => HomeProvider(),
+                  create: (BuildContext context) => ExpenseDataProvider(),
                   child: HomeScreen(
                     args: args,
                   ),

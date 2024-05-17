@@ -1,4 +1,5 @@
 class LoginModel {
+
   final String email;
 
   final String password;
@@ -10,3 +11,5 @@ class LoginModel {
 
   Map<String, dynamic> toMap() => {'email': email, 'password': password};
 }
+
+
