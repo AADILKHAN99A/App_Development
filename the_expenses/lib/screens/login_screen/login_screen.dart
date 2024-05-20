@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/Material.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:the_expenses/screens/login_screen/provider/login_provider.dart';
 import '../../routes/routes.dart';
+import '../../services/notifi_service.dart';
 import '../../utils/image_constants.dart';
 import '../../widgets/custom_loading_button.dart';
 import '../../widgets/custom_outlined_button.dart';
@@ -22,6 +24,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+        onNotificationCreatedMethod:
+            NotificationController.onNotificationCreatedMethod,
+        onNotificationDisplayedMethod:
+            NotificationController.onNotificationDisplayedMethod,
+        onDismissActionReceivedMethod:
+            NotificationController.onDismissActionReceivedMethod);
+  }
 
   void googleLogIn() async {
     LogInProvider().userGoogleLogIn(context);

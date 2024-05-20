@@ -39,7 +39,7 @@ class SignUpProvider with ChangeNotifier {
       provider.setLoading(false);
 
       Navigator.pushReplacementNamed(context, RouteName.homeScreen,
-          arguments: {'data': model});
+          arguments: {'data': model, 'notify': true});
     } else {
       if (kDebugMode) {
         print("Some error happened");

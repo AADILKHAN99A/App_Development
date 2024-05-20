@@ -1,9 +1,12 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:the_expenses/schedule_notification_model.dart';
 import 'package:the_expenses/screens/home_screen/models/expense_item.dart';
 import 'package:the_expenses/screens/home_screen/provider/expense_data_provider.dart';
 import 'package:the_expenses/screens/signup_screen/models/signup_model.dart';
+import 'package:the_expenses/services/notifi_service.dart';
 import 'package:the_expenses/widgets/expense_summary.dart';
 import 'package:the_expenses/widgets/list_tile.dart';
 import '../../utils/color_constants.dart';
@@ -33,11 +36,21 @@ class _HomeScreenState extends State<HomeScreen> {
       print("arguments: ${widget.args}");
     }
     refreshList();
+    scheduleNotification();
   }
 
   refreshList() {
     Provider.of<ExpenseDataProvider>(context, listen: false)
         .getAllExpenseList(model: widget.args['data'] as SignUpModel);
+  }
+
+  scheduleNotification() {
+    if (widget.args['notify'] == true) {
+      NotificationService.scheduleNotification(
+          schedule: Schedule(
+              details: "Track Your Expenses in The Expenses",
+              time: DateTime.now().add(const Duration(days: 1))));
+    }
   }
 
   void save() {

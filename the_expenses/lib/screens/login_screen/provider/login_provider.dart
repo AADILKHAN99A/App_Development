@@ -32,6 +32,8 @@ class LogInProvider extends ChangeNotifier {
 
   void userGoogleLogIn(BuildContext context) async {
     await FirebaseAuthServices().signInWithGoogle().then((credential) async {
+
+      bool isNotfiy = false;
       // print(credential);
       if (credential != null) {
         SignUpModel? model =
@@ -49,11 +51,12 @@ class LogInProvider extends ChangeNotifier {
           // insert user in Database
 
           model = await databaseHelper.insertUser(model: signUpModel);
+          isNotfiy =true;
         }
 
         commonToast('Login Successfully');
         Navigator.pushNamed(context, RouteName.homeScreen,
-            arguments: {'data': model});
+            arguments: {'data': model,'notify':isNotfiy});
       }
     });
   }
@@ -77,7 +80,7 @@ class LogInProvider extends ChangeNotifier {
           commonToast("Welcome");
 
           Navigator.pushNamed(context, RouteName.homeScreen,
-              arguments: {'data': signUpModel});
+              arguments: {'data': signUpModel,'notify':false});
         }
         // user doesn't exist in Database
         else {
