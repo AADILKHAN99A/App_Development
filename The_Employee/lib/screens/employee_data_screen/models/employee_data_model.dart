@@ -11,13 +11,18 @@ class EmployeeDataModel {
 
   final bool isActive;
 
+  final String? aboutMe;
+  final List<dynamic> skills;
+
   EmployeeDataModel(
       {required this.fullName,
       required this.email,
       required this.phone,
       required this.workDetails,
       required this.joinDate,
-      required this.isActive});
+      required this.isActive,
+      this.aboutMe="",
+      required this.skills});
 
   factory EmployeeDataModel.fromMap(Map<String, dynamic> data) =>
       EmployeeDataModel(
@@ -26,7 +31,9 @@ class EmployeeDataModel {
           phone: data['phone'],
           workDetails: data['workDetails'],
           joinDate: (data['joinDate'] as Timestamp).toDate(),
-          isActive: data['isActive']);
+          isActive: data['isActive'],
+          aboutMe: data['aboutMe'],
+          skills: (data['skills'] as List<dynamic>));
 
   Map<String, dynamic> toMap() {
     return {
@@ -35,7 +42,9 @@ class EmployeeDataModel {
       'phone': phone,
       'workDetails': workDetails,
       'joinDate': joinDate,
-      'isActive': isActive
+      'isActive': isActive,
+      'aboutMe': aboutMe,
+      'skills': skills
     };
   }
 }

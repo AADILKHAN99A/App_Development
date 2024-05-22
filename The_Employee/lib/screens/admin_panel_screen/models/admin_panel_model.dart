@@ -9,7 +9,9 @@ class AdminPanelModel extends EmployeeDataModel {
       required super.phone,
       required super.workDetails,
       required super.joinDate,
-      required super.isActive});
+      required super.isActive,
+      required super.skills,
+      required super.aboutMe});
 
   final String id;
 
@@ -21,7 +23,9 @@ class AdminPanelModel extends EmployeeDataModel {
           workDetails: data['workDetails'],
           joinDate: (data['joinDate'] as Timestamp).toDate(),
           isActive: data['isActive'],
-          id: id);
+          id: id,
+          skills: data['skills'] as List<dynamic>,
+          aboutMe: data['aboutMe']);
 
   Map<String, dynamic> toMap() {
     return {
@@ -31,7 +35,9 @@ class AdminPanelModel extends EmployeeDataModel {
       'workDetails': workDetails,
       'joinDate': joinDate,
       'isActive': isActive,
-      'id': id
+      'id': id,
+      'skills': skills,
+      'aboutMe': aboutMe
     };
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/Material.dart';
 import 'package:the_employee/database/database_helper.dart';
 import 'package:the_employee/routes/app_routes.dart';
-import 'package:the_employee/screens/home_screen/models/home_model.dart';
+import 'package:the_employee/screens/employee_data_screen/models/employee_data_model.dart';
 import 'package:the_employee/utils/custom_toast.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -13,8 +13,26 @@ class HomeProvider extends ChangeNotifier {
 
   bool get isActive => _isActive;
 
-  setActive(bool value){
-    _isActive=value;
+  setActive(bool value) {
+    _isActive = value;
+  }
+
+  List<dynamic> _skills = [];
+
+  get skills => _skills;
+
+  void setSkills(List skills) {
+    _skills = skills;
+  }
+
+  void addSkill(String skill) {
+    _skills.add(skill);
+    notifyListeners();
+  }
+
+  void removeSkill(String skill) {
+    _skills.remove(skill);
+    notifyListeners();
   }
 
   selectDate(BuildContext context) async {
@@ -38,21 +56,25 @@ class HomeProvider extends ChangeNotifier {
       required String fullName,
       required String workDetails,
       required String primaryEmail,
+      required String aboutMe,
       required BuildContext context}) async {
-    HomeModel model = HomeModel(
+    EmployeeDataModel model = EmployeeDataModel(
         fullName: fullName,
         email: email,
         phone: phone,
         workDetails: workDetails,
         joinDate: _selectedDate,
-        isActive: _isActive);
+        isActive: _isActive,
+        aboutMe: aboutMe,
+        skills: _skills);
 
     await FirebaseDatabaseService()
-        .writeDetails(homeModel: model, email: primaryEmail)
+        .writeDetails(empModel: model, email: primaryEmail)
         .then((value) {
       if (value.contains('success')) {
         commonToast("Details Submit");
         //navigate
+
         Navigator.pushReplacementNamed(context, RouteName.employeeDataScreen,
             arguments: {'data': model, 'primaryEmail': primaryEmail});
       } else {

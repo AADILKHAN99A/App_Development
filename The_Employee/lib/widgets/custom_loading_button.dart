@@ -21,7 +21,7 @@ class CustomLoadingButton extends StatelessWidget {
       width: double.maxFinite,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(darkBlue),
+            backgroundColor: const Color(darkPurple),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28))),
         child: loading == true

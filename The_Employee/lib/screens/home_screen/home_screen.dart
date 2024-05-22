@@ -21,6 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController fieldController = TextEditingController();
+
+  TextEditingController aboutController = TextEditingController();
+
+  TextEditingController skillsController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   void write(HomeProvider provider) {
@@ -31,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
           fullName: nameController.text.toString(),
           workDetails: fieldController.text.toString(),
           primaryEmail: widget.args['id'],
-          context: context);
+          context: context,
+          aboutMe: aboutController.text.toString());
     }
   }
 
@@ -58,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               text: "Submit",
               buttonStyle:
-                  ElevatedButton.styleFrom(backgroundColor: Color(darkBlue)),
+                  ElevatedButton.styleFrom(backgroundColor: Color(darkPurple)),
               buttonTextStyle: TextStyle(color: Colors.white),
             );
           }),
@@ -73,7 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 _buildPhoneNumberTextField(),
                 _buildFieldOfWorkTextField(),
                 _buildDatePicker(),
-                _buildAciveTab()
+                _buildActiveTab(),
+                _aboutMeView(),
+                _buildSkillsTextFieldView(),
+                _buildSkillsListView(),
+                const SizedBox(height: 30)
               ],
             ),
           ),
@@ -82,11 +91,179 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAciveTab() {
+  Widget _aboutMeView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 34, left: 20),
+          child: Text(
+            "About Me",
+            style: GoogleFonts.poppins(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: const Color(darkPurple)),
+          ),
+        ),
+        Stack(children: [
+          Container(
+            margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+            height: 140,
+            decoration: ShapeDecoration(
+                color: Colors.black.withOpacity(0.05000000074505806),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(23),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 5, right: 40),
+            child: TextFormField(
+              controller: aboutController,
+              maxLines: 5,
+              validator: (value) {
+                if (value.toString().isEmpty) {
+                  return 'Required';
+                } else {
+                  return null;
+                }
+              },
+              decoration: InputDecoration(
+                errorStyle: GoogleFonts.poppins(),
+                hintText: "About Me",
+                hintStyle: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black.withOpacity(0.6000000238418579),
+                    fontWeight: FontWeight.w400),
+                contentPadding: const EdgeInsets.only(left: 22),
+                border: InputBorder.none,
+              ),
+              keyboardType: TextInputType.text,
+            ),
+          ),
+        ]),
+      ],
+    );
+  }
+
+  Widget _buildSkillsListView() {
+    return Consumer<HomeProvider>(builder: (context, provider, child) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        height: 40,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: provider.skills.length,
+          itemBuilder: (context, index) {
+            return Center(
+              child: Container(
+                padding: const EdgeInsets.only(left: 15),
+                decoration: BoxDecoration(
+                  color: const Color(skyBlueShade),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      provider.skills[index],
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        provider.removeSkill(provider.skills[index]);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              width: 10,
+            );
+          },
+        ),
+      );
+    });
+  }
+
+  Widget _buildSkillsTextFieldView() {
+    return Consumer<HomeProvider>(builder: (context, provider, child) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 34, left: 20),
+            child: Text(
+              "Skills",
+              style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(darkPurple)),
+            ),
+          ),
+          Stack(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+              height: 50,
+              decoration: ShapeDecoration(
+                  color: Colors.black.withOpacity(0.05000000074505806),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(23),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, top: 2, right: 40),
+              child: TextFormField(
+                controller: skillsController,
+                validator: (value) {
+                  if (provider.skills.isEmpty) {
+                    return 'Add atleast one';
+                  } else {
+                    return null;
+                  }
+                },
+                decoration: InputDecoration(
+                  suffix: IconButton(
+                    onPressed: () {
+                      provider.addSkill(skillsController.text.toString());
+                      skillsController.clear();
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                  errorStyle: GoogleFonts.poppins(),
+                  hintText: "Enter Skills",
+                  hintStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black.withOpacity(0.6000000238418579),
+                      fontWeight: FontWeight.w400),
+                  contentPadding: const EdgeInsets.only(left: 22),
+                  border: InputBorder.none,
+                ),
+                keyboardType: TextInputType.name,
+              ),
+            ),
+          ]),
+        ],
+      );
+    });
+  }
+
+  Widget _buildActiveTab() {
     return Consumer<HomeProvider>(builder: (context, homeProvider, child) {
       return Column(
         children: [
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           DefaultTabController(
               length: 2,
               child: ButtonsTabBar(
@@ -100,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         break;
                     }
                   },
-                  backgroundColor: const Color(darkBlue),
+                  backgroundColor: const Color(skyBlueShade),
                   labelStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -131,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: const Color(darkBlue)),
+                color: const Color(darkPurple)),
           ),
         ),
         Stack(children: [
@@ -185,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: const Color(darkBlue)),
+                color: const Color(darkPurple)),
           ),
         ),
         Stack(children: [
@@ -244,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: const Color(darkBlue)),
+                color: const Color(darkPurple)),
           ),
         ),
         Stack(children: [
@@ -321,7 +498,7 @@ class _HomeScreenState extends State<HomeScreen> {
               text: "Select Date",
               buttonTextStyle: const TextStyle(color: Colors.white),
               buttonStyle: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(darkBlue)),
+                  backgroundColor: const Color(darkPurple)),
             ),
           )
         ],
@@ -339,7 +516,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Text(
             "Email",
             style: TextStyle(
-                color: Color(darkBlue),
+                color: Color(darkPurple),
                 fontSize: 13,
                 fontWeight: FontWeight.w500),
           ),

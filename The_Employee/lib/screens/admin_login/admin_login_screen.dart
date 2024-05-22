@@ -17,6 +17,8 @@ import 'package:the_employee/widgets/custom_elevated_button.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:the_employee/widgets/custom_loading_button.dart';
 
+import '../../utils/image_constants.dart';
+
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
 
@@ -30,20 +32,33 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-  bool passwordVisible = false;
+  bool passwordVisible = true;
 
   void logIn(AdminLoginProvider provider) async {
     AdminLoginModel model = AdminLoginModel(
         email: emailController.text.toString(),
         password: passController.text.toString());
 
-    await provider.adminLogin(model, context,provider);
+    await provider.adminLogin(model, context, provider);
+  }
+
+  void autoFill() {
+    emailController.text = 'admin123@gmail.com';
+    passController.text = '12345678';
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+      ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -83,13 +98,75 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                _displayTestAccountDetail()
+                _buildDetailView()
               ],
             ),
           ),
         ),
       ),
     ));
+  }
+
+  Widget _buildDetailView() {
+    return Stack(
+      children: [
+        Container(
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+              color: const Color(skyBlueShade),
+              borderRadius: BorderRadius.circular(30)),
+          child: Column(
+            children: [
+              const Icon(
+                Icons.manage_accounts_outlined,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.email_outlined,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "admin123@gmail.com",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.password_outlined,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "12345678",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              TextButton(
+                  onPressed: autoFill,
+                  child: const Text(
+                    "Auto-Fill",
+                    style: TextStyle(color: Colors.white),
+                  ))
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildEmailTextField(BuildContext context) {
@@ -213,44 +290,5 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         ),
       ])
     ]);
-  }
-
-  Widget _displayTestAccountDetail() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              "Testing Account",
-              style: TextStyle(fontWeight: FontWeight.w400),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Email:        ",
-                  style: TextStyle(color: Color(darkBlue)),
-                ),
-                Text("admin123@gmail.com")
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  "Password: ",
-                  style: TextStyle(color: Color(darkBlue)),
-                ),
-                Text("12345678")
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

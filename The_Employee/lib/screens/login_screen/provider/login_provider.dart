@@ -15,7 +15,7 @@ class LogInProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  bool _passwordVisible = false;
+  bool _passwordVisible = true;
 
   bool get passwordVisible => _passwordVisible;
 
@@ -62,6 +62,7 @@ class LogInProvider extends ChangeNotifier {
     final res = await FirebaseDatabaseService()
         .getUserDetails(primaryEmail: primaryEmail);
     setLoading(false);
+    print("result of check data : ${res}");
     if (res != null) {
       Navigator.pushNamed(context, RouteName.employeeDataScreen,
           arguments: {'data': res, 'primaryEmail': primaryEmail});

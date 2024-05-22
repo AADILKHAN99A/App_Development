@@ -5,11 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:the_employee/screens/employee_data_edit_screen/provider/employee_data_edit_provider.dart';
 import 'package:the_employee/screens/employee_data_screen/models/employee_data_model.dart';
-import 'package:the_employee/screens/home_screen/models/home_model.dart';
-
 import '../../utils/color_constants.dart';
 import '../../widgets/custom_elevated_button.dart';
-import '../home_screen/provider/home_provider.dart';
 
 class EmployeeDataEditScreen extends StatefulWidget {
   const EmployeeDataEditScreen({super.key, required this.args});
@@ -26,29 +23,33 @@ class _EmployeeDataEditScreenState extends State<EmployeeDataEditScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController fieldController = TextEditingController();
 
+  TextEditingController aboutController = TextEditingController();
+
+  TextEditingController skillsController = TextEditingController();
+  late EmployeeDataModel model;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.args['data'].fullName);
-    print(widget.args['primaryEmail']);
     model = widget.args['data'];
-
     nameController.text = model.fullName.toString();
     emailController.text = model.email.toString();
     phoneController.text = model.phone.toString();
     fieldController.text = model.workDetails.toString();
-    setDate();
+    aboutController.text = model.aboutMe.toString();
+    setOthers();
   }
 
-  late HomeModel model;
-
-  setDate() {
+  setOthers() {
     Provider.of<EmployeeDataEditProvider>(context, listen: false).selectedDate =
         model.joinDate;
 
     Provider.of<EmployeeDataEditProvider>(context, listen: false).isActive =
         model.isActive;
+
+    Provider.of<EmployeeDataEditProvider>(context, listen: false)
+        .setSkills(model.skills);
   }
 
   @override
@@ -56,61 +57,239 @@ class _EmployeeDataEditScreenState extends State<EmployeeDataEditScreen> {
     return Scaffold(
       bottomNavigationBar: Consumer<EmployeeDataEditProvider>(
           builder: (context, provider, child) {
-        return CustomElevatedButton(
-          onPressed: () {
-            provider.writeData(
-                email: emailController.text,
-                phone: phoneController.text,
-                fullName: nameController.text,
-                workDetails: fieldController.text,
-                primaryEmail: widget.args['primaryEmail'],
-                context: context);
-          },
-          text: 'Update',
-          buttonTextStyle: const TextStyle(color: Colors.white),
-          buttonStyle:
-              ElevatedButton.styleFrom(backgroundColor: const Color(darkBlue)),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: CustomElevatedButton(
+            onPressed: () {
+              provider.writeData(
+                  email: emailController.text,
+                  phone: phoneController.text,
+                  fullName: nameController.text,
+                  workDetails: fieldController.text,
+                  primaryEmail: widget.args['primaryEmail'],
+                  context: context,
+                  aboutMe: aboutController.text.toString());
+            },
+            text: 'Update',
+            buttonTextStyle: const TextStyle(color: Colors.white),
+            buttonStyle: ElevatedButton.styleFrom(
+                backgroundColor: const Color(darkPurple)),
+          ),
         );
       }),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text("Edit Details"),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          _buildFullNameTextField(),
-          _buildEmailTextField(),
-          _buildPhoneNumberTextField(),
-          _buildFieldOfWorkTextField(),
-          _buildDatePicker(),
-          _buildAciveTab()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildFullNameTextField(),
+            _buildEmailTextField(),
+            _buildPhoneNumberTextField(),
+            _buildFieldOfWorkTextField(),
+            _buildDatePicker(),
+            _buildAciveTab(),
+            _aboutMeView(),
+            _buildSkillsTextFieldView(),
+            _buildSkillsListView(),
+            const SizedBox(height: 30)
+          ],
+        ),
       ),
     );
   }
 
+  Widget _aboutMeView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 34, left: 20),
+          child: Text(
+            "About Me",
+            style: GoogleFonts.poppins(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: const Color(darkPurple)),
+          ),
+        ),
+        Stack(children: [
+          Container(
+            margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+            height: 140,
+            decoration: ShapeDecoration(
+                color: Colors.black.withOpacity(0.05000000074505806),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(23),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 5, right: 40),
+            child: TextFormField(
+              controller: aboutController,
+              maxLines: 5,
+              validator: (value) {
+                if (value.toString().isEmpty) {
+                  return 'Required';
+                } else {
+                  return null;
+                }
+              },
+              decoration: InputDecoration(
+                errorStyle: GoogleFonts.poppins(),
+                hintText: "About Me",
+                hintStyle: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black.withOpacity(0.6000000238418579),
+                    fontWeight: FontWeight.w400),
+                contentPadding: const EdgeInsets.only(left: 22),
+                border: InputBorder.none,
+              ),
+              keyboardType: TextInputType.text,
+            ),
+          ),
+        ]),
+      ],
+    );
+  }
+
+  Widget _buildSkillsListView() {
+    return Consumer<EmployeeDataEditProvider>(
+        builder: (context, provider, child) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        height: 40,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: provider.skills.length,
+          itemBuilder: (context, index) {
+            return Center(
+              child: Container(
+                padding: const EdgeInsets.only(left: 15),
+                decoration: BoxDecoration(
+                  color: const Color(skyBlueShade),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      provider.skills[index],
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        provider.removeSkill(provider.skills[index]);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              width: 10,
+            );
+          },
+        ),
+      );
+    });
+  }
+
+  Widget _buildSkillsTextFieldView() {
+    return Consumer<EmployeeDataEditProvider>(
+        builder: (context, provider, child) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 34, left: 20),
+            child: Text(
+              "Skills",
+              style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(darkPurple)),
+            ),
+          ),
+          Stack(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+              height: 50,
+              decoration: ShapeDecoration(
+                  color: Colors.black.withOpacity(0.05000000074505806),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(23),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, top: 2, right: 40),
+              child: TextFormField(
+                controller: skillsController,
+                validator: (value) {
+                  if (provider.skills.isEmpty) {
+                    return 'Add atleast one';
+                  } else {
+                    return null;
+                  }
+                },
+                decoration: InputDecoration(
+                  suffix: IconButton(
+                    onPressed: () {
+                      provider.addSkill(skillsController.text.toString());
+                      skillsController.clear();
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                  errorStyle: GoogleFonts.poppins(),
+                  hintText: "Enter Skills",
+                  hintStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black.withOpacity(0.6000000238418579),
+                      fontWeight: FontWeight.w400),
+                  contentPadding: const EdgeInsets.only(left: 22),
+                  border: InputBorder.none,
+                ),
+                keyboardType: TextInputType.name,
+              ),
+            ),
+          ]),
+        ],
+      );
+    });
+  }
+
   Widget _buildAciveTab() {
     return Consumer<EmployeeDataEditProvider>(
-        builder: (context, homeProvider, child) {
+        builder: (context, provider, child) {
       return Column(
         children: [
           const SizedBox(height: 10),
           DefaultTabController(
-              initialIndex: homeProvider.isActive == true ? 0 : 1,
+              initialIndex: provider.isActive == true ? 0 : 1,
               length: 2,
               child: ButtonsTabBar(
                   onTap: (value) {
                     switch (value) {
                       case 0:
-                        homeProvider.isActive = true;
+                        provider.isActive = true;
                         break;
                       case 1:
-                        homeProvider.isActive = false;
+                        provider.isActive = false;
                         break;
                     }
                   },
-                  backgroundColor: const Color(darkBlue),
+                  backgroundColor: const Color(skyBlueShade),
                   labelStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -141,7 +320,7 @@ class _EmployeeDataEditScreenState extends State<EmployeeDataEditScreen> {
             style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: const Color(darkBlue)),
+                color: const Color(darkPurple)),
           ),
         ),
         Stack(children: [
@@ -195,7 +374,7 @@ class _EmployeeDataEditScreenState extends State<EmployeeDataEditScreen> {
             style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: const Color(darkBlue)),
+                color: const Color(darkPurple)),
           ),
         ),
         Stack(children: [
@@ -254,7 +433,7 @@ class _EmployeeDataEditScreenState extends State<EmployeeDataEditScreen> {
             style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: const Color(darkBlue)),
+                color: const Color(darkPurple)),
           ),
         ),
         Stack(children: [
@@ -332,7 +511,7 @@ class _EmployeeDataEditScreenState extends State<EmployeeDataEditScreen> {
               text: "Select Date",
               buttonTextStyle: const TextStyle(color: Colors.white),
               buttonStyle: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(darkBlue)),
+                  backgroundColor: const Color(darkPurple)),
             ),
           )
         ],
@@ -350,7 +529,7 @@ class _EmployeeDataEditScreenState extends State<EmployeeDataEditScreen> {
           child: const Text(
             "Email",
             style: TextStyle(
-                color: Color(darkBlue),
+                color: Color(darkPurple),
                 fontSize: 13,
                 fontWeight: FontWeight.w500),
           ),

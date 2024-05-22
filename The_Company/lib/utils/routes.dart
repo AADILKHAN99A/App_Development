@@ -1,8 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:the_company/screens/login_page.dart';
-import 'package:the_company/screens/signup_page.dart';
-import 'package:the_company/screens/splash_screen.dart';
+import 'package:the_company/presentation/login_screen/login_page.dart';
+import 'package:the_company/presentation/signup_screen/signup_page.dart';
+import 'package:the_company/presentation/splash_screen/splash_screen.dart';
 
 class FRouter {
   static final router = FluroRouter();

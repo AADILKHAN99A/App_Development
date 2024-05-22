@@ -1,10 +1,10 @@
 import 'package:flutter/Material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:the_employee/screens/employee_data_screen/models/employee_data_model.dart';
 
 import '../../../database/database_helper.dart';
 import '../../../routes/app_routes.dart';
 import '../../../utils/custom_toast.dart';
-import '../../home_screen/models/home_model.dart';
 
 class EmployeeDataEditProvider extends ChangeNotifier {
   late DateTime _selectedDate;
@@ -15,13 +15,30 @@ class EmployeeDataEditProvider extends ChangeNotifier {
     _selectedDate = value;
   }
 
-  late bool _isActive ;
+  late bool _isActive;
 
   bool get isActive => _isActive;
 
   set isActive(bool value) {
     _isActive = value;
+  }
 
+  List<dynamic> _skills = [];
+
+  get skills => _skills;
+
+  void setSkills(List skills) {
+    _skills = skills;
+  }
+
+  void addSkill(String skill) {
+    _skills.add(skill);
+    notifyListeners();
+  }
+
+  void removeSkill(String skill) {
+    _skills.remove(skill);
+    notifyListeners();
   }
 
   selectDate(BuildContext context) async {
@@ -45,17 +62,20 @@ class EmployeeDataEditProvider extends ChangeNotifier {
       required String fullName,
       required String workDetails,
       required String primaryEmail,
+      required String aboutMe,
       required BuildContext context}) async {
-    HomeModel model = HomeModel(
+    EmployeeDataModel model = EmployeeDataModel(
         fullName: fullName,
         email: email,
         phone: phone,
         workDetails: workDetails,
         joinDate: _selectedDate,
-        isActive: _isActive);
+        isActive: _isActive,
+        skills: _skills,
+        aboutMe: aboutMe);
 
     await FirebaseDatabaseService()
-        .writeDetails(homeModel: model, email: primaryEmail)
+        .writeDetails(empModel: model, email: primaryEmail)
         .then((value) {
       if (value.contains('success')) {
         commonToast("Details Submit");

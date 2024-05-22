@@ -3,7 +3,6 @@ import 'package:the_employee/database/database_constants.dart';
 import 'package:the_employee/screens/admin_login/models/admin_login_model.dart';
 import 'package:the_employee/screens/admin_panel_screen/models/admin_panel_model.dart';
 import 'package:the_employee/screens/employee_data_screen/models/employee_data_model.dart';
-import 'package:the_employee/screens/home_screen/models/home_model.dart';
 import 'package:the_employee/screens/signup_screen/models/signup_model.dart';
 
 class FirebaseDatabaseService {
@@ -47,13 +46,13 @@ class FirebaseDatabaseService {
   }
 
   Future<String> writeDetails(
-      {required HomeModel homeModel, required String email}) async {
+      {required EmployeeDataModel empModel, required String email}) async {
     try {
       final usersData = FirebaseFirestore.instance
           .collection(employeeDetailsCollection)
           .doc(email);
       // Call the user's CollectionReference to add a new user
-      await usersData.set(homeModel.toMap());
+      await usersData.set(empModel.toMap());
 
       return 'success';
     } catch (e) {
@@ -108,8 +107,8 @@ class FirebaseDatabaseService {
 
       if (data.isNotEmpty) {
         for (var element in data) {
-
-          list.add(AdminPanelModel.fromMap(element.data() as Map<String, dynamic>,element.id));
+          list.add(AdminPanelModel.fromMap(
+              element.data() as Map<String, dynamic>, element.id));
         }
         return list;
       }

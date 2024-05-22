@@ -23,20 +23,34 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
 
   void refresh() async {
     final provider = Provider.of<AdminPanelProvider>(context, listen: false);
+    provider.fetchAllEmployeeData();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      floatingActionButton: _customFloatingButton(),
       appBar: AppBar(
-        title: const Text("Employee Details"),
+        title: const Text(
+          "Employee Details",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+        ),
         centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new_rounded)),
         actions: [
           Consumer<AdminPanelProvider>(builder: (context, provider, child) {
-            print(provider.list);
             return IconButton(
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(
+                Icons.refresh_outlined,
+                color: Color(greyShade2),
+                size: 30,
+              ),
               onPressed: () async {
                 await provider.fetchAllEmployeeData();
               },
@@ -48,6 +62,17 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
     ));
   }
 
+  Widget _customFloatingButton() {
+    return FloatingActionButton(
+      onPressed: () {},
+      backgroundColor: const Color(lightPurple),
+      child: const Icon(
+        Icons.search_outlined,
+        color: Colors.white,
+      ),
+    );
+  }
+
   Widget greenOrRed(DateTime from, DateTime to, bool isActive) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
@@ -55,15 +80,19 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
 
     if (isActive == true) {
       if (res > 5) {
-        return const Icon(
-          Icons.verified,
-          color: Colors.green,
+        return const CircleAvatar(
+          child: Icon(
+            Icons.verified,
+            color: Colors.green,
+          ),
         );
       }
     }
-    return const Icon(
-      Icons.verified_outlined,
-      color: Colors.red,
+    return const CircleAvatar(
+      child: Icon(
+        Icons.verified_outlined,
+        color: Colors.red,
+      ),
     );
   }
 
@@ -74,7 +103,9 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         phone: model.phone,
         workDetails: model.workDetails,
         joinDate: model.joinDate,
-        isActive: model.isActive);
+        isActive: model.isActive,
+        aboutMe: model.aboutMe,
+        skills: model.skills);
     Navigator.pushNamed(context, RouteName.employeeDataScreen,
         arguments: {'data': employeeDataModel, 'primaryEmail': model.id});
   }
@@ -85,24 +116,36 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
           itemCount: provider.list.length,
           itemBuilder: (BuildContext context, int i) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25)),
                 child: ListTile(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  tileColor: const Color(skyBlueShade),
                   onTap: () {
                     navigate(provider.list[i]);
                   },
                   title: Text(
                     provider.list[i].fullName,
-                    style: const TextStyle(color: Color(darkBlue)),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w500),
                   ),
                   subtitle: provider.list[i].isActive
-                      ? const Text("Active")
-                      : const Text("Not Active"),
+                      ? const Text(
+                          "Active",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      : const Text(
+                          "Not Active",
+                          style: TextStyle(color: Colors.white),
+                        ),
                   trailing: greenOrRed(provider.list[i].joinDate,
                       DateTime.now(), provider.list[i].isActive),
                   leading: const Icon(
                     Icons.person_2_outlined,
-                    color: Color(darkBlue),
+                    color: Colors.white,
                   ),
                 ),
               ),
