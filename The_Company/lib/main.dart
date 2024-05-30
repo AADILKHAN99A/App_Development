@@ -4,36 +4,20 @@ import 'package:the_company/firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:the_company/utils/routes.dart';
 import 'package:the_company/presentation/login_screen/login_page.dart';
+import 'package:the_company/utils/theme/theme.dart';
+
+import 'app.dart';
 
 void main() async {
+  // TODO: Init Local Storage
+  // TODO: Await Native Splash
+  // TODO: Initialize Firebase
+  // TODO: Initialize Authentication
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FRouter.setupRouter();
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      locale: const Locale('en', 'US'),
-      fallbackLocale: const Locale('en', 'US'),
-      initialRoute: 'splash',
-      onGenerateRoute: FRouter.router.generator,
-      onUnknownRoute: (unknownRoutes) {
-        return MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        );
-      },
-      debugShowCheckedModeBanner: false,
-      title: 'The Company',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-    );
-  }
-}

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:the_company/presentation/home_screen/home_screen.dart';
 import 'dart:async';
 import 'package:the_company/presentation/init_screen/controller/init_controller.dart';
-import 'package:the_company/utils/color_schemes.dart';
+
+
+import '../../utils/constants/color.dart';
 
 class InitPage extends StatefulWidget {
   const InitPage({
@@ -55,7 +58,7 @@ class _InitPageState extends State<InitPage>
             controller: tabController,
             backgroundColor: Colors.white,
             color: Colors.blue,
-            activeColor: darkBlue,
+            activeColor: CColors.primary,
             initialActiveIndex: 0,
             items: [
               TabItem(icon: Icons.home, title: "home".tr),
@@ -120,27 +123,27 @@ class _InitPageState extends State<InitPage>
                 ),
               )
             : TabBarView(controller: tabController, children: [
-                // Home(
-                //   callback: () {
-                //     setState(() {
-                //       tabController!.index = 2;
-                //     });
-                //     tabController?.animateTo(tabController!.index);
-                //   },
-                //   rechargeCallBack: () {
-                //     setState(() {
-                //       tabController!.index = 1;
-                //     });
-                //     tabController?.animateTo(tabController!.index);
-                //   },
-                //   withdrawlCallBack: () {
-                //     setState(() {
-                //       tabController!.index = 4;
-                //     });
-                //     tabController?.animateTo(tabController!.index);
-                //   },
-                //   phone: data['phone'],
-                // ),
+                HomeScreen(
+                  callback: () {
+                    setState(() {
+                      tabController!.index = 2;
+                    });
+                    tabController?.animateTo(tabController!.index);
+                  },
+                  rechargeCallBack: () {
+                    setState(() {
+                      tabController!.index = 1;
+                    });
+                    tabController?.animateTo(tabController!.index);
+                  },
+                  withdrawlCallBack: () {
+                    setState(() {
+                      tabController!.index = 4;
+                    });
+                    tabController?.animateTo(tabController!.index);
+                  },
+                  phone: controller.userData.value.phone,
+                ),
                 // RentPage(
                 //   id: data['phone'],
                 //   userid: data['userid'],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:the_company/utils/color_schemes.dart';
+import 'package:the_company/utils/constants/image_strings.dart';
+
+import '../../utils/constants/color.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,14 +19,14 @@ class _SplashScreenState extends State<SplashScreen> {
     });
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: blueLoading,
+      backgroundColor: CColors.secondary,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
       ),
       body: Center(
         child: Image.asset(
-          'assets/loading.gif',
+          CImages.loadingGifWithBlueBackground,
           height: 200,
           width: 200,
           fit: BoxFit.fill,

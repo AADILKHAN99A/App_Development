@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_company/presentation/login_screen/models/login_model.dart';
@@ -9,12 +10,23 @@ import '../../init_screen/init_page.dart';
 
 class LoginController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  // loading in ui
   final _isLoading = false.obs;
 
-  get isLoading => _isLoading;
+  RxBool get isLoading => _isLoading;
 
   void updateLoading(var isLoading) {
     _isLoading.value = isLoading;
+  }
+
+  // hide password
+  final RxBool _visiblePassword = false.obs;
+
+  RxBool get visiblePassword => _visiblePassword;
+
+  void updateVisiblePassword(bool value) {
+    _visiblePassword.value = value;
   }
 
   loginUser(BuildContext context, LoginModel model) async {
@@ -52,7 +64,9 @@ class LoginController extends GetxController {
       updateLoading(false);
     }).onError((error, stackTrace) {
       MessageDisplay().showMessage(error.toString(), context);
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
     });
   }
 }

@@ -2,25 +2,28 @@ import 'package:get/get.dart';
 import 'package:the_company/database/models/register_user.dart';
 
 class InitController extends GetxController {
+  // show loading in ui
   final _isLoading = false.obs;
+
   get isLoading => _isLoading;
-
-  final Rx<UserData> _userData = UserData("", "", "").obs;
-  // late Rx<WalletData> _walletData = WalletData(, income, balance).obs;
-
-  Rx<UserData> get userData => _userData;
 
   void updateLoading(var isLoading) {
     _isLoading.value = isLoading;
   }
 
+  // user data
+
+  late Rx<UserData> _userData;
+
+  // late Rx<WalletData> _walletData = WalletData(, income, balance).obs;
+
+  Rx<UserData> get userData => _userData;
+
   void updateUserData(UserData data) {
-    _userData(data);
+    _userData = UserData(data.phone, data.userId, data.password).obs;
   }
 
-
-
-  void getData(UserData userData)async{
+  void getData(UserData userData) async {
     updateLoading(true);
 
     // update userdata value
@@ -29,7 +32,6 @@ class InitController extends GetxController {
     print(userData.phone);
 
     updateLoading(false);
-
 
     //   if (walletData["rent"] != null) {
     //     for (int i = 1; i <= walletData["rent"].length; i++) {
