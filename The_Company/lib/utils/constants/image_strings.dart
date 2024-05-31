@@ -3,22 +3,27 @@ class CImages {
 
 
   // App Backgrounds
-  static String blueBackgroundWithSquarePatterns = 'assets/bg.jpg';
+  static String blueBackgroundWithSquarePatterns = 'assets/images/bg.jpg';
   static String blueBackgroundWithRoundBorderSquarePatterns =
-      'assets/BlueBackground.jpg';
+      'assets/images/BlueBackground.jpg';
 
 
 
   // App Logos
-  static String blackLogo = 'assets/cinblack.png';
-  static String blackLogoWithText = 'assets/cinblackwithlogo.png';
-  static String whiteLogo = 'The_Company/assets/cwhite.png';
-  static String whiteLogoWithText = 'assets/cwhitewithlogo.png';
+  static String blackLogo = 'assets/logos/cinblack.png';
+  static String blackLogoWithText = 'assets/logos/cinblackwithlogo.png';
+  static String whiteLogo = 'assets/logos/cwhite.png';
+  static String whiteLogoWithText = 'assets/logos/cwhitewithlogo.png';
+
+  // Social Logos
+
+  static String google = 'assets/icons/google.png';
+  static String facebook = 'assets/icons/facebook.png';
 
 
   // Loading Gifs
-  static String loadingGifWithBlueBackground = 'assets/loading.gif';
-  static String loadingGifInBlack = 'assets/loading2.gif';
+  static String loadingGifWithBlueBackground = 'assets/logos/loading.gif';
+  static String loadingGifInBlack = 'assets/logos/loading2.gif';
 
 
   // Onboarding Images

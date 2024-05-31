@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:the_company/presentation/login_screen/login_page.dart';
+import 'package:the_company/features/authentication/screens/login/login.dart';
 import 'package:the_company/utils/routes.dart';
 import 'package:the_company/utils/theme/theme.dart';
-
-import 'features/authentication/screens.onboarding/onboarding.dart';
+import 'features/authentication/screens/onboarding/onboarding.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -20,7 +18,7 @@ class App extends StatelessWidget {
       // onGenerateRoute: FRouter.router.generator,
       onUnknownRoute: (unknownRoutes) {
         return MaterialPageRoute(
-          builder: (context) => const LoginPage(),
+          builder: (context) => const LoginScreen(),
         );
       },
       debugShowCheckedModeBanner: false,

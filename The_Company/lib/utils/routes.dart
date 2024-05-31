@@ -1,8 +1,9 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:the_company/presentation/login_screen/login_page.dart';
 import 'package:the_company/presentation/signup_screen/signup_page.dart';
 import 'package:the_company/presentation/splash_screen/splash_screen.dart';
+
+import '../features/authentication/screens/login/login.dart';
 
 class FRouter {
   static final router = FluroRouter();
@@ -19,7 +20,7 @@ class FRouter {
 
   static final Handler _loginHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
-          const LoginPage());
+          const LoginScreen());
   static final Handler _unknownHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           const SignupPage());
