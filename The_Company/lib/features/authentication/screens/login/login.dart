@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:the_company/utils/constants/sizes.dart';
 import 'widgets/login_form.dart';
 import 'widgets/login_header.dart';
 import '../../../../utils/constants/image_strings.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  @override
-  LoginScreenState createState() => LoginScreenState();
-}
-
-class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +25,6 @@ class LoginScreenState extends State<LoginScreen> {
               /// Logo
 
               LoginHeader(),
-
 
               // login form with foreground content
               LoginForm()

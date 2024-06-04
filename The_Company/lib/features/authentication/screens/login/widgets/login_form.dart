@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:the_company/features/authentication/screens/password_configuration/forget_password.dart';
+import 'package:the_company/navigation_menu.dart';
 import '../../../../../common/styles/spacing_styles.dart';
 import '../../../../../common/widgets/login_signup/form_divider.dart';
 import '../../../../../common/widgets/login_signup/social_buttons.dart';
+import '../../../../../common/widgets/textfield.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/texts.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
 import '../../../../../utils/validators/validators.dart';
-import '../../../../../widgets/textfield_ui.dart';
+import '../../signup/signup.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -70,7 +73,7 @@ class LoginForm extends StatelessWidget {
 
                   /// Forget Password
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () => Get.to(() => ForgetPasswordScreen()),
                       child: const Text(CTexts.forgotPassword))
                 ],
               ),
@@ -80,9 +83,7 @@ class LoginForm extends StatelessWidget {
 
               /// Sign In Button
               ElevatedButton(
-                  onPressed: () async {
-                    // validate();
-                  },
+                  onPressed: () => Get.to(() => const NavigationMenu()),
                   child: const Text(
                     CTexts.signIn,
                   )),
@@ -92,9 +93,7 @@ class LoginForm extends StatelessWidget {
 
               /// Sign In Button
               OutlinedButton(
-                  onPressed: () async {
-                    // validate();
-                  },
+                  onPressed: () => Get.to(() => const SignupScreen()),
                   child: const Text(
                     CTexts.createAccount,
                   )),

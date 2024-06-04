@@ -6,7 +6,8 @@ import 'package:the_company/features/authentication/screens/onboarding/widgets/o
 import 'package:the_company/features/authentication/screens/onboarding/widgets/onboarding_skip.dart';
 import 'package:the_company/utils/constants/image_strings.dart';
 import 'package:the_company/utils/constants/texts.dart';
-import 'package:the_company/features/authentication/controllers.onboarding/onboarding_controller.dart';
+
+import '../../controllers/onboarding/onboarding_controller.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});

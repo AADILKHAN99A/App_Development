@@ -34,11 +34,39 @@ class Validators {
     return null;
   }
 
+  static String? validateConfirmPassword(String? value, String? confirmValue) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    // password does not match
+    if (value != confirmValue) {
+      return "Password not same";
+    }
+
+    return null;
+  }
+
   static String? validatePhoneNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required.';
     } else if (!GetUtils.isPhoneNumber(value)) {
       return 'Invalid phone number.';
+    }
+    return null;
+  }
+
+  static String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'First Name is required.';
+    }
+    return null;
+  }
+
+  static String? validateUserName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required.';
+    } else if (!GetUtils.isUsername(value)) {
+      return 'Invalid username';
     }
     return null;
   }

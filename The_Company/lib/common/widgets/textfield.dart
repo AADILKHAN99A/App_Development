@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../utils/constants/color.dart';
+import '../../utils/constants/color.dart';
 
 class CommonTextField extends StatelessWidget {
   final String label;
@@ -21,6 +21,7 @@ class CommonTextField extends StatelessWidget {
   final String? prefixText;
 
   final Widget? prefixIcon;
+  final bool expands;
 
   const CommonTextField({
     super.key,
@@ -32,7 +33,9 @@ class CommonTextField extends StatelessWidget {
     this.focusNode,
     required this.keyboardType,
     this.onEditingComplete,
-    this.prefixText,  this.prefixIcon,
+    this.prefixText,
+    this.prefixIcon,
+    this.expands = false,
   });
 
   @override
@@ -40,16 +43,14 @@ class CommonTextField extends StatelessWidget {
     return TextFormField(
       key: key,
       controller: controller,
+      expands: expands,
       obscureText: obscureText ?? false,
       focusNode: focusNode,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         prefixText: prefixText,
-        prefixStyle: const TextStyle(color: Colors.grey),
         labelText: label,
-        labelStyle: const TextStyle(
-            fontSize: 15, color: CColors.accent, fontWeight: FontWeight.w600),
         suffixIcon: suffixIcon,
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),

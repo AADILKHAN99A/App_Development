@@ -1,9 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:the_company/presentation/signup_screen/signup_page.dart';
-import 'package:the_company/presentation/splash_screen/splash_screen.dart';
-
 import '../features/authentication/screens/login/login.dart';
+import '../features/authentication/screens/signup/signup.dart';
+import '../features/authentication/screens/splash/splash.dart';
 
 class FRouter {
   static final router = FluroRouter();
@@ -23,7 +22,7 @@ class FRouter {
           const LoginScreen());
   static final Handler _unknownHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
-          const SignupPage());
+          const SignupScreen());
 
   // static final Handler _aboutHandler = Handler(
   //     handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
@@ -34,9 +33,9 @@ class FRouter {
   //     const ForgotPassPage());
   static final Handler _signupHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
-          SignupPage(
-            extra: params['extra'][0],
-          ));
+          const SignupScreen(
+              // extra: params['extra'][0],
+              ));
 
   // ok its all set now .....
   // now lets have a handler for passing parameter tooo....
