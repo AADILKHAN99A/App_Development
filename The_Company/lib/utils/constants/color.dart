@@ -18,6 +18,19 @@ class CColors {
   static const Color dark = Color(0xFF272727);
   static const Color primaryBackground = Color(0xFFF3F5FF);
 
+  // Background Container Colors
+  static const Color lightContainer = Color(0xFFF6F6F6);
+  static Color darkContainer = white.withOpacity(0.1);
+
+  //Button Colors
+  static const Color buttonPrimary = Color(0xff02054E);
+  static const Color buttonSecondary = Color(0xFF6C7570);
+  static const Color buttonDisabled = Color(0xFFC4C4C4);
+
+  // Border Colors
+  static const Color borderPrimary = Color(0xFFD9D9D9);
+  static const Color borderSecondary = Color(0xFFE6E6E6);
+
   //Error and Validation Colors
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF388E3C);

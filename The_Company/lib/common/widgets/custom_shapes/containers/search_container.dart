@@ -12,13 +12,16 @@ class SearchContainer extends StatelessWidget {
     required this.text,
     this.icon = Iconsax.search_normal,
     this.showBackground = true,
-    this.showBorder = true, this.onTap,
+    this.showBorder = true,
+    this.onTap,
+    this.padding = const EdgeInsets.symmetric(horizontal: CSizes.defaultSpace),
   });
 
   final String text;
   final IconData? icon;
   final bool showBackground, showBorder;
   final VoidCallback? onTap;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class SearchContainer extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: CSizes.defaultSpace),
+        padding: padding,
         child: Container(
           width: DeviceUtils.getScreenWidth(),
           padding: const EdgeInsets.all(CSizes.md),
