@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:portfolio/controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../project_data.dart';
@@ -14,15 +16,6 @@ class ExperienceScreenMobileLayout extends StatefulWidget {
 
 class _ExperienceScreenMobileLayoutState
     extends State<ExperienceScreenMobileLayout> {
-  ProjectData projectDataObj = ProjectData();
-  late Map<dynamic, dynamic> projectData;
-
-  @override
-  initState() {
-    super.initState();
-    projectData = projectDataObj.projectData;
-  }
-
   Future<void> launchLink(String link) async {
     final Uri _url = Uri.parse(link);
 
@@ -33,20 +26,22 @@ class _ExperienceScreenMobileLayoutState
     }
   }
 
+  MyController controller = MyController.instance;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 40),
       child: ListView.separated(
-        itemCount: projectData.length,
+        itemCount: controller.projectData.length,
         itemBuilder: (BuildContext context, int index) {
-          List list = projectData[index]["responsiveImages"] as List;
+          List list = controller.projectData[index].responsiveImages;
+          list.removeLast();
           return Column(
             children: [
               CarouselSlider(
-                  items: list.map((e) {
-                    return Image.asset(
-                        "assets/projects/${projectData[index]["name"].toLowerCase()}/$e.png");
+                  items: list.map((image) {
+                    return Image.network(image);
                   }).toList(),
                   options: CarouselOptions(
                       height: 400,
@@ -59,7 +54,7 @@ class _ExperienceScreenMobileLayoutState
                   Padding(
                     padding: const EdgeInsets.only(bottom: 25),
                     child: Text(
-                      projectData[index]["name"],
+                      controller.projectData[index].name,
                       style: const TextStyle(
                           fontSize: 29, fontWeight: FontWeight.w900),
                     ),
@@ -79,7 +74,7 @@ class _ExperienceScreenMobileLayoutState
                                 horizontal: 15, vertical: 20),
                             child: Center(
                               child: Text(
-                                projectData[index]["description"],
+                                controller.projectData[index].description,
                                 style: const TextStyle(),
                                 softWrap: true,
                               ),
@@ -90,7 +85,7 @@ class _ExperienceScreenMobileLayoutState
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Text(
-                      projectData[index]["technology"],
+                      controller.projectData[index].technology,
                       style: const TextStyle(fontSize: 13),
                     ),
                   ),
@@ -98,7 +93,8 @@ class _ExperienceScreenMobileLayoutState
                     padding: const EdgeInsets.only(top: 10),
                     child: IconButton(
                         onPressed: () async {
-                          await launchLink(projectData[index]["github"]);
+                          await launchLink(
+                              controller.projectData[index].github);
                         },
                         icon: const ImageIcon(
                             size: 45,

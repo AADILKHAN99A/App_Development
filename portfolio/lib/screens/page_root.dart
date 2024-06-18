@@ -1,6 +1,3 @@
-import 'dart:html';
-import 'dart:io' as io;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -34,29 +31,27 @@ class _PageRootState extends State<PageRoot>
   // TabController? tabController;
   PageController? pageController;
   int _currentIndex = 0;
-  static String resumeLink ='';
-  static String resumeImageLink ='';
-
+  static String resumeLink = '';
+  static String resumeImageLink = '';
 
   final List<Widget> widgets = [
     const ResponsiveLayout(HomeScreenMobileLayout(), HomePage()),
     const ResponsiveLayout(AboutScreenMobileLayout(), AboutPage()),
     const ResponsiveLayout(ExperienceScreenMobileLayout(), ExperiencePage()),
     const ResponsiveLayout(ContactScreenMobileLayout(), ContactPage()),
-    ResponsiveLayout(ResumeMobilePage(
-      resumeImageLink: resumeImageLink,
-      callback: () {
-        launchLink(
-          resumeLink
-            );
-      },
-    ), ResumePage(
-      resumeImageLink: resumeImageLink,
-      callback: () {
-        launchLink(
-            resumeLink);
-      },
-    ))
+    ResponsiveLayout(
+        ResumeMobilePage(
+          resumeImageLink: resumeImageLink,
+          callback: () {
+            launchLink(resumeLink);
+          },
+        ),
+        ResumePage(
+          resumeImageLink: resumeImageLink,
+          callback: () {
+            launchLink(resumeLink);
+          },
+        ))
   ];
 
   @override
@@ -64,7 +59,6 @@ class _PageRootState extends State<PageRoot>
     super.initState();
     // tabController = TabController(length: 4, vsync: this, initialIndex: 1);
     pageController = PageController(initialPage: _currentIndex);
-    controller.updateResume();
     resumeLink = controller.resumeLink.value;
     resumeImageLink = controller.resumeImage.value;
   }
@@ -82,12 +76,12 @@ class _PageRootState extends State<PageRoot>
 
   @override
   Widget build(BuildContext context) {
-
     final Size mediaQueryData = MediaQuery.of(context).size;
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: _currentIndex==4?const Color(0xff002746):Colors.transparent,
+          backgroundColor:
+              _currentIndex == 4 ? const Color(0xff002746) : Colors.transparent,
           actions: [
             mediaQueryData.width < mobileWidth
                 ? TextButton(
@@ -254,7 +248,9 @@ class _PageRootState extends State<PageRoot>
                         child: Text(
                           "Resume",
                           style: TextStyle(
-                              color:  _currentIndex==4?Colors.black:Colors.white,
+                              color: _currentIndex == 4
+                                  ? Colors.black
+                                  : Colors.white,
                               fontSize: (MediaQuery.of(context).size.width / 41)
                                   .floorToDouble()),
                         )),
@@ -278,9 +274,12 @@ class _PageRootState extends State<PageRoot>
                               // launchLink(
                               //     "https://drive.google.com/file/d/1hBPN-pAL1Y2OXGrYvaO4FNjAPTRYghEt/view?usp=sharing")
                             },
-                        child:  Text(
+                        child: Text(
                           "Resume",
-                          style: TextStyle(color: _currentIndex==4?Colors.black:Colors.white),
+                          style: TextStyle(
+                              color: _currentIndex == 4
+                                  ? Colors.black
+                                  : Colors.white),
                         )),
                   ),
           ],

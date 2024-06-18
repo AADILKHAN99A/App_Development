@@ -43,6 +43,9 @@ dependencies:
   cloud_firestore: ^4.17.0
   carousel_slider: ^4.2.1
   firebase_remote_config: ^4.4.2
+  firebase_storage: ^11.7.7
+  shimmer: ^3.0.0
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

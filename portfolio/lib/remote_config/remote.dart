@@ -1,4 +1,6 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:get/get.dart';
+import 'package:portfolio/projectModel.dart';
 
 class RemoteData {
   final FirebaseRemoteConfig _remoteConfig;
@@ -11,6 +13,12 @@ class RemoteData {
   // method to get parameter
 
   String getString(String key) => _remoteConfig.getString(key);
+
+  Projects getProject(String key) {
+    var rawData = _remoteConfig.getValue(key);
+
+    return projectsFromJson(rawData.asString());
+  }
 
   Future<void> _setConfigSettings() async => _remoteConfig.setConfigSettings(
         RemoteConfigSettings(
@@ -46,4 +54,5 @@ class RemoteData {
 class RemoteKeys {
   static const String resumeLink = 'resume_link';
   static const String resumeImageLink = 'resumeImage_link';
+  static const String projectData = "projectData";
 }

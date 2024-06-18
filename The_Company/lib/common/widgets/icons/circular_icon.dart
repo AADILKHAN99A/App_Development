@@ -1,4 +1,3 @@
-import 'package:iconsax/iconsax.dart';
 import 'package:the_company/utils/constants/sizes.dart';
 import 'package:the_company/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';

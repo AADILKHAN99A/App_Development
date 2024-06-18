@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:the_company/common/widgets/login_signup/form_divider.dart';
-import 'package:the_company/common/widgets/login_signup/social_buttons.dart';
-import 'package:the_company/features/authentication/screens/login/widgets/login_header.dart';
 import 'package:the_company/features/authentication/screens/signup/widgets/signup_header.dart';
 import 'package:the_company/utils/constants/sizes.dart';
-import 'package:the_company/utils/constants/texts.dart';
 import 'package:the_company/utils/helpers/helper_functions.dart';
 import 'package:the_company/utils/validators/validators.dart';
 import '../../../../common/widgets/textfield.dart';
 import 'widgets/signup_form.dart';
-import '../../../../utils/constants/color.dart';
 import '../../../../utils/constants/image_strings.dart';
 
 class SignupScreen extends StatelessWidget {

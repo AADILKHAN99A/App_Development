@@ -71,7 +71,7 @@ class SignUpForm extends StatelessWidget {
                 label: CTexts.password,
                 prefixIcon: const Icon(Iconsax.password_check),
                 validator: Validators.validatePassword,
-                suffixIcon: Icon(Iconsax.eye_slash),
+                suffixIcon: const Icon(Iconsax.eye_slash),
               ),
               const SizedBox(height: CSizes.spaceBtwInputFields),
 
@@ -81,9 +81,10 @@ class SignUpForm extends StatelessWidget {
                 keyboardType: TextInputType.visiblePassword,
                 label: CTexts.confirmPassword,
                 prefixIcon: const Icon(Iconsax.password_check),
-                suffixIcon: Icon(Iconsax.eye_slash),
+                suffixIcon: const Icon(Iconsax.eye_slash),
                 validator: (String? value) {
                   Validators.validateConfirmPassword(value, value);
+                  return null;
                 },
               ),
               const SizedBox(height: CSizes.spaceBtwInputFields),

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:the_company/features/authentication/screens/login/login.dart';
 
 class OnboardingController extends GetxController {

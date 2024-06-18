@@ -5,7 +5,6 @@ import 'package:the_company/common/widgets/custom_shapes/containers/rounded_cont
 import 'package:the_company/common/widgets/images/rounded_image.dart';
 import 'package:the_company/common/widgets/texts/product_title_text.dart';
 import 'package:the_company/utils/constants/color.dart';
-import 'package:the_company/utils/constants/enum.dart';
 import 'package:the_company/utils/constants/sizes.dart';
 import 'package:the_company/utils/helpers/helper_functions.dart';
 
@@ -80,16 +79,16 @@ class ProductCardVertical extends StatelessWidget {
             ),
 
             /// -- Details
-            Padding(
-              padding: const EdgeInsets.only(left: CSizes.sm),
+            const Padding(
+              padding: EdgeInsets.only(left: CSizes.sm),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const ProductTitleText(
+                  ProductTitleText(
                     title: "White Nike Shoes",
                     smallSize: true,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: CSizes.spaceBtwItems/2,
                   ),
                   BrandTitleWithVerifiedIcon(title: 'Nike',),

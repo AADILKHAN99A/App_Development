@@ -36,6 +36,9 @@ class CImages {
   static String successEmailVerification =
       'assets/images/animations/success.svg';
 
+  // --- Profile
+  static String userImage = 'assets/images/user/user_icon.png';
+
   // Categories Icons
 
   static String animalsIcon = 'assets/icons/categories/animals.png';
@@ -49,9 +52,7 @@ class CImages {
 
   // Brands Banner
 
-static  String promoBanner1='assets/images/banners/nike_poster.jpg';
-  static String promoBanner2='assets/images/banners/usb_poster.jpg';
-  static String promoBanner3='assets/images/banners/zara_poster.jpg';
-
-
+  static String promoBanner1 = 'assets/images/banners/nike_poster.jpg';
+  static String promoBanner2 = 'assets/images/banners/usb_poster.jpg';
+  static String promoBanner3 = 'assets/images/banners/zara_poster.jpg';
 }
