@@ -9,7 +9,6 @@ import '../../../../../common/widgets/login_signup/social_buttons.dart';
 import '../../../../../common/widgets/textfield.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/texts.dart';
-import '../../../../../utils/helpers/helper_functions.dart';
 import '../../../../../utils/validators/validators.dart';
 import '../../signup/signup.dart';
 
@@ -20,7 +19,6 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = HelperFunctions.isDarkMode(context);
     return Card(
       margin: SpacingStyles.paddingWithDefaultSpaces,
       elevation: CSizes.cardElevation,

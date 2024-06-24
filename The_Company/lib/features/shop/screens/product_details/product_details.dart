@@ -1,26 +1,23 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:the_company/common/widgets/appbar/appbar.dart';
-import 'package:the_company/common/widgets/custom_shapes/curved_edges/curved_edges_widget.dart';
-import 'package:the_company/common/widgets/icons/circular_icon.dart';
-import 'package:the_company/common/widgets/images/rounded_image.dart';
+import 'package:readmore/readmore.dart';
+import 'package:the_company/common/widgets/texts/section_heading.dart';
+import 'package:the_company/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart';
 import 'package:the_company/features/shop/screens/product_details/widgets/prduct_meta_data.dart';
+import 'package:the_company/features/shop/screens/product_details/widgets/product_attributes.dart';
 import 'package:the_company/features/shop/screens/product_details/widgets/product_detail_image_slider.dart';
 import 'package:the_company/features/shop/screens/product_details/widgets/rating_share_widget.dart';
-import 'package:the_company/utils/constants/color.dart';
-import 'package:the_company/utils/constants/image_strings.dart';
 import 'package:the_company/utils/constants/sizes.dart';
-import 'package:the_company/utils/helpers/helper_functions.dart';
-
-import '../../../../gen/assets.gen.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final dark = HelperFunctions.isDarkMode(context);
     return Scaffold(
+      bottomNavigationBar: BottomAddToCart(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -43,12 +40,62 @@ class ProductDetailsScreen extends StatelessWidget {
 
                   /// -- Price, Title, Stack & Brand
 
-                  ProductMetaData()
+                  ProductMetaData(),
 
                   /// -- Attributes
+
+                  ProductAttributes(),
+                  const SizedBox(
+                    height: CSizes.spaceBtwSections,
+                  ),
+
                   /// -- Checkout Button
+                  SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {}, child: const Text("Checkout"))),
+                  const SizedBox(
+                    height: CSizes.spaceBtwSections,
+                  ),
+
                   /// -- Description
+                  const SectionHeading(
+                    title: "Description",
+                    showActionButton: false,
+                  ),
+                  const SizedBox(
+                    height: CSizes.spaceBtwSections,
+                  ),
+                  const ReadMoreText(
+                    "This is a product aldkjf alsdjkfalsdkjf alskdjf alsdkjf asldkjf ldkjf alsdkjf alskdjf adlskfj asdkljf asldkjflkj adflkj kjf adkfj alkdjf d",
+                    trimLines: 2,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: " Show more",
+                    trimExpandedText: " Less",
+                    moreStyle:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                    lessStyle:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                  ),
+
                   /// -- Reviews
+                  const Divider(),
+                  const SizedBox(
+                    height: CSizes.spaceBtwItems,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SectionHeading(
+                        title: "Reviews(99)",
+                        showActionButton: false,
+                      ),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Iconsax.arrow_right_3))
+                    ],
+                  ),
+                  const SizedBox(height: CSizes.spaceBtwSections),
                 ],
               ),
             )

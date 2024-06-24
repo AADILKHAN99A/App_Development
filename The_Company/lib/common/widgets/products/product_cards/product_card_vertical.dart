@@ -13,7 +13,7 @@ import 'package:the_company/utils/helpers/helper_functions.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../icons/circular_icon.dart';
 import '../../texts/brand_titile_text_with_verified_icon.dart';
-import '../../texts/product_price-text.dart';
+import '../../texts/product_price_text.dart';
 
 class ProductCardVertical extends StatelessWidget {
   const ProductCardVertical({super.key});

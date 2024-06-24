@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_company/common/widgets/images/circular_image.dart';
 import 'package:the_company/common/widgets/texts/brand_titile_text_with_verified_icon.dart';
-import 'package:the_company/common/widgets/texts/product_price-text.dart';
+import 'package:the_company/common/widgets/texts/product_price_text.dart';
 import 'package:the_company/common/widgets/texts/product_title_text.dart';
 import 'package:the_company/utils/constants/enum.dart';
 import 'package:the_company/utils/helpers/helper_functions.dart';

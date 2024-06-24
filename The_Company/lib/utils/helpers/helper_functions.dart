@@ -9,7 +9,6 @@ class HelperFunctions {
     switch (value) {
       case 'Green':
         return Colors.green;
-
       case 'Red':
         return Colors.red;
       case 'Blue':
@@ -24,6 +23,10 @@ class HelperFunctions {
         return Colors.black;
       case 'White':
         return Colors.white;
+      case 'Yellow':
+        return Colors.yellow;
+      case 'Orange':
+        return Colors.orange;
       case 'Brown':
         return Colors.brown;
       case 'Teal':
