@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:the_weather/bloc/weather_bloc.dart';
+import 'package:the_weather/bloc/weather_cubit.dart';
 import 'package:the_weather/common/widgets/dual_toned_blur_widget.dart';
+import 'package:the_weather/screens/home/widgets/header.dart';
+import 'package:the_weather/screens/splash/splash_screen.dart';
 import 'package:the_weather/utils/constants/color.dart';
+import 'package:the_weather/utils/constants/enums.dart';
+import 'package:the_weather/utils/constants/image_strings.dart';
 import 'package:the_weather/utils/constants/sizes.dart';
+import 'package:the_weather/utils/constants/texts.dart';
 import 'package:the_weather/utils/device/device_utility.dart';
 import 'package:the_weather/utils/helpers/helper_functions.dart';
-import '../../common/widgets/extra_detrail_with_icon.dart';
+import '../../common/widgets/extra_detail_with_icon.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,26 +21,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Widget getWeatherIcon(int code) {
-    switch (code) {
-      case > 200 && <= 300:
-        return Image.asset("assets/images/1.png");
-      case > 300 && <= 400:
-        return Image.asset("assets/images/2.png");
-      case > 500 && <= 600:
-        return Image.asset("assets/images/3.png");
-      case > 600 && <= 700:
-        return Image.asset("assets/images/4.png");
-      case > 700 && <= 800:
-        return Image.asset("assets/images/5.png");
-      case 800:
-        return Image.asset("assets/images/6.png");
-      case > 800 && <= 804:
-        return Image.asset("assets/images/7.png");
+  @override
+  void initState() {
+    super.initState();
 
-      default:
-        return Image.asset("assets/images/7.png");
-    }
+    BlocProvider.of<WeatherCubit>(context, listen: false).fetchWeatherData();
   }
 
   @override
@@ -45,9 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        // title: const Text("The Weather"),
         elevation: 0,
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                BlocProvider.of<WeatherCubit>(context).fetchWeatherData();
+              },
+              icon: const Icon(Icons.refresh_rounded))
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(
@@ -57,9 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Stack(
             children: [
               const DualTonedBlur(),
-              BlocBuilder<WeatherBloc, WeatherBlocState>(
+              BlocBuilder<WeatherCubit, WeatherState>(
                 builder: (context, state) {
-                  if (state is WeatherBlocSuccess) {
+                  if (state is WeatherSuccess) {
                     return SizedBox(
                       height: HelperFunctions.screenHeight(context),
                       width: HelperFunctions.screenWidth(context),
@@ -67,23 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           /// Header
-                          Text(
-                            "📍 ${state.weather.areaName}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          const SizedBox(
-                            height: CSizes.spaceBtwItems,
-                          ),
-                          Text(
-                            "Good Morning",
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
+                          Header(areaName: state.weather.areaName!),
 
                           /// Weather Icon, Temperature and weather
-                          getWeatherIcon(state.weather.weatherConditionCode!),
+                          Image.asset(HelperFunctions.getWeatherIconPath(
+                              state.weather.weatherConditionCode!)),
                           Center(
                             child: Text(
-                              "${state.weather.temperature!.celsius!.round()}°C",
+                              "${state.weather.temperature!.celsius!.round()}${CTexts.degreeCelsiusSymbol}",
                               style: Theme.of(context).textTheme.displayLarge,
                             ),
                           ),
@@ -100,9 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Center(
                             child: Text(
-                              DateFormat('EEEE dd .')
-                                  .add_jm()
-                                  .format(state.weather.date!),
+                              HelperFunctions.getFormattedDate(
+                                  state.weather.date!),
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
@@ -115,17 +100,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ExtraDetailsWithIcon(
-                                  image: 'assets/images/11.png',
-                                  title: "Sunrise",
-                                  subTitle: DateFormat()
-                                      .add_jm()
-                                      .format(state.weather.sunrise!)),
+                                  image: CImages.sunrise,
+                                  title: CTexts.homeSunrise,
+                                  subTitle: HelperFunctions.getFormattedDate(
+                                      state.weather.sunrise!,
+                                      format: '')),
                               ExtraDetailsWithIcon(
-                                image: 'assets/images/12.png',
-                                title: "Sunset",
-                                subTitle: DateFormat()
-                                    .add_jm()
-                                    .format(state.weather.sunset!),
+                                image: CImages.sunset,
+                                title: CTexts.homeSunset,
+                                subTitle: HelperFunctions.getFormattedDate(
+                                    state.weather.sunset!,
+                                    format: ""),
                               ),
                             ],
                           ),
@@ -141,24 +126,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ExtraDetailsWithIcon(
-                                image: 'assets/images/13.png',
-                                title: "Temp Max",
+                                image: CImages.tempMax,
+                                title: CTexts.tempMax,
                                 subTitle:
-                                    "${state.weather.tempMax!.celsius?.round()} °C",
+                                    "${state.weather.tempMax!.celsius?.round()} ${CTexts.degreeCelsiusSymbol}",
                               ),
                               ExtraDetailsWithIcon(
-                                image: 'assets/images/14.png',
-                                title: "temp Min",
+                                image: CImages.tempMin,
+                                title: CTexts.tempMin,
                                 subTitle:
-                                    "${state.weather.tempMin!.celsius?.round()} °C",
+                                    "${state.weather.tempMin!.celsius?.round()} ${CTexts.degreeCelsiusSymbol}",
                               ),
                             ],
                           ),
                         ],
                       ),
                     );
+                  } else if (state is WeatherLoading) {
+                    return const SplashScreen(type: SplashType.loading,);
                   } else {
-                    return Container();
+                    return const Center(
+                      child: Text("Something Wrong"),
+                    );
                   }
                 },
               )

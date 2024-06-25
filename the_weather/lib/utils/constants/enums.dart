@@ -1,0 +1,1 @@
+enum SplashType{loading,appLoading}

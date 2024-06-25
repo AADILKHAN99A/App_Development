@@ -1,38 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:the_weather/utils/constants/image_strings.dart';
 
 class HelperFunctions {
-  static Color? getColor(String value) {
-    // define your product specific colors here and it will match the attribute colors and show specific
-
-    switch (value) {
-      case 'Green':
-        return Colors.green;
-
-      case 'Red':
-        return Colors.red;
-      case 'Blue':
-        return Colors.blue;
-      case 'Pink':
-        return Colors.pink;
-      case 'Grey':
-        return Colors.grey;
-      case 'Purple':
-        return Colors.purple;
-      case 'Black':
-        return Colors.black;
-      case 'White':
-        return Colors.white;
-      case 'Brown':
-        return Colors.brown;
-      case 'Teal':
-        return Colors.teal;
-      case 'Indigo':
-        return Colors.indigo;
-
+  static String getWeatherIconPath(int code) {
+    switch (code) {
+      case > 200 && <= 300:
+        return CImages.thunderstorm;
+      case > 300 && <= 400:
+        return CImages.drizzle;
+      case > 500 && <= 600:
+        return CImages.rain;
+      case > 600 && <= 700:
+        return CImages.snow;
+      case > 700 && <= 800:
+        return CImages.atmosphere;
+      case 800:
+        return CImages.clear;
+      case > 800 && <= 804:
+        return CImages.clouds;
       default:
-        return null;
+        return CImages.others;
     }
+  }
+
+  static Future<Position> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 
   static void showSnackBar(String message, BuildContext context) {
@@ -56,18 +83,6 @@ class HelperFunctions {
         });
   }
 
-  static void navigateToScreen(BuildContext context, Widget screen) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
-  }
-
-  static String truncateText(String text, int maxLength) {
-    if (text.length <= maxLength) {
-      return text;
-    } else {
-      return '${text.substring(0, maxLength)}...';
-    }
-  }
-
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }
@@ -84,25 +99,10 @@ class HelperFunctions {
     return MediaQuery.of(context).size.width;
   }
 
-  static String getFormattedDate(DateTime date,
-      {String format = 'dd MMM yyyy'}) {
-    return DateFormat(format).format(date);
-  }
-
-  static List<T> removeDuplicates<T>(List<T> list) {
-    return list.toSet().toList();
-  }
-
-  static List<Widget> wrapWidgets(List<Widget> widgets, int rowSize) {
-    final wrappedList = <Widget>[];
-
-    for (int i = 0; i < widgets.length; i += rowSize) {
-      final rowChildren = widgets.sublist(
-          i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
-      wrappedList.add(Row(
-        children: rowChildren,
-      ));
+  static String getFormattedDate(DateTime date, {String format = 'EEEE dd .'}) {
+    if (format == "") {
+      return DateFormat().add_jm().format(date);
     }
-    return wrappedList;
+    return DateFormat(format).add_jm().format(date);
   }
 }

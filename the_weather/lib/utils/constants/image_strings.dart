@@ -1,58 +1,19 @@
 class CImages {
   CImages._();
 
-  // App Backgrounds
-  static String blueBackgroundWithSquarePatterns = 'assets/images/bg.jpg';
-  static String blueBackgroundWithRoundBorderSquarePatterns =
-      'assets/images/BlueBackground.jpg';
+  // Weather Icons
+  static const String thunderstorm = "assets/images/1.png";
+  static const String drizzle = "assets/images/2.png";
+  static const String rain = "assets/images/3.png";
+  static const String snow = "assets/images/4.png";
+  static const String atmosphere = "assets/images/5.png";
+  static const String clear = "assets/images/6.png";
+  static const String clouds = "assets/images/7.png";
 
-  // App Logos
-  static String blackLogo = 'assets/logos/cinblack.png';
-  static String blackLogoWithText = 'assets/logos/cinblackwithlogo.png';
-  static String whiteLogo = 'assets/logos/cwhite.png';
-  static String whiteLogoWithText = 'assets/logos/cwhitewithlogo.png';
+  static const String others = "assets/images/8.png";
+  static const String tempMax = "assets/images/13.png";
+  static const String tempMin = "assets/images/14.png";
+  static const String sunrise = "assets/images/11.png";
+  static const String sunset = "assets/images/12.png";
 
-  // Social Logos
-
-  static String google = 'assets/icons/google.png';
-  static String facebook = 'assets/icons/facebook.png';
-
-  // Loading Gifs
-  static String loadingGifWithBlueBackground = 'assets/logos/loading.gif';
-  static String loadingGifInBlack = 'assets/logos/loading2.gif';
-
-  // Onboarding Images
-
-  static String onBoardingImageDelivery =
-      'assets/images/on_boarding_images/delivery.svg';
-  static String onBoardingImagePayment =
-      'assets/images/on_boarding_images/payment.svg';
-  static String onBoardingImageShopping =
-      'assets/images/on_boarding_images/shopping.svg';
-
-  // Animations
-
-  static String deliveredEmail = 'assets/images/animations/email_delivered.svg';
-  static String successEmailVerification =
-      'assets/images/animations/success.svg';
-
-  // --- Profile
-  static String userImage = 'assets/images/user/user_icon.png';
-
-  // Categories Icons
-
-  static String animalsIcon = 'assets/icons/categories/animals.png';
-  static String clothesIcon = 'assets/icons/categories/clothes.png';
-  static String cosmeticsIcon = 'assets/icons/categories/cosmetics.png';
-  static String electronicsIcon = 'assets/icons/categories/electronics.png';
-  static String furnitureIcon = 'assets/icons/categories/furniture.png';
-  static String jeweleryIcon = 'assets/icons/categories/jewelery.png';
-  static String shoesIcon = 'assets/icons/categories/shoes.png';
-  static String sportsIcon = 'assets/icons/categories/sports.png';
-
-  // Brands Banner
-
-  static String promoBanner1 = 'assets/images/banners/nike_poster.jpg';
-  static String promoBanner2 = 'assets/images/banners/usb_poster.jpg';
-  static String promoBanner3 = 'assets/images/banners/zara_poster.jpg';
 }
