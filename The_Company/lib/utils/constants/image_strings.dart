@@ -39,6 +39,10 @@ class CImages {
   // --- Profile
   static String userImage = 'assets/images/user/user_icon.png';
 
+  // --- Product Reviews
+  static String userProfileImage1 = "assets/images/reviews/review_1.png";
+  static String userProfileImage2 = "assets/images/reviews/review_2.jpg";
+
   // Categories Icons
 
   static String animalsIcon = 'assets/icons/categories/animals.png';

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 import 'package:the_company/common/widgets/texts/section_heading.dart';
@@ -9,6 +10,7 @@ import 'package:the_company/features/shop/screens/product_details/widgets/prduct
 import 'package:the_company/features/shop/screens/product_details/widgets/product_attributes.dart';
 import 'package:the_company/features/shop/screens/product_details/widgets/product_detail_image_slider.dart';
 import 'package:the_company/features/shop/screens/product_details/widgets/rating_share_widget.dart';
+import 'package:the_company/features/shop/screens/product_reviews/product_reviews.dart';
 import 'package:the_company/utils/constants/sizes.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -86,12 +88,12 @@ class ProductDetailsScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SectionHeading(
+                      const SectionHeading(
                         title: "Reviews(99)",
                         showActionButton: false,
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () => Get.to(() => const ProductReviewsScreen()),
                           icon: const Icon(Iconsax.arrow_right_3))
                     ],
                   ),
